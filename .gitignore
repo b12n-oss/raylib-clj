@@ -10,6 +10,10 @@ pom.xml.asc
 *.jar
 *.class
 
+# jolt's own classpath cache, same role as .cpcache/ above - written whenever
+# a jolt-aware tool (e.g. clojure-lsp) resolves this project's classpath
+.jolt/
+
 # IDE
 .idea/
 *.iml

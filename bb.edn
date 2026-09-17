@@ -534,6 +534,44 @@
                (h/success "No lint errors!")
                (System/exit exit))))}
 
+  whitespace:check
+  {:doc "🧹 Check src/ for trailing whitespace (the kind Emacs highlights in red)"
+   ;; cljfmt/clojure-lsp never touch this: trailing spaces on a blank line
+   ;; inside a docstring are part of the string literal's content, so a
+   ;; formatter that only rewrites code structure leaves them untouched.
+   :task (let [files (sort (map str (fs/glob "src" "**.{clj,cljc,cljd,cljs}")))
+               ;; (?m) makes $ match before every line terminator, not just
+               ;; end-of-file - that's what reaches blank lines mid-docstring.
+               ws-re (re-pattern "(?m)[ \\t]+$")
+               dirty (filter (fn [f] (re-find ws-re (slurp f))) files)]
+           (h/header "🧹 Checking Trailing Whitespace")
+           (if (empty? dirty)
+             (h/success "No trailing whitespace in src/!")
+             (do
+               (doseq [f dirty] (println (str "  " f)))
+               (h/warn (str (count dirty) " file(s) with trailing whitespace"))
+               (h/info "Run 'bb whitespace:fix' to fix")
+               (System/exit 1))))}
+
+  whitespace:fix
+  {:doc "🧹 Strip trailing whitespace from every line under src/"
+   :task (let [files (sort (map str (fs/glob "src" "**.{clj,cljc,cljd,cljs}")))
+               ws-re (re-pattern "(?m)[ \\t]+$")
+               fix! (fn [f]
+                      (let [orig (slurp f)
+                            cleaned (str/replace orig ws-re "")]
+                        (when (not= orig cleaned)
+                          (spit f cleaned)
+                          f)))
+               changed (keep fix! files)]
+           (h/header "🧹 Stripping Trailing Whitespace")
+           (if (empty? changed)
+             (h/success "Nothing to fix - src/ is already clean!")
+             (do
+               (doseq [f changed] (println (str "  fixed " f)))
+               (h/success (str "Fixed " (count changed) " file(s)"))
+               (h/info "Review the diff, then commit"))))}
+
   check
   {:doc "⭐ Fast checks (compile every namespace + lint) - use before committing"
    :task (do
@@ -1015,7 +1053,7 @@ echo \"✅ Lint check passed!\"
          line    (fn [t]
                    (println (str "  " (h/color h/cyan (format "%-24s" (str "bb " t))) (brief t))))
          groups  [["🔧 Development"  ["repl" "nrepl"]]
-                  ["🔍 Code quality" ["check" "check:full" "lint"]]
+                  ["🔍 Code quality" ["check" "check:full" "lint" "whitespace:check" "whitespace:fix"]]
                   ["🎨 LSP"          ["lsp:format" "lsp:format-check" "lsp:clean-ns"
                                       "lsp:clean-ns-check" "lsp:diagnostics" "lsp:check" "lsp:fix"]]
                   ["🪝 Git hooks"    ["hooks:install" "hooks:uninstall"]]
@@ -1076,6 +1114,8 @@ echo \"✅ Lint check passed!\"
            (println "   bb check            ⭐ Fast check (compile + lint)")
            (println "   bb check:full       Comprehensive (+ LSP)")
            (println "   bb lint             Run clj-kondo")
+           (println "   bb whitespace:check Check for trailing whitespace")
+           (println "   bb whitespace:fix   Strip trailing whitespace")
            (println)
            (println (h/color h/green "🎨 LSP:"))
            (println "   bb lsp:format       Format all files")
