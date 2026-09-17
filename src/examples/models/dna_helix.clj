@@ -1,11 +1,11 @@
 (ns examples.models.dna-helix
   "Raylib [models] example - DNA helix visualization
-   
+
    A 3D double helix structure visualization with animated rotation.
    Demonstrates parametric 3D curves and sphere placement.
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - UP/DOWN: Adjust helix turns
    - LEFT/RIGHT: Adjust helix radius

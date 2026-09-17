@@ -1,8 +1,8 @@
 (ns examples.music-stream
   "raylib [audio] example - music stream
-   
+
    Music streaming with volume and pan control.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: audio/audio_music_stream.c"
   (:require

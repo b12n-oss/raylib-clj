@@ -1,8 +1,8 @@
 (ns examples.sound-loading
   "raylib [audio] example - sound loading
-   
+
    Basic sound loading and playback with WAV and OGG files.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: audio/audio_sound_loading.c"
   (:require

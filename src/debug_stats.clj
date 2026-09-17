@@ -1,25 +1,25 @@
 (ns debug-stats
   "Debug stats overlay plugin.
-   
+
    Usage:
    1. Require this namespace in your game ns
    2. Call (debug-stats/enable!) once at startup
    3. Call (debug-stats/update!) in your game tick function
    4. Call (debug-stats/draw!) at the end of your draw function (inside begin/end-drawing)
    5. Press F1 to toggle the stats overlay
-   
+
    Example:
    (ns my-game
      (:require [debug-stats]))
-   
+
    (defn init []
      (debug-stats/enable!))
-   
+
    (defn tick [game]
      (debug-stats/update!)
      ;; ... your game logic
      )
-   
+
    (defn draw [game]
      (rcd/begin-drawing!)
      ;; ... your drawing code
@@ -104,7 +104,7 @@
   (:visible @state))
 
 (defn set-custom-stat!
-  "Add a custom stat to display. 
+  "Add a custom stat to display.
    Example: (set-custom-stat! :enemies 42)"
   [key value]
   (swap! state assoc-in [:custom-stats key] value))
@@ -194,7 +194,7 @@
 ;; Convenience macro for automatic stats in game loops
 (defmacro with-stats
   "Wrap your game loop body to automatically update and draw stats.
-   
+
    Example:
    (with-stats
      (rcd/begin-drawing!)

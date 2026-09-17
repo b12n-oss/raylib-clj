@@ -1,11 +1,11 @@
 (ns examples.screen-manager
   "Raylib [core] example - basic screen manager
-   
+
    Demonstrates a simple state machine for managing game screens.
    Based on: raylib/examples/core/core_basic_screen_manager.c
-   
+
    Complexity: ⭐ Beginner
-   
+
    Controls:
    - ENTER: Navigate between screens
    - Q: Exit (from any screen)"

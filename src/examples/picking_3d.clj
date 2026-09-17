@@ -1,8 +1,8 @@
 (ns examples.picking-3d
   "raylib [core] example - 3D picking
-   
+
    Click on the cube to select it. Right-click to toggle camera controls.
-   
+
    Difficulty: ⭐⭐☆☆ (2/4)
    Based on: core/core_3d_picking.c"
   (:require

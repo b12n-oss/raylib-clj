@@ -1,12 +1,12 @@
 (ns examples.models.box-collisions
   "Raylib [models] example - box collisions
-   
+
    Move a player box around and detect collisions with other 3D objects.
    The player turns red when colliding.
    Based on: raylib/examples/models/models_box_collisions.c
-   
+
    Complexity: ⭐ Basic (1/4)
-   
+
    Controls:
    - Arrow keys: Move player
    - Q: Exit"

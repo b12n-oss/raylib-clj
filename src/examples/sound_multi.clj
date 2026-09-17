@@ -1,8 +1,8 @@
 (ns examples.sound-multi
   "raylib [audio] example - sound multi
-   
+
    Playing multiple instances of the same sound using aliases.
-   
+
    Difficulty: ⭐⭐☆☆ (2/4)
    Based on: audio/audio_sound_multi.c"
   (:require

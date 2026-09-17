@@ -1,11 +1,11 @@
 (ns examples.games.snake
   "Classic game: Snake
-   
+
    Original game by Ian Eito, Albert Martos and Ramon Santamaria.
    Ported to Clojure for raylib-clojure-playground.
-   
+
    Complexity: ⭐⭐ (2/4)
-   
+
    Controls:
    - Arrow keys: Move snake
    - P: Pause game

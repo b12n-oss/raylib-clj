@@ -1,11 +1,11 @@
 (ns examples.models.rotating-cube
   "Raylib [models] example - rotating cube
-   
+
    A simple rotating cube demo demonstrating 3D transformations.
    Based on: models_rotating_cube.c (simplified without textures)
-   
+
    Complexity: ⭐ Basic (1/4)
-   
+
    Controls:
    - Arrow keys: Change rotation axis
    - +/-: Change rotation speed

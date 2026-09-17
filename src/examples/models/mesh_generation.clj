@@ -1,13 +1,13 @@
 (ns examples.models.mesh-generation
   "Raylib [models] example - procedural mesh/shape generation
-   
+
    Showcase of procedurally generated 3D shapes.
    Demonstrates various geometric primitives and custom shapes.
-   
+
    Based on raylib's models_mesh_generation example.
-   
+
    Complexity: ⭐⭐ (2/4)
-   
+
    Controls:
    - LEFT/RIGHT or Click: Cycle through shapes
    - SPACE: Toggle wireframe

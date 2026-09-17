@@ -1,11 +1,11 @@
 (ns examples.models.lissajous-3d
   "Raylib [models] example - 3D Lissajous curves
-   
+
    Beautiful parametric 3D curves formed by combining
    sine waves at different frequencies.
-   
+
    Complexity: ⭐⭐ (2/4)
-   
+
    Controls:
    - 1/2/3/4/5: Select preset pattern
    - UP/DOWN: Adjust A frequency

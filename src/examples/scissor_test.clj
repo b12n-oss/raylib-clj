@@ -1,8 +1,8 @@
 (ns examples.scissor-test
   "raylib [core] example - scissor test
-   
+
    Using scissor mode to clip drawing to a rectangle area.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: core/core_scissor_test.c"
   (:require

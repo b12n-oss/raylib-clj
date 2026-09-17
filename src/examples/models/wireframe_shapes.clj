@@ -1,11 +1,11 @@
 (ns examples.models.wireframe-shapes
   "Raylib [models] example - wireframe shapes
-   
+
    Various 3D wireframe shapes drawn using lines.
    Demonstrates draw-line-3d! for custom wireframe rendering.
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - SPACE: Toggle rotation
    - Q: Exit"

@@ -1,12 +1,12 @@
 (ns examples.sprite-animation
   "Raylib [textures] example - sprite animation
-   
+
    Demonstrates sprite sheet animation with configurable frame speed.
    Shows how to extract and display individual frames from a sprite sheet.
    Based on: raylib/examples/textures/textures_sprite_animation.c
-   
+
    Complexity: ⭐⭐ Easy
-   
+
    Controls:
    - LEFT/RIGHT: Adjust animation speed
    - F1: Toggle debug stats

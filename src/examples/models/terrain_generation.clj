@@ -1,11 +1,11 @@
 (ns examples.models.terrain-generation
   "Raylib [models] example - procedural terrain generation
-   
+
    Generate and visualize 3D terrain using Perlin-like noise.
    Features real-time terrain modification and color mapping.
-   
+
    Complexity: ⭐⭐⭐ (3/4)
-   
+
    Controls:
    - LEFT/RIGHT: Adjust frequency (detail level)
    - UP/DOWN: Adjust amplitude (height)

@@ -1,12 +1,12 @@
 (ns examples.models.point-cloud
   "Raylib [models] example - point cloud
-   
+
    A colorful spherical point cloud visualization.
    Points are distributed in a sphere with colors based on position.
    Based on: raylib/examples/models/models_point_rendering.c (simplified)
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - UP/DOWN: Change point count
    - Q: Exit"

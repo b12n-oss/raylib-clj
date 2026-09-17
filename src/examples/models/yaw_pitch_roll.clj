@@ -1,11 +1,11 @@
 (ns examples.models.yaw-pitch-roll
   "Raylib [models] example - yaw pitch roll
-   
+
    Demonstrates airplane-style rotation with yaw, pitch, and roll.
    Uses a simple wireframe airplane model built from primitives.
-   
+
    Complexity: ⭐⭐ Beginner-Intermediate (2/4)
-   
+
    Controls:
    - UP/DOWN: Pitch (nose up/down)
    - LEFT/RIGHT: Roll (bank left/right)
@@ -72,7 +72,7 @@
            [0 0 0] [-4 0 0.5]
            [-4 0 0.5] [-4 0 1]
            [-4 0 1] [0 0 1]
-           ;; Right wing  
+           ;; Right wing
            [0 0 0] [4 0 0.5]
            [4 0 0.5] [4 0 1]
            [4 0 1] [0 0 1]]
@@ -201,7 +201,7 @@
                        :z tz}))]
     ;; X axis (red)
     (rc3d/draw-line-3d! (transform origin) (transform [size 0 0]) colors/red)
-    ;; Y axis (green)  
+    ;; Y axis (green)
     (rc3d/draw-line-3d! (transform origin) (transform [0 size 0]) colors/green)
     ;; Z axis (blue)
     (rc3d/draw-line-3d! (transform origin) (transform [0 0 size]) colors/blue)))

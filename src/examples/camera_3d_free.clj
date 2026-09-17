@@ -1,8 +1,8 @@
 (ns examples.camera-3d-free
   "raylib [core] example - 3d camera free
-   
+
    Free-form 3D camera with mouse controls.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: core/core_3d_camera_free.c"
   (:require

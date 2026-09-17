@@ -1,12 +1,12 @@
 (ns examples.models.ray-picking
   "Raylib [models] example - ray picking
-   
+
    Click on cubes to select them. Selected cubes change color.
    Demonstrates ray casting for 3D object selection.
    Based on: core_3d_picking.c
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - Left Click: Select cube
    - Right Click: Toggle camera control

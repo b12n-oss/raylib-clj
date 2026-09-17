@@ -1,11 +1,11 @@
 (ns examples.models.spinning-cubes
   "Raylib [models] example - spinning cubes
-   
+
    Multiple cubes spinning at different speeds and positions.
    Demonstrates 3D transformations and color cycling.
-   
+
    Complexity: ⭐ Basic (1/4)
-   
+
    Controls:
    - Q: Exit"
   (:require

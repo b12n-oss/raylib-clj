@@ -1,11 +1,11 @@
 (ns examples.games.retro-maze-3d
   "Retro Maze 3D - A GameBoy-style first-person maze game
-   
+
    Based on raylib's GGJ 2021 game by Ramon Santamaria.
    Ported to Clojure with procedural maze generation.
-   
+
    Complexity: ⭐⭐⭐ (3/4)
-   
+
    Controls:
    - WASD: Move
    - Mouse: Look around

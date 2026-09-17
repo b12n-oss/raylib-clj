@@ -1,13 +1,13 @@
 (ns examples.models.camera-modes
   "Raylib [models] example - camera modes
-   
+
    Demonstrates different 3D camera modes:
    - Free camera (WASD + mouse)
    - Orbital camera (auto-rotate around target)
    - First person camera
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - 1/2/3: Switch camera mode
    - WASD/Arrow keys: Move camera (in Free/First Person)

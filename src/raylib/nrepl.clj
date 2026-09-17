@@ -8,7 +8,7 @@
   an optional parameters map. The :bind, :transport-fn, :handler,
   :ack-port and :greeting-fn will be forwarded to
   nrepl.server/start-server as they are.
-  
+
   If the port is already in use, logs a warning and returns nil
   instead of throwing - this allows games to still run when another
   nREPL server is already using the port."

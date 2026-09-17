@@ -1,11 +1,11 @@
 (ns examples.models.bouncing-spheres
   "Raylib [models] example - bouncing spheres
-   
+
    Multiple spheres bouncing in a 3D box with simple physics.
    Demonstrates 3D collision detection and sphere rendering.
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - SPACE: Add more spheres
    - R: Reset spheres

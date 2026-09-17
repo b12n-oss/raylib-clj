@@ -1,11 +1,11 @@
 (ns examples.models.lorenz-attractor
   "Raylib [models] example - Lorenz attractor
-   
+
    Visualize the famous Lorenz strange attractor - a chaotic
    system that produces beautiful butterfly-shaped patterns.
-   
+
    Complexity: ⭐⭐ (2/4)
-   
+
    Controls:
    - 1/2/3: Change parameters (rho)
    - UP/DOWN: Adjust sigma
@@ -34,7 +34,7 @@
 (defn initial-state []
   {:exit? false
    :sigma 10.0 ; Prandtl number
-   :rho 28.0 ; Rayleigh number  
+   :rho 28.0 ; Rayleigh number
    :beta (/ 8.0 3) ; Geometric factor
    :points [{:x 0.1
              :y 0.0

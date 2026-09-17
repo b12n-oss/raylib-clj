@@ -1,11 +1,11 @@
 (ns examples.logo-anim
   "Raylib [shapes] example - logo raylib animation
-   
+
    Animated raylib logo with state machine animation.
    Based on: raylib/examples/shapes/shapes_logo_raylib_anim.c
-   
+
    Complexity: ⭐⭐ Easy
-   
+
    Controls:
    - R: Replay animation (after completion)
    - F1: Toggle debug stats

@@ -1,11 +1,11 @@
 (ns examples.input-keys
   "Raylib [core] example - keyboard input
-   
+
    Move a ball around the screen using arrow keys.
    Based on: raylib/examples/core/core_input_keys.c
-   
+
    Complexity: ⭐ Beginner
-   
+
    Controls:
    - Arrow keys: Move the ball
    - F1: Toggle debug stats

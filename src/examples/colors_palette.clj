@@ -1,11 +1,11 @@
 (ns examples.colors-palette
   "Raylib [shapes] example - colors palette
-   
+
    Display all raylib colors in a grid. Hover over colors to see names.
    Based on: raylib/examples/shapes/shapes_colors_palette.c
-   
+
    Complexity: ⭐⭐ Easy
-   
+
    Controls:
    - Mouse: Hover over colors to see names
    - SPACE: Show all color names

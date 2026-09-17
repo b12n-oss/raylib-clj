@@ -1,11 +1,11 @@
 (ns examples.games.floppy
   "Classic game: Floppy (Flappy Bird clone)
-   
+
    Original game by Ian Eito, Albert Martos and Ramon Santamaria.
    Ported to Clojure for raylib-clojure-playground.
-   
+
    Complexity: ⭐⭐ (2/4)
-   
+
    Controls:
    - SPACE: Fly up
    - P: Pause game

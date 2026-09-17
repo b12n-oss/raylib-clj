@@ -1,15 +1,15 @@
 (ns examples.gestures-testbed
   "Raylib [core] example - input gestures testbed
-   
+
    Visualizes touch gestures with an interactive testbed.
    Shows gesture log, protractor angle display, and touch point visualization.
    Based on: raylib/examples/core/core_input_gestures_testbed.c
-   
+
    Complexity: ⭐⭐⭐ Intermediate
-   
+
    Note: Optimized for touch screens. On desktop, use mouse to simulate gestures.
    In web browsers, enable Touch Emulation in developer tools.
-   
+
    Controls:
    - Touch/Mouse: Perform gestures
    - Click 'Hide Repeat' button: Toggle repeated gesture logging

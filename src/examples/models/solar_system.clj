@@ -1,12 +1,12 @@
 (ns examples.models.solar-system
   "Raylib [models] example - solar system
-   
+
    A simplified solar system with orbiting planets.
    The camera orbits around the scene automatically.
    Based on: raylib/examples/models/models_rlgl_solar_system.c (simplified)
-   
+
    Complexity: ⭐⭐ Intermediate (2/4)
-   
+
    Controls:
    - Q: Exit"
   (:require

@@ -10,7 +10,7 @@
 (defalias ::audio-stream
   [::mem/struct
    [[:buffer-lo ::mem/int] ; pointer low bits
-    [:buffer-hi ::mem/int] ; pointer high bits  
+    [:buffer-hi ::mem/int] ; pointer high bits
     [:processor-lo ::mem/int] ; pointer low bits
     [:processor-hi ::mem/int] ; pointer high bits
     [:sample-rate ::mem/int]

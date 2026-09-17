@@ -1,8 +1,8 @@
 (ns examples.audio-module
   "raylib [audio] example - module playing
-   
+
    Music visualization with animated circles that react to the music.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: audio/audio_module_playing.c"
   (:require

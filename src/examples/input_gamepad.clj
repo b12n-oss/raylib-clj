@@ -1,15 +1,15 @@
 (ns examples.input-gamepad
   "Raylib [core] example - input gamepad
-   
+
    Displays gamepad input state with visual feedback.
    Shows Xbox and PlayStation controller layouts with button/axis visualization.
    Based on: raylib/examples/core/core_input_gamepad.c
-   
+
    Complexity: ⭐⭐ Easy
-   
+
    Requirements:
    - Gamepad connected to the system (Xbox, PlayStation, or generic)
-   
+
    Controls:
    - LEFT/RIGHT arrows: Switch between gamepads
    - F1: Toggle debug stats

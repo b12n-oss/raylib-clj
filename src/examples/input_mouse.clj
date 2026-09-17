@@ -1,11 +1,11 @@
 (ns examples.input-mouse
   "Raylib [core] example - mouse input
-   
+
    A ball that follows your mouse. Click to change colors!
    Based on: raylib/examples/core/core_input_mouse.c
-   
+
    Complexity: ⭐ Beginner
-   
+
    Controls:
    - Mouse: Move the ball
    - Left click: Red color

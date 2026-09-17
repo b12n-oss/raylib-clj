@@ -1,12 +1,12 @@
 (ns examples.models.orthographic-projection
   "Raylib [models] example - orthographic projection
-   
+
    Compare perspective vs orthographic camera projection.
    Press SPACE to toggle between the two modes.
    Based on: raylib/examples/models/models_orthographic_projection.c
-   
+
    Complexity: ⭐ Basic (1/4)
-   
+
    Controls:
    - SPACE: Toggle perspective/orthographic
    - Q: Exit"

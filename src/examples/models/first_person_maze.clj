@@ -1,11 +1,11 @@
 (ns examples.models.first-person-maze
   "Raylib [models] example - first person maze
-   
+
    Navigate through a procedurally generated 3D maze.
    Uses first-person camera with collision detection.
-   
+
    Complexity: ⭐⭐⭐ Intermediate (3/4)
-   
+
    Controls:
    - WASD: Move
    - Mouse: Look around

@@ -1,8 +1,8 @@
 (ns examples.mouse-wheel
   "raylib [core] example - input mouse wheel
-   
+
    Using mouse wheel to move objects.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: core/core_input_mouse_wheel.c"
   (:require

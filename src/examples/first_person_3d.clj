@@ -1,12 +1,12 @@
 (ns examples.first-person-3d
   "Raylib [core] example - 3D camera first person
-   
+
    First-person camera with mouse look and WASD movement.
    Features multiple camera modes and random columns in a walled arena.
    Based on: raylib/examples/core/core_3d_camera_first_person.c
-   
+
    Complexity: ⭐⭐⭐ Intermediate
-   
+
    Controls:
    - W/A/S/D: Move forward/left/backward/right
    - Mouse: Look around

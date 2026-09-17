@@ -1,11 +1,11 @@
 (ns examples.models.geometric-shapes
   "Raylib [models] example - geometric shapes
-   
+
    Displays various 3D geometric primitives: cubes, spheres, cylinders, and capsules.
    Based on: raylib/examples/models/models_geometric_shapes.c
-   
+
    Complexity: ⭐ Basic (1/4)
-   
+
    Controls:
    - Q: Exit"
   (:require

@@ -1,8 +1,8 @@
 (ns examples.random-values
   "raylib [core] example - random values
-   
+
    Generating random values with raylib's RNG.
-   
+
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: core/core_random_values.c"
   (:require

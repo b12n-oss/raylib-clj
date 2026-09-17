@@ -1,12 +1,12 @@
 (ns examples.background-scrolling
   "Raylib [textures] example - background scrolling
-   
+
    Parallax scrolling effect with three texture layers moving at different speeds.
    Creates a cyberpunk street scene with depth perception.
    Based on: raylib/examples/textures/textures_background_scrolling.c
-   
+
    Complexity: ⭐ Beginner
-   
+
    Controls:
    - F1: Toggle debug stats
    - Q: Exit"

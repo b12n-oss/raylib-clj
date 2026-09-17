@@ -1,12 +1,12 @@
 (ns examples.models.waving-cubes
   "Raylib [models] example - waving cubes
-   
+
    A mesmerizing 3D animation of cubes that wave and change colors based on their position.
    The camera orbits around the scene automatically.
    Based on: raylib/examples/models/models_waving_cubes.c
-   
+
    Complexity: ⭐⭐⭐ Intermediate (3/4)
-   
+
    Controls:
    - Q: Exit"
   (:require

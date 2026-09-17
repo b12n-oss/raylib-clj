@@ -1,8 +1,8 @@
 (ns examples.camera-2d
   "raylib [core] example - 2d camera
-   
+
    2D camera with player movement, zoom, and rotation.
-   
+
    Difficulty: ⭐⭐☆☆ (2/4)
    Based on: core/core_2d_camera.c"
   (:require

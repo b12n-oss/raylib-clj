@@ -1,12 +1,12 @@
 (ns examples.split-screen-3d
   "Raylib [core] example - 3D camera split screen
-   
+
    Two-player split screen with independent 3D cameras.
    Each player can move forward/backward in a 3D world of cube trees.
    Based on: raylib/examples/core/core_3d_camera_split_screen.c
-   
+
    Complexity: ⭐⭐⭐ Intermediate
-   
+
    Controls:
    - W/S: Move Player 1 (left screen) forward/backward
    - UP/DOWN: Move Player 2 (right screen) forward/backward

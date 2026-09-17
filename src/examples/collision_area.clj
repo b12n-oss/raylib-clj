@@ -1,12 +1,12 @@
 (ns examples.collision-area
   "Raylib [shapes] example - collision area
-   
+
    Two rectangles - one moves automatically, one follows mouse.
    Shows collision detection and collision area calculation.
    Based on: raylib/examples/shapes/shapes_collision_area.c
-   
+
    Complexity: ⭐⭐ Easy
-   
+
    Controls:
    - Mouse: Move the blue box
    - SPACE: Pause/resume the gold box

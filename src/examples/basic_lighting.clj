@@ -1,11 +1,11 @@
 (ns examples.basic-lighting
   "Raylib [shaders] example - basic lighting
-   
+
    Demonstrates shader-based lighting with multiple colored lights.
    Based on: raylib/examples/shaders/shaders_basic_lighting.c
-   
+
    Complexity: ⭐⭐⭐⭐ Advanced
-   
+
    Controls:
    - Mouse: Orbital camera rotation
    - Y: Toggle yellow light
