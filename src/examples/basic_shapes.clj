@@ -30,7 +30,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [rotation] :as state}]
+(defn tick [{:keys [rotation]
+             :as state}]
   (debug-stats/update!)
   (assoc state :rotation (+ rotation 0.2)))
 
@@ -42,7 +43,8 @@
 
   ;; Circle shapes and lines
   (rsb/draw-circle! (quot screen-width 5) 120 (float 35) colors/darkblue)
-  (rsb/draw-circle-gradient! {:x (float (quot screen-width 5)) :y 220.0} (float 60) colors/green colors/skyblue)
+  (rsb/draw-circle-gradient! {:x (float (quot screen-width 5))
+                              :y 220.0} (float 60) colors/green colors/skyblue)
   (rsb/draw-circle-lines! (quot screen-width 5) 340 (float 80) colors/darkblue)
   (rsb/draw-ellipse! (quot screen-width 5) 120 (float 25) (float 20) colors/yellow)
   (rsb/draw-ellipse-lines! (quot screen-width 5) 120 (float 30) (float 25) colors/yellow)
@@ -54,17 +56,24 @@
 
   ;; Triangle shapes and lines
   (let [cx (* (/ screen-width 4.0) 3.0)]
-    (rsb/draw-triangle! {:x cx :y 80.0}
-                         {:x (- cx 60.0) :y 150.0}
-                         {:x (+ cx 60.0) :y 150.0}
-                         colors/violet)
-    (rsb/draw-triangle-lines! {:x cx :y 160.0}
-                               {:x (- cx 20.0) :y 230.0}
-                               {:x (+ cx 20.0) :y 230.0}
-                               colors/darkblue))
+    (rsb/draw-triangle! {:x cx
+                         :y 80.0}
+                        {:x (- cx 60.0)
+                         :y 150.0}
+                        {:x (+ cx 60.0)
+                         :y 150.0}
+                        colors/violet)
+    (rsb/draw-triangle-lines! {:x cx
+                               :y 160.0}
+                              {:x (- cx 20.0)
+                               :y 230.0}
+                              {:x (+ cx 20.0)
+                               :y 230.0}
+                              colors/darkblue))
 
   ;; Polygon shapes and lines
-  (let [center {:x (* (/ screen-width 4.0) 3) :y 330.0}]
+  (let [center {:x (* (/ screen-width 4.0) 3)
+                :y 330.0}]
     (rsb/draw-poly! center 6 (float 80) (float rotation) colors/brown)
     (rsb/draw-poly-lines! center 6 (float 90) (float rotation) colors/brown)
     (rsb/draw-poly-lines-ex! center 6 (float 85) (float rotation) (float 6) colors/beige))

@@ -43,8 +43,12 @@
 (defn voxel-box
   "The unit bounding box centred on a voxel's integer coordinate."
   [[x y z]]
-  {:min {:x (- x 0.5) :y (- y 0.5) :z (- z 0.5)}
-   :max {:x (+ x 0.5) :y (+ y 0.5) :z (+ z 0.5)}})
+  {:min {:x (- x 0.5)
+         :y (- y 0.5)
+         :z (- z 0.5)}
+   :max {:x (+ x 0.5)
+         :y (+ y 0.5)
+         :z (+ z 0.5)}})
 
 (defn all-voxels []
   (set (for [x (range world-size) y (range world-size) z (range world-size)]
@@ -65,9 +69,15 @@
        second))
 
 (defn initial-state []
-  {:camera {:position {:x -2.0 :y 0.0 :z -2.0}
-            :target {:x 0.0 :y 0.0 :z 0.0}
-            :up {:x 0.0 :y 1.0 :z 0.0}
+  {:camera {:position {:x -2.0
+                       :y 0.0
+                       :z -2.0}
+            :target {:x 0.0
+                     :y 0.0
+                     :z 0.0}
+            :up {:x 0.0
+                 :y 1.0
+                 :z 0.0}
             :fovy 45.0
             :projection rc3d/CAMERA_PERSPECTIVE}
    :voxels (all-voxels)
@@ -85,12 +95,14 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [camera voxels] :as state}]
+(defn tick [{:keys [camera voxels]
+             :as state}]
   (debug-stats/update!)
   (let [camera (rc3d/update-camera camera rc3d/CAMERA_FIRST_PERSON)]
     (if-not (rcm/is-mouse-button-pressed? (:left enums/mouse-button))
       (assoc state :camera camera)
-      (let [centre {:x (/ (rcw/get-screen-width) 2.0) :y (/ (rcw/get-screen-height) 2.0)}
+      (let [centre {:x (/ (rcw/get-screen-width) 2.0)
+                    :y (/ (rcw/get-screen-height) 2.0)}
             ray (rcol/get-screen-to-world-ray centre camera)
             hit (pick-voxel rcol/get-ray-collision-box ray voxels)]
         (assoc state :camera camera
@@ -102,7 +114,9 @@
   (rc3d/begin-mode-3d! camera)
   (rc3d/draw-grid! 10 1.0)
   (doseq [[x y z] voxels
-          :let [p {:x (float x) :y (float y) :z (float z)}]]
+          :let [p {:x (float x)
+                   :y (float y)
+                   :z (float z)}]]
     (rm/draw-model! model p 1.0 colors/beige)
     (rc3d/draw-cube-wires! p 1.0 1.0 1.0 colors/black))
   (rc3d/end-mode-3d!)

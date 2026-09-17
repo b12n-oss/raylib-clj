@@ -31,16 +31,27 @@
  ;; Values below were read from bb.helpers/example-categories on
  ;; 2026-08-14 and ordered by record_all.clj's own category-order vector
  ;; [:games :core :shapes :textures :audio :shaders :models :text].
- :groups [{:key "games"    :title "🎮 Original Games"}
-          {:key "core"     :title "📦 Core Examples"}
-          {:key "shapes"   :title "🔷 Shapes Examples"}
-          {:key "textures" :title "🖼️ Textures Examples"}
-          {:key "audio"    :title "🔊 Audio Examples"}
-          {:key "shaders"  :title "✨ Shaders Examples"}
-          {:key "models"   :title "🗿 Models Examples"}
-          {:key "text"     :title "📝 Text Examples"}]
+ :groups [{:key "games"
+           :title "🎮 Original Games"}
+          {:key "core"
+           :title "📦 Core Examples"}
+          {:key "shapes"
+           :title "🔷 Shapes Examples"}
+          {:key "textures"
+           :title "🖼️ Textures Examples"}
+          {:key "audio"
+           :title "🔊 Audio Examples"}
+          {:key "shaders"
+           :title "✨ Shaders Examples"}
+          {:key "models"
+           :title "🗿 Models Examples"}
+          {:key "text"
+           :title "📝 Text Examples"}]
 
- :defaults {:duration 6 :fps 10 :width 480 :warmup 10}
+ :defaults {:duration 6
+            :fps 10
+            :width 480
+            :warmup 10}
 
  ;; Per-id overrides: an :input timeline
  ;; ([[at-seconds :key "chord"] [at-seconds :click x y] [at-seconds :move x y]
@@ -156,7 +167,7 @@
   ;; frames on four consecutive attempts, and even this slider version lands
   ;; only some passes - the committed take is 19 frames. If a capture comes
   ;; out static, run it again rather than editing these coordinates.
- "hilbert-curve" {:input [[0.6 :drag 600 202 700 202]   ; TOTAL SIZE -> replay
+  "hilbert-curve" {:input [[0.6 :drag 600 202 700 202]   ; TOTAL SIZE -> replay
                            [2.2 :drag 700 202 640 202]   ; -> replay
                            [3.8 :drag 640 202 760 202]   ; -> replay
                            [5.0 :drag 600 162 680 162]   ; thickness

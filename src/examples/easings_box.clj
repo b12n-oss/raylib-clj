@@ -30,7 +30,7 @@
       (let [p (* d 0.3)
             s (/ p 4.0)]
         (+ b (* c (+ 1.0 (* (Math/pow 2 (* -10 t))
-                             (Math/sin (* (/ (- t s) p) 2.0 Math/PI))))))))))
+                            (Math/sin (* (/ (- t s) p) 2.0 Math/PI))))))))))
 
 (defn- ease-bounce-out [t b c d]
   (let [t (/ t d)]
@@ -63,7 +63,10 @@
   (+ b (* c (Math/sin (* (/ t d) (/ Math/PI 2))))))
 
 (defn initial-state []
-  {:rec {:x (/ screen-width 2.0) :y -100.0 :width 100.0 :height 100.0}
+  {:rec {:x (/ screen-width 2.0)
+         :y -100.0
+         :width 100.0
+         :height 100.0}
    :rotation 0.0
    :alpha 1.0
    :state 0
@@ -76,7 +79,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [state frames-counter rec rotation alpha] :as s}]
+(defn tick [{:keys [state frames-counter rec rotation alpha]
+             :as s}]
   (debug-stats/update!)
   (if (rck/is-key-pressed? (:space enums/keyboard-key))
     (initial-state)
@@ -121,9 +125,12 @@
   (rcd/clear-background! colors/raywhite)
 
   (rsb/draw-rectangle-pro!
-   {:x (float (:x rec)) :y (float (:y rec))
-    :width (float (:width rec)) :height (float (:height rec))}
-   {:x (float (/ (:width rec) 2)) :y (float (/ (:height rec) 2))}
+   {:x (float (:x rec))
+    :y (float (:y rec))
+    :width (float (:width rec))
+    :height (float (:height rec))}
+   {:x (float (/ (:width rec) 2))
+    :y (float (/ (:height rec) 2))}
    (float rotation)
    (ru/fade colors/black (float (max 0.0 alpha))))
 

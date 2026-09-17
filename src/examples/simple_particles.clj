@@ -25,7 +25,9 @@
 (def MAX-PARTICLES 3000)
 
 (def particle-types [:water :smoke :fire])
-(def type-names {:water "WATER" :smoke "SMOKE" :fire "FIRE"})
+(def type-names {:water "WATER"
+                 :smoke "SMOKE"
+                 :fire "FIRE"})
 
 (defn- emit-particle [emitter-pos ptype]
   (let [speed (/ (rand-int 10) 5.0)
@@ -36,20 +38,23 @@
                                :smoke [7.0 colors/gray speed]
                                :fire  [10.0 colors/yellow (/ speed 10.0)])]
     {:pos emitter-pos
-     :vel {:x (* speed (Math/cos rad)) :y (* speed (Math/sin rad))}
+     :vel {:x (* speed (Math/cos rad))
+           :y (* speed (Math/sin rad))}
      :radius radius
      :color color
      :type ptype
      :lifetime 0.0
      :alive true}))
 
-(defn- update-particle [{:keys [pos vel radius color type lifetime] :as p}]
+(defn- update-particle [{:keys [pos vel radius color type lifetime]
+                         :as p}]
   (let [lifetime (+ lifetime (/ 1.0 60.0))]
     (case type
       :water
       (let [vy (+ (:y vel) 0.2)]
         (assoc p
-               :pos {:x (+ (:x pos) (:x vel)) :y (+ (:y pos) vy)}
+               :pos {:x (+ (:x pos) (:x vel))
+                     :y (+ (:y pos) vy)}
                :vel (assoc vel :y vy)
                :lifetime lifetime))
       :smoke
@@ -57,7 +62,8 @@
             new-radius (+ radius 0.5)
             new-alpha (max 0 (- (:a color) 4))]
         (assoc p
-               :pos {:x (+ (:x pos) (:x vel)) :y (+ (:y pos) vy)}
+               :pos {:x (+ (:x pos) (:x vel))
+                     :y (+ (:y pos) vy)}
                :vel (assoc vel :y vy)
                :radius new-radius
                :color (assoc color :a new-alpha)
@@ -85,7 +91,8 @@
   {:particles []
    :emission-rate -2
    :current-type :water
-   :emitter-pos {:x (/ screen-width 2.0) :y (/ screen-height 2.0)}})
+   :emitter-pos {:x (/ screen-width 2.0)
+                 :y (/ screen-height 2.0)}})
 
 (def game-atom (atom (initial-state)))
 
@@ -94,7 +101,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [particles emission-rate current-type emitter-pos] :as state}]
+(defn tick [{:keys [particles emission-rate current-type emitter-pos]
+             :as state}]
   (debug-stats/update!)
   (let [;; Emit particles
         new-particles

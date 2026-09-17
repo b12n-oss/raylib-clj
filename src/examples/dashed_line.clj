@@ -27,7 +27,8 @@
                   colors/blue colors/violet colors/pink colors/black])
 
 (defn initial-state []
-  {:start-pos {:x 20.0 :y 50.0}
+  {:start-pos {:x 20.0
+               :y 50.0}
    :dash-length 25
    :blank-length 15
    :color-index 0})
@@ -39,7 +40,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [dash-length blank-length color-index] :as state}]
+(defn tick [{:keys [dash-length blank-length color-index]
+             :as state}]
   (debug-stats/update!)
   (let [dash-length (cond-> dash-length
                       (rck/is-key-down? (:up enums/keyboard-key)) inc

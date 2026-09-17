@@ -31,17 +31,30 @@
 (def screen-width 800)
 (def screen-height 450)
 
-(def static-pos {:x 0.0 :y 2.0 :z 0.0})
-(def rotating-pos {:x 1.0 :y 2.0 :z 1.0})
-(def bill-up {:x 0.0 :y 1.0 :z 0.0})
+(def static-pos {:x 0.0
+                 :y 2.0
+                 :z 0.0})
+(def rotating-pos {:x 1.0
+                   :y 2.0
+                   :z 1.0})
+(def bill-up {:x 0.0
+              :y 1.0
+              :z 0.0})
 
 (defn initial-state []
-  {:camera {:position {:x 5.0 :y 4.0 :z 5.0}
-            :target {:x 0.0 :y 2.0 :z 0.0}
-            :up {:x 0.0 :y 1.0 :z 0.0}
+  {:camera {:position {:x 5.0
+                       :y 4.0
+                       :z 5.0}
+            :target {:x 0.0
+                     :y 2.0
+                     :z 0.0}
+            :up {:x 0.0
+                 :y 1.0
+                 :z 0.0}
             :fovy 45.0
             :projection rc3d/CAMERA_PERSPECTIVE}
-   :rotation 0.0 :texture nil})
+   :rotation 0.0
+   :texture nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -61,7 +74,8 @@
     [a b]
     [b a]))
 
-(defn tick [{:keys [camera rotation] :as state}]
+(defn tick [{:keys [camera rotation]
+             :as state}]
   (debug-stats/update!)
   (assoc state
          :camera (rc3d/update-camera camera rc3d/CAMERA_ORBITAL)
@@ -73,9 +87,12 @@
   (rc3d/begin-mode-3d! camera)
   (rc3d/draw-grid! 10 1.0)
 
-  (let [source {:x 0.0 :y 0.0
-                :width (float (:width texture)) :height (float (:height texture))}
-        size {:x (/ (:width texture) (double (:height texture))) :y 1.0}
+  (let [source {:x 0.0
+                :y 0.0
+                :width (float (:width texture))
+                :height (float (:height texture))}
+        size {:x (/ (:width texture) (double (:height texture)))
+              :y 1.0}
         origin (rmath/v2-scale size 0.5)
         draw-one (fn [pos]
                    (if (= pos static-pos)

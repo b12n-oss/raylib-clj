@@ -89,8 +89,12 @@
 
 (defn initial-state []
   (let [parked (vec (repeat 6 (vec (repeat 24 ZZ))))]
-    {:hour-mode 24 :prev-second -1 :timer 0.0
-     :current parked :src parked :dst parked}))
+    {:hour-mode 24
+     :prev-second -1
+     :timer 0.0
+     :current parked
+     :src parked
+     :dst parked}))
 
 (def game-atom (atom (initial-state)))
 
@@ -101,7 +105,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [hour-mode prev-second timer current] :as state}]
+(defn tick [{:keys [hour-mode prev-second timer current]
+             :as state}]
   (debug-stats/update!)
   (let [hour-mode (if (rck/is-key-pressed? (:space enums/keyboard-key))
                     (- 36 hour-mode) hour-mode)
@@ -127,15 +132,22 @@
                           src dst))))
 
 (defn- draw-face [cx cy [big little] hands-color]
-  (rsb/draw-ring! {:x (float cx) :y (float cy)}
+  (rsb/draw-ring! {:x (float cx)
+                   :y (float cy)}
                   (float (- (* face-size 0.5) 2.0)) (float (* face-size 0.5))
                   (float 0.0) (float 360.0) 24 colors/darkgray)
-  (rsb/draw-rectangle-pro! {:x (float cx) :y (float cy)
-                            :width (float (+ (* face-size 0.5) 4.0)) :height (float 4.0)}
-                           {:x 2.0 :y 2.0} (float big) hands-color)
-  (rsb/draw-rectangle-pro! {:x (float cx) :y (float cy)
-                            :width (float (+ (* face-size 0.5) 2.0)) :height (float 4.0)}
-                           {:x 2.0 :y 2.0} (float little) hands-color))
+  (rsb/draw-rectangle-pro! {:x (float cx)
+                            :y (float cy)
+                            :width (float (+ (* face-size 0.5) 4.0))
+                            :height (float 4.0)}
+                           {:x 2.0
+                            :y 2.0} (float big) hands-color)
+  (rsb/draw-rectangle-pro! {:x (float cx)
+                            :y (float cy)
+                            :width (float (+ (* face-size 0.5) 2.0))
+                            :height (float 4.0)}
+                           {:x 2.0
+                            :y 2.0} (float little) hands-color))
 
 (defn draw [{:keys [current hour-mode]}]
   (let [bg (ru/color-lerp colors/darkblue colors/black (float 0.75))
@@ -154,9 +166,11 @@
         (let [x (+ x-offset (* step 4))]
           ;; A colon after every second digit, drawn as two small rings.
           (if (odd? digit)
-            (do (rsb/draw-ring! {:x (float (+ x 4.0)) :y (float 160.0)}
+            (do (rsb/draw-ring! {:x (float (+ x 4.0))
+                                 :y (float 160.0)}
                                 (float 6.0) (float 8.0) (float 0.0) (float 360.0) 24 hands)
-                (rsb/draw-ring! {:x (float (+ x 4.0)) :y (float 225.0)}
+                (rsb/draw-ring! {:x (float (+ x 4.0))
+                                 :y (float 225.0)}
                                 (float 6.0) (float 8.0) (float 0.0) (float 360.0) 24 hands)
                 (recur (inc digit) (+ x section-spacing)))
             (recur (inc digit) x)))))

@@ -28,7 +28,8 @@
 (def screen-width 800)
 (def screen-height 450)
 
-(def pad-position {:x 100.0 :y 350.0})
+(def pad-position {:x 100.0
+                   :y 350.0})
 (def button-radius 30.0)
 (def player-speed 75.0)
 
@@ -38,10 +39,15 @@
    rather than repeated as literals the way the C's parallel arrays are."
   (let [r button-radius
         off (* r 1.5)
-        {px :x py :y} pad-position
+        {px :x
+         py :y} pad-position
         mk (fn [cx cy dir color tri]
-             {:pos {:x cx :y cy} :dir dir :color color
-              :tri (mapv (fn [[dx dy]] {:x (float (+ cx dx)) :y (float (+ cy dy))}) tri)})]
+             {:pos {:x cx
+                    :y cy}
+              :dir dir
+              :color color
+              :tri (mapv (fn [[dx dy]] {:x (float (+ cx dx))
+                                        :y (float (+ cy dy))}) tri)})]
     [(mk px (- py off) [0.0 -1.0] colors/yellow [[0 -12] [-9 9] [9 9]])
      (mk (- px off) py [-1.0 0.0] colors/blue   [[9 -9] [-12 0] [9 9]])
      (mk (+ px off) py [1.0 0.0]  colors/red    [[12 0] [-9 -9] [-9 9]])
@@ -74,7 +80,9 @@
           buttons)))
 
 (defn initial-state []
-  {:player {:x (/ screen-width 2.0) :y (/ screen-height 2.0)} :pressed nil})
+  {:player {:x (/ screen-width 2.0)
+            :y (/ screen-height 2.0)}
+   :pressed nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -97,7 +105,8 @@
 (defn draw [{:keys [player pressed]}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
-  (rsb/draw-circle-v! {:x (float (:x player)) :y (float (:y player))}
+  (rsb/draw-circle-v! {:x (float (:x player))
+                       :y (float (:y player))}
                       (float 50.0) colors/maroon)
   (doseq [[i {:keys [pos tri color]}] (map-indexed vector buttons)]
     (rsb/draw-circle-v! pos (float button-radius)

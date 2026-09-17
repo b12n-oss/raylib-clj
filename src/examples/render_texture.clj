@@ -32,8 +32,10 @@
 
 (defn initial-state []
   {:target nil
-   :ball {:x (/ target-width 2.0) :y (/ target-height 2.0)}
-   :speed {:x 5.0 :y 4.0}
+   :ball {:x (/ target-width 2.0)
+          :y (/ target-height 2.0)}
+   :speed {:x 5.0
+           :y 4.0}
    :rotation 0.0})
 
 (def game-atom (atom (initial-state)))
@@ -50,12 +52,14 @@
   [pos vel lo hi]
   (if (or (>= pos hi) (<= pos lo)) (- vel) vel))
 
-(defn tick [{:keys [ball speed] :as state}]
+(defn tick [{:keys [ball speed]
+             :as state}]
   (debug-stats/update!)
   (let [x (+ (:x ball) (:x speed))
         y (+ (:y ball) (:y speed))]
     (-> state
-        (assoc :ball {:x x :y y}
+        (assoc :ball {:x x
+                      :y y}
                :speed {:x (bounce x (:x speed) ball-radius (- target-width ball-radius))
                        :y (bounce y (:y speed) ball-radius (- target-height ball-radius))})
         (update :rotation + 0.5))))
@@ -66,7 +70,8 @@
     (rtl/begin-texture-mode! target)
     (rcd/clear-background! colors/skyblue)
     (rsb/draw-rectangle! 0 0 20 20 colors/red)
-    (rsb/draw-circle-v! {:x (float (:x ball)) :y (float (:y ball))}
+    (rsb/draw-circle-v! {:x (float (:x ball))
+                         :y (float (:y ball))}
                         (float ball-radius) colors/maroon)
     (rtl/end-texture-mode!))
 
@@ -79,10 +84,16 @@
           h (float (:height tex))]
       (rtl/draw-texture-pro!
        tex
-       {:x 0.0 :y 0.0 :width w :height (- h)}   ; negative height flips it upright
-       {:x (float (/ screen-width 2.0)) :y (float (/ screen-height 2.0))
-        :width w :height h}
-       {:x (float (/ w 2.0)) :y (float (/ h 2.0))}
+       {:x 0.0
+        :y 0.0
+        :width w
+        :height (- h)}   ; negative height flips it upright
+       {:x (float (/ screen-width 2.0))
+        :y (float (/ screen-height 2.0))
+        :width w
+        :height h}
+       {:x (float (/ w 2.0))
+        :y (float (/ h 2.0))}
        (float rotation)
        colors/white)))
   (rtd/draw-text! "DRAWING BOUNCING BALL INSIDE RENDER TEXTURE!"

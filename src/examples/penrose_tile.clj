@@ -106,7 +106,9 @@
 
           :else (recur (inc i) pos angle stack repeats out))))))
 
-(defn initial-state [] {:generations 0 :production axiom :steps 0})
+(defn initial-state [] {:generations 0
+                        :production axiom
+                        :steps 0})
 
 (def game-atom (atom (initial-state)))
 
@@ -116,7 +118,8 @@
   (rct/set-target-fps! 120)
   (debug-stats/enable!))
 
-(defn tick [{:keys [generations] :as state}]
+(defn tick [{:keys [generations]
+             :as state}]
   (debug-stats/update!)
   (let [g (cond
             (and (rck/is-key-pressed? (:up enums/keyboard-key))
@@ -126,7 +129,9 @@
             :else generations)]
     (if (not= g generations)
       ;; Regrow from the axiom and restart the reveal.
-      {:generations g :production (grow g) :steps 0}
+      {:generations g
+       :production (grow g)
+       :steps 0}
       (update state :steps + steps-per-frame))))
 
 (defn draw [{:keys [generations production steps]}]
@@ -136,8 +141,10 @@
     (let [cx (/ screen-width 2.0) cy (/ screen-height 2.0)
           ink (ru/fade colors/black (float 0.2))]
       (doseq [[x1 y1 x2 y2] (turtle-segments production steps (draw-length generations))]
-        (rsb/draw-line-ex! {:x (float (+ x1 cx)) :y (float (+ y1 cy))}
-                           {:x (float (+ x2 cx)) :y (float (+ y2 cy))}
+        (rsb/draw-line-ex! {:x (float (+ x1 cx))
+                            :y (float (+ y1 cy))}
+                           {:x (float (+ x2 cx))
+                            :y (float (+ y2 cy))}
                            (float 2.0) ink))))
   (rtd/draw-text! "penrose l-system" 10 10 20 colors/darkgray)
   (rtd/draw-text! "press up or down to change generations" 10 30 20 colors/darkgray)

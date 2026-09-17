@@ -34,15 +34,26 @@
 (def screen-width 800)
 (def screen-height 450)
 
-(def map-position {:x -16.0 :y 0.0 :z -8.0})
+(def map-position {:x -16.0
+                   :y 0.0
+                   :z -8.0})
 
 (defn initial-state []
-  {:camera {:position {:x 16.0 :y 14.0 :z 16.0}
-            :target {:x 0.0 :y 0.0 :z 0.0}
-            :up {:x 0.0 :y 1.0 :z 0.0}
+  {:camera {:position {:x 16.0
+                       :y 14.0
+                       :z 16.0}
+            :target {:x 0.0
+                     :y 0.0
+                     :z 0.0}
+            :up {:x 0.0
+                 :y 1.0
+                 :z 0.0}
             :fovy 45.0
             :projection rc3d/CAMERA_PERSPECTIVE}
-   :pause? false :model nil :cubicmap nil :atlas nil})
+   :pause? false
+   :model nil
+   :cubicmap nil
+   :atlas nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -50,7 +61,9 @@
   (rcw/init-window! screen-width screen-height "raylib [models] example - cubicmap rendering")
   (let [image (rtl/load-image "resources/cubicmap.png")
         cubicmap (rtl/load-texture-from-image image)
-        model (rm/load-model-from-mesh (rm/gen-mesh-cubicmap image {:x 1.0 :y 1.0 :z 1.0}))
+        model (rm/load-model-from-mesh (rm/gen-mesh-cubicmap image {:x 1.0
+                                                                    :y 1.0
+                                                                    :z 1.0}))
         atlas (rtl/load-texture! "resources/cubicmap_atlas.png")]
     (rm/set-model-material-texture! model atlas)
     ;; Safe here: the texture and the mesh are both on the GPU already, so
@@ -60,7 +73,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [camera pause?] :as state}]
+(defn tick [{:keys [camera pause?]
+             :as state}]
   (debug-stats/update!)
   (let [pause? (if (rck/is-key-pressed? (:p enums/keyboard-key)) (not pause?) pause?)]
     (assoc state
@@ -77,7 +91,8 @@
   ;; The source bitmap, drawn 4x so its pixels are legible.
   (let [w (:width cubicmap) h (:height cubicmap)
         x (- screen-width (* w 4.0) 20)]
-    (rtl/draw-texture-ex! cubicmap {:x (float x) :y 20.0} 0.0 4.0 colors/white)
+    (rtl/draw-texture-ex! cubicmap {:x (float x)
+                                    :y 20.0} 0.0 4.0 colors/white)
     (rsb/draw-rectangle-lines! (int x) 20 (* w 4) (* h 4) colors/green))
   (rtd/draw-text! "cubicmap image used to" 658 90 10 colors/gray)
   (rtd/draw-text! "generate map 3d model" 658 104 10 colors/gray)

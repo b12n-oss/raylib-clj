@@ -72,7 +72,9 @@
   [position]
   (get (read-ints) position 0))
 
-(defn initial-state [] {:score 0 :hiscore 0 :frames 0})
+(defn initial-state [] {:score 0
+                        :hiscore 0
+                        :frames 0})
 
 (def game-atom (atom (initial-state)))
 
@@ -81,7 +83,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [score hiscore] :as state}]
+(defn tick [{:keys [score hiscore]
+             :as state}]
   (debug-stats/update!)
   (let [[score hiscore]
         (cond

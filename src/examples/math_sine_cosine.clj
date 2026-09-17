@@ -38,8 +38,12 @@
 
 (def wave-points 36)
 (def radius 130.0)
-(def centre {:x (- (/ screen-width 2.0) 30.0) :y (/ screen-height 2.0)})
-(def graph {:x 20.0 :y (- screen-height 120.0) :width 200.0 :height 100.0})
+(def centre {:x (- (/ screen-width 2.0) 30.0)
+             :y (/ screen-height 2.0)})
+(def graph {:x 20.0
+            :y (- screen-height 120.0)
+            :width 200.0
+            :height 100.0})
 
 (defn wave
   "One period of `f` sampled across the graph box, as spline points."
@@ -68,17 +72,27 @@
         cotangent (if (> (Math/abs tangent) 0.001)
                     (rm/clamp (/ 1.0 tangent) (- radius) radius)
                     0.0)]
-    {:rad rad :cos cos-r :sin sin-r :tangent tangent :cotangent cotangent
-     :point {:x (+ (:x centre) (* cos-r radius)) :y (- (:y centre) (* sin-r radius))}
-     :limit-min {:x (- (:x centre) radius) :y (- (:y centre) radius)}
-     :limit-max {:x (+ (:x centre) radius) :y (+ (:y centre) radius)}
-     :tangent-point {:x (+ (:x centre) radius) :y (- (:y centre) (* tangent radius))}
-     :cotangent-point {:x (+ (:x centre) (* cotangent radius)) :y (- (:y centre) radius)}
+    {:rad rad
+     :cos cos-r
+     :sin sin-r
+     :tangent tangent
+     :cotangent cotangent
+     :point {:x (+ (:x centre) (* cos-r radius))
+             :y (- (:y centre) (* sin-r radius))}
+     :limit-min {:x (- (:x centre) radius)
+                 :y (- (:y centre) radius)}
+     :limit-max {:x (+ (:x centre) radius)
+                 :y (+ (:y centre) radius)}
+     :tangent-point {:x (+ (:x centre) radius)
+                     :y (- (:y centre) (* tangent radius))}
+     :cotangent-point {:x (+ (:x centre) (* cotangent radius))
+                       :y (- (:y centre) radius)}
      :complementary (- 90.0 angle)
      :supplementary (- 180.0 angle)
      :explementary (- 360.0 angle)}))
 
-(defn initial-state [] {:angle 0.0 :pause? false})
+(defn initial-state [] {:angle 0.0
+                        :pause? false})
 
 (def game-atom (atom (initial-state)))
 
@@ -88,13 +102,16 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [angle pause?] :as state}]
+(defn tick [{:keys [angle pause?]
+             :as state}]
   (debug-stats/update!)
   (assoc state :angle (rm/wrap (+ angle (if pause? 0.0 1.0)) 0.0 360.0)))
 
-(defn- v2 [x y] {:x (float x) :y (float y)})
+(defn- v2 [x y] {:x (float x)
+                 :y (float y)})
 
-(defn draw [{:keys [angle pause?] :as state}]
+(defn draw [{:keys [angle pause?]
+             :as state}]
   (let [{:keys [cos sin tangent cotangent point limit-min limit-max
                 tangent-point cotangent-point
                 complementary supplementary explementary]} (trig-state angle)
@@ -107,9 +124,15 @@
                        (v2 (:x cotangent-point) (:y limit-min)) 2.0 colors/orange)
     (rsb/draw-dashed-line! centre cotangent-point 10 4 colors/orange)
 
-    (rsb/draw-line! 580 0 580 (rcw/get-screen-height) {:r 218 :g 218 :b 218 :a 255})
+    (rsb/draw-line! 580 0 580 (rcw/get-screen-height) {:r 218
+                                                       :g 218
+                                                       :b 218
+                                                       :a 255})
     (rsb/draw-rectangle! 580 0 (rcw/get-screen-width) (rcw/get-screen-height)
-                         {:r 232 :g 232 :b 232 :a 255})
+                         {:r 232
+                          :g 232
+                          :b 232
+                          :a 255})
 
     (rsb/draw-circle-lines-v! (v2 (:x centre) (:y centre)) (float radius) colors/gray)
     (rsb/draw-line-ex! (v2 (:x centre) (:y limit-min)) (v2 (:x centre) (:y limit-max)) 1.0 colors/gray)
@@ -127,7 +150,8 @@
 
     ;; Sine (red, vertical) and its wave.
     (rsb/draw-line-ex! (v2 (:x centre) (:y centre)) (v2 (:x centre) (:y point)) 2.0 colors/red)
-    (rsb/draw-dashed-line! {:x (:x point) :y (:y centre)} point 10 4 colors/red)
+    (rsb/draw-dashed-line! {:x (:x point)
+                            :y (:y centre)} point 10 4 colors/red)
     (rtd/draw-text! (format "Sine %.2f" sin) 640 190 6 colors/red)
     (rsb/draw-circle-v! (v2 (+ gx (* (/ angle 360.0) gw))
                             (+ gy (* (+ (- sin) 1) (/ gh 2.0)))) 4.0 colors/red)
@@ -135,7 +159,8 @@
 
     ;; Cosine (blue, horizontal) and its wave.
     (rsb/draw-line-ex! (v2 (:x centre) (:y centre)) (v2 (:x point) (:y centre)) 2.0 colors/blue)
-    (rsb/draw-dashed-line! {:x (:x centre) :y (:y point)} point 10 4 colors/blue)
+    (rsb/draw-dashed-line! {:x (:x centre)
+                            :y (:y point)} point 10 4 colors/blue)
     (rtd/draw-text! (format "Cosine %.2f" cos) 640 210 6 colors/blue)
     (rsb/draw-circle-v! (v2 (+ gx (* (/ angle 360.0) gw))
                             (+ gy (* (+ (- cos) 1) (/ gh 2.0)))) 4.0 colors/blue)
@@ -162,11 +187,20 @@
     (rsb/draw-circle-v! (v2 (:x point) (:y point)) 4.0 colors/black)
 
     (gui/set-style! :label :text-normal (ru/color-to-int colors/gray))
-    (let [pause? (gui/toggle {:x 640.0 :y 70.0 :width 120.0 :height 20.0} "Pause" pause?)]
+    (let [pause? (gui/toggle {:x 640.0
+                              :y 70.0
+                              :width 120.0
+                              :height 20.0} "Pause" pause?)]
       (gui/set-style! :label :text-normal (ru/color-to-int colors/lime))
-      (let [angle (gui/slider-bar {:x 640.0 :y 40.0 :width 120.0 :height 20.0}
+      (let [angle (gui/slider-bar {:x 640.0
+                                   :y 40.0
+                                   :width 120.0
+                                   :height 20.0}
                                   "Angle" (format "%.0f" angle) angle 0.0 360.0)]
-        (gui/group-box {:x 620.0 :y 110.0 :width 140.0 :height 170.0} "Angle Values")
+        (gui/group-box {:x 620.0
+                        :y 110.0
+                        :width 140.0
+                        :height 170.0} "Angle Values")
         (rtd/draw-fps! 10 10)
         (debug-stats/draw!)
         (rcd/end-drawing!)

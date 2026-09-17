@@ -50,7 +50,8 @@
     (rtl/set-texture-filter! (:texture target) TEXTURE-FILTER-BILINEAR)
     (swap! game-atom assoc :target target)))
 
-(defn tick [{:keys [bar-colors] :as state}]
+(defn tick [{:keys [bar-colors]
+             :as state}]
   (debug-stats/update!)
   (if (rck/is-key-pressed? (:space enums/keyboard-key))
     (assoc state :bar-colors (vec (repeatedly 10 random-color)))
@@ -64,9 +65,9 @@
                    (/ (float (rcw/get-screen-height)) game-screen-height))
         mouse (rcm/get-mouse-position)
         virtual-mouse-x (clamp (/ (- (:x mouse) (* (- (rcw/get-screen-width) (* game-screen-width scale)) 0.5)) scale)
-                                0.0 (float game-screen-width))
+                               0.0 (float game-screen-width))
         virtual-mouse-y (clamp (/ (- (:y mouse) (* (- (rcw/get-screen-height) (* game-screen-height scale)) 0.5)) scale)
-                                0.0 (float game-screen-height))]
+                               0.0 (float game-screen-height))]
 
     ;; Draw to render texture
     (when target
@@ -98,9 +99,16 @@
             offset-y (* (- (rcw/get-screen-height) dest-h) 0.5)]
         (rtl/draw-texture-pro!
          tex
-         {:x 0.0 :y 0.0 :width (float (:width tex)) :height (float (- (:height tex)))}
-         {:x (float offset-x) :y (float offset-y) :width (float dest-w) :height (float dest-h)}
-         {:x 0.0 :y 0.0}
+         {:x 0.0
+          :y 0.0
+          :width (float (:width tex))
+          :height (float (- (:height tex)))}
+         {:x (float offset-x)
+          :y (float offset-y)
+          :width (float dest-w)
+          :height (float dest-h)}
+         {:x 0.0
+          :y 0.0}
          (float 0.0)
          colors/white)))
 

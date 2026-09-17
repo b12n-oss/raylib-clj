@@ -23,7 +23,8 @@
 (def screen-height 400)
 
 (def line-length 150.0)
-(def center {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
+(def center {:x (/ screen-width 2.0)
+             :y (/ screen-height 2.0)})
 
 ;; The C keeps a parallel angles[] and a switch over the index for colour.
 ;; One vector of pairs says the same thing without the index bookkeeping.

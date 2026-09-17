@@ -47,7 +47,8 @@
   (debug-stats/enable!))
 
 (defn tick [{:keys [state frames-counter letters-count
-                    top-width left-height bottom-width right-height alpha] :as game}]
+                    top-width left-height bottom-width right-height alpha]
+             :as game}]
   (debug-stats/update!)
   (case state
     ;; State 0: Small box blinking

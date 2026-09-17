@@ -68,7 +68,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [state frames] :as game-state}]
+(defn tick [{:keys [state frames]
+             :as game-state}]
   (debug-stats/update!)
   (let [frames (inc frames)]
     (cond
@@ -109,7 +110,7 @@
     (rsb/draw-rectangle! 0 0 screen-width screen-height colors/green))
 
   (rsb/draw-circle! ball-x 200 (float ball-radius)
-                     (ru/fade colors/red (float (- 1.0 ball-alpha))))
+                    (ru/fade colors/red (float (- 1.0 ball-alpha))))
 
   (when (= state 3)
     (rtd/draw-text! "PRESS [ENTER] TO PLAY AGAIN!" 240 200 20 colors/black))

@@ -368,22 +368,22 @@
                    :task (h/run-example! "double-pendulum")}
 
   penrose-tile {:doc "🔷 Penrose Tile - l-system penrose tiling drawn by turtle"
-               :task (h/run-example! "penrose-tile")}
+                :task (h/run-example! "penrose-tile")}
 
   bullet-hell {:doc "🔴 Bullet Hell - throughput test firing rows of bullets"
-              :task (h/run-example! "bullet-hell")}
+               :task (h/run-example! "bullet-hell")}
 
   viewport-scaling {:doc "🖼️  Viewport Scaling - six ways to fit a game onto a resizable window"
-                   :task (h/run-example! "viewport-scaling")}
+                    :task (h/run-example! "viewport-scaling")}
 
   keyboard-testbed {:doc "⌨️  Keyboard Testbed - on-screen keyboard showing what raylib reports"
-                   :task (h/run-example! "keyboard-testbed")}
+                    :task (h/run-example! "keyboard-testbed")}
 
   input-actions {:doc "🎯 Input Actions - remappable action layer over keys and gamepad"
-                :task (h/run-example! "input-actions")}
+                 :task (h/run-example! "input-actions")}
 
   circle-sector-drawing {:doc "🥧 Circle Sector Drawing - sector params on raygui sliders"
-                        :task (h/run-example! "circle-sector-drawing")}
+                         :task (h/run-example! "circle-sector-drawing")}
 
   ring-drawing {:doc "🍩 Ring Drawing - ring params on raygui sliders"
                 :task (h/run-example! "ring-drawing")}
@@ -398,25 +398,25 @@
                              :task (h/run-example! "rounded-rectangle-drawing")}
 
   hilbert-curve {:doc "🌀 Hilbert Curve - space-filling curve with a raygui spinner"
-                :task (h/run-example! "hilbert-curve")}
+                 :task (h/run-example! "hilbert-curve")}
 
   math-sine-cosine {:doc "📐 Math Sine Cosine - unit circle trig visualised"
-                   :task (h/run-example! "math-sine-cosine")}
+                    :task (h/run-example! "math-sine-cosine")}
 
   clipboard-text {:doc "📋 Clipboard Text - cut/copy/paste with the system clipboard"
-                 :task (h/run-example! "clipboard-text")}
+                  :task (h/run-example! "clipboard-text")}
 
   tiled-drawing {:doc "🧱 Tiled Drawing - tile a texture patch across a resizable window"
-                :task (h/run-example! "tiled-drawing")}
+                 :task (h/run-example! "tiled-drawing")}
 
   palette-switch {:doc "🎨 Palette Switch - shader remaps index-encoded bands"
-                 :task (h/run-example! "palette-switch")}
+                  :task (h/run-example! "palette-switch")}
 
   ascii-rendering {:doc "🔤 Ascii Rendering - post-process the scene into ASCII glyphs"
-                  :task (h/run-example! "ascii-rendering")}
+                   :task (h/run-example! "ascii-rendering")}
 
   basic-voxel {:doc "🧊 Basic Voxel - walk an 8x8x8 block and shoot cubes away"
-              :task (h/run-example! "basic-voxel")}
+               :task (h/run-example! "basic-voxel")}
   billboard-rendering {:doc "🖼️  Billboard Rendering - camera-facing sprites, depth-sorted"
                        :task (h/run-example! "billboard-rendering")}
   cubicmap-rendering {:doc "🧱 Cubicmap Rendering - a 3D maze generated from a PNG"
@@ -425,43 +425,43 @@
                        :task (h/run-example! "heightmap-rendering")}
 
   easings-testbed {:doc "🔷 Easings Testbed - all 28 easing curves, one per axis"
-                  :task (h/run-example! "easings-testbed")}
+                   :task (h/run-example! "easings-testbed")}
 
   undo-redo {:doc "📦 Undo Redo - ring-buffer undo history on a grid"
-            :task (h/run-example! "undo-redo")}
+             :task (h/run-example! "undo-redo")}
 
   storage-values {:doc "📦 Storage Values - save and load scores to a file"
-                 :task (h/run-example! "storage-values")}
+                  :task (h/run-example! "storage-values")}
 
   input-virtual-controls {:doc "📦 Input Virtual Controls - on-screen d-pad"
-                         :task (h/run-example! "input-virtual-controls")}
+                          :task (h/run-example! "input-virtual-controls")}
 
   input-gestures {:doc "📦 Input Gestures - log of detected touch gestures"
-                 :task (h/run-example! "input-gestures")}
+                  :task (h/run-example! "input-gestures")}
 
   camera-2d-split-screen {:doc "📦 Camera 2D Split Screen - two players, two cameras, one grid"
-                         :task (h/run-example! "camera-2d-split-screen")}
+                          :task (h/run-example! "camera-2d-split-screen")}
 
   clock-of-clocks {:doc "🔷 Clock Of Clocks - digits drawn from a grid of analogue clocks"
-                  :task (h/run-example! "clock-of-clocks")}
+                   :task (h/run-example! "clock-of-clocks")}
 
   render-texture {:doc "📦 Render Texture - bouncing ball drawn into an offscreen target"
-                 :task (h/run-example! "render-texture")}
+                  :task (h/run-example! "render-texture")}
 
   smooth-pixelperfect {:doc "📦 Smooth Pixelperfect - pixel-aligned world, sub-pixel smooth camera"
-                      :task (h/run-example! "smooth-pixelperfect")}
+                       :task (h/run-example! "smooth-pixelperfect")}
 
   srcrec-dstrec {:doc "🖼️ Srcrec Dstrec - source/destination rects with rotation"
-                :task (h/run-example! "srcrec-dstrec")}
+                 :task (h/run-example! "srcrec-dstrec")}
 
   delta-time {:doc "📦 Delta Time - frame-rate independent vs fixed-step motion"
-             :task (h/run-example! "delta-time")}
+              :task (h/run-example! "delta-time")}
 
   camera-3d-mode {:doc "📦 Camera 3D Mode - minimal 3d scene - cube on a grid"
-                 :task (h/run-example! "camera-3d-mode")}
+                  :task (h/run-example! "camera-3d-mode")}
 
   input-multitouch {:doc "📦 Input Multitouch - numbered circle per touch point"
-                   :task (h/run-example! "input-multitouch")}
+                    :task (h/run-example! "input-multitouch")}
 
   ellipse-collision {:doc "🔷 Ellipse Collision - steer one ellipse into another"
                      :task (h/run-example! "ellipse-collision")}
@@ -616,7 +616,8 @@
          site-host "raylib-clj.b12n.app"
          hdr       (fn [label] (println (str "\n-- " label " --")))
          dirty?    (fn [dir path]
-                     (let [res (shell {:dir dir :out :string} "git" "status" "--short" "--" path)]
+                     (let [res (shell {:dir dir
+                                       :out :string} "git" "status" "--short" "--" path)]
                        (not (str/blank? (:out res)))))
          ;; Returns a keyword rather than exiting, so one repo's failure does not
          ;; block the other. `git add`/`git commit` are scoped to `path` - never
@@ -637,10 +638,12 @@
                                           "  nothing to commit (--no-push)"))
                                :ok)
                            (do
-                             (shell {:dir dir :continue true} "git" "fetch" "origin")
+                             (shell {:dir dir
+                                     :continue true} "git" "fetch" "origin")
                              ;; One status read for every check, so a diverged branch cannot slip
                              ;; between them.
-                             (let [st (:out (shell {:dir dir :out :string} "git" "status" "--short" "--branch"))]
+                             (let [st (:out (shell {:dir dir
+                                                    :out :string} "git" "status" "--short" "--branch"))]
                                (cond
                                  (str/includes? st "behind")
                                  (do (println (str "  BEHIND origin - resolve manually (cd " dir " && git pull --rebase), not auto-pushing"))
@@ -658,7 +661,8 @@
                                  (do (println "  up to date, nothing to push") :skipped)
 
                                  :else
-                                 (let [pr (shell {:dir dir :continue true} "git" "push" "origin" "main")]
+                                 (let [pr (shell {:dir dir
+                                                  :continue true} "git" "push" "origin" "main")]
                                    (if (zero? (:exit pr))
                                      (do (println (if committed?
                                                     "  committed + pushed"
@@ -682,7 +686,9 @@
                        (do (println "  DEPLOY SKIPPED - aws CLI not on PATH.") :aws-missing)
 
                        :else
-                       (let [probe (shell {:continue true :out :string :err :string}
+                       (let [probe (shell {:continue true
+                                           :out :string
+                                           :err :string}
                                           "aws" "s3api" "head-bucket"
                                           "--bucket" bucket "--profile" "b12n")]
                          (if-not (zero? (:exit probe))
@@ -743,7 +749,8 @@
                              (if-not (zero? (:exit sync-res))
                                (do (println "  S3 SYNC FAILED") :sync-failed)
                                (let [q (str "DistributionList.Items[?contains(Aliases.Items, `" site-host "`)].Id | [0]")
-                                     dist (shell {:continue true :out :string}
+                                     dist (shell {:continue true
+                                                  :out :string}
                                                  "aws" "cloudfront" "list-distributions"
                                                  "--profile" "b12n" "--query" q "--output" "text")
                                      id (str/trim (or (:out dist) ""))]
@@ -759,17 +766,22 @@
                                        (do (println (str "  synced + invalidated (" id ") - https://" site-host)) :ok)
                                        (do (println "  synced, but INVALIDATION FAILED") :invalidation-failed)))))))))))]
      (hdr "1/4 Rebuild site")
-     (let [res       (shell {:dir docs-repo :continue true} "bb" "site:build" "b12n-raylib-clj")
+     (let [res       (shell {:dir docs-repo
+                             :continue true} "bb" "site:build" "b12n-raylib-clj")
            build-ok? (zero? (:exit res))]
        (when-not build-ok? (println "  bb site:build FAILED"))
        (let [site-result (if build-ok?
-                           (sync! {:label "2/4 b12n-raylib-clj.github.io" :dir site-repo :path "docs"
+                           (sync! {:label "2/4 b12n-raylib-clj.github.io"
+                                   :dir site-repo
+                                   :path "docs"
                                    :msg "chore: rebuild docs (bb docs-sync)"})
                            :build-failed)]
          (fs/create-dirs wiki-dir)
          (doseq [f (fs/glob guide-dir "*.md")]
            (fs/copy f (str wiki-dir "/" (fs/file-name f)) {:replace-existing true}))
-         (let [wiki-result (sync! {:label "3/4 b12n-wikis" :dir wiki-repo :path "b12n-raylib-clj"
+         (let [wiki-result (sync! {:label "3/4 b12n-wikis"
+                                   :dir wiki-repo
+                                   :path "b12n-raylib-clj"
                                    :msg "b12n-raylib-clj: mirror docs/guide (bb docs-sync)"})
                deploy-result (deploy!)]
            (hdr "Summary")

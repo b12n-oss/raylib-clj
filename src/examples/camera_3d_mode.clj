@@ -22,13 +22,21 @@
 (def screen-height 450)
 
 (def camera
-  {:position {:x 0.0 :y 10.0 :z 10.0}
-   :target   {:x 0.0 :y 0.0  :z 0.0}
-   :up       {:x 0.0 :y 1.0  :z 0.0}
+  {:position {:x 0.0
+              :y 10.0
+              :z 10.0}
+   :target   {:x 0.0
+              :y 0.0
+              :z 0.0}
+   :up       {:x 0.0
+              :y 1.0
+              :z 0.0}
    :fovy     45.0
    :projection rc3d/CAMERA_PERSPECTIVE})
 
-(def cube-position {:x 0.0 :y 0.0 :z 0.0})
+(def cube-position {:x 0.0
+                    :y 0.0
+                    :z 0.0})
 
 (defn init []
   (rcw/init-window! screen-width screen-height

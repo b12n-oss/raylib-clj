@@ -40,8 +40,10 @@
 (def grid-cell-size 24)
 (def grid-cells-x 30)
 (def grid-cells-y 13)
-(def grid-position {:x 40 :y 60})
-(def undo-info-position {:x 110 :y 400})
+(def grid-position {:x 40
+                    :y 60})
+(def undo-info-position {:x 110
+                         :y 400})
 
 (defn ring-seq
   "Slot indices from `from` up to but not including `to`, wrapping at
@@ -54,13 +56,17 @@
     (concat (range from max-undo-states) (range 0 to))))
 
 (defn initial-state []
-  (let [player {:cell {:x 10 :y 10} :color colors/red}]
+  (let [player {:cell {:x 10
+                       :y 10}
+                :color colors/red}]
     {:player player
      ;; Every slot starts as the initial player, matching the C's calloc +
      ;; memcpy loop, so an undo before any edit is a no-op rather than a
      ;; jump to a zeroed cell.
      :states (vec (repeat max-undo-states player))
-     :current 0 :first 0 :last 0
+     :current 0
+     :first 0
+     :last 0
      :frame-counter 0}))
 
 (def game-atom (atom (initial-state)))
@@ -75,7 +81,8 @@
 (defn- move-player
   "Arrow keys move one cell. if/else-if like the C, so a diagonal press
    resolves to one axis rather than both."
-  [{:keys [cell] :as player}]
+  [{:keys [cell]
+    :as player}]
   (let [k (fn [n] (rck/is-key-pressed? (get enums/keyboard-key n)))
         {:keys [x y]} cell
         [x y] (cond
@@ -99,7 +106,8 @@
   "Snapshot the player if it differs from the slot we are sitting on.
    Advancing `current` past `first` evicts the oldest entry, which is what
    makes this a ring rather than a stack."
-  [{:keys [player states current first] :as state}]
+  [{:keys [player states current first]
+    :as state}]
   (if (= player (nth states current))
     state
     (let [current' (mod (inc current) max-undo-states)
@@ -110,13 +118,15 @@
              :first first'
              :last current'))))
 
-(defn- undo [{:keys [current first states] :as state}]
+(defn- undo [{:keys [current first states]
+              :as state}]
   (if (= current first)
     state
     (let [current' (mod (dec current) max-undo-states)]
       (assoc state :current current' :player (nth states current')))))
 
-(defn- redo [{:keys [current last first states] :as state}]
+(defn- redo [{:keys [current last first states]
+              :as state}]
   (if (= current last)
     state
     (let [next' (mod (inc current) max-undo-states)]
@@ -142,17 +152,21 @@
 (defn- cell-rect [{:keys [x y]} pad]
   {:x (float (+ (:x grid-position) (* x grid-cell-size)))
    :y (float (+ (:y grid-position) (* y grid-cell-size)))
-   :width (float (+ grid-cell-size pad)) :height (float (+ grid-cell-size pad))})
+   :width (float (+ grid-cell-size pad))
+   :height (float (+ grid-cell-size pad))})
 
 (defn- draw-undo-buffer
   "The strip along the bottom: every slot, the filled span in blue, the
    already-undone span in green, the current slot in gold, plus markers for
    first (outline, left) and last (solid, right)."
   [{:keys [first last current]}]
-  (let [{px :x py :y} undo-info-position
+  (let [{px :x
+         py :y} undo-info-position
         slot 24
-        slot-rect (fn [i] {:x (float (+ px (* slot i))) :y (float py)
-                           :width (float slot) :height (float slot)})
+        slot-rect (fn [i] {:x (float (+ px (* slot i)))
+                           :y (float py)
+                           :width (float slot)
+                           :height (float slot)})
         fill (fn [idxs bg edge]
                (doseq [i idxs]
                  (rsb/draw-rectangle-rec! (slot-rect i) bg)
@@ -167,7 +181,8 @@
     (rsb/draw-rectangle-lines! (+ px 2 (* slot first)) (+ py 27) 8 8 colors/black)
     (rsb/draw-rectangle! (+ px 14 (* slot last)) (+ py 27) 8 8 colors/black)))
 
-(defn draw [{:keys [player states first current] :as state}]
+(defn draw [{:keys [player states first current]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
   (rtd/draw-text! "[ARROWS] MOVE PLAYER - [SPACE] CHANGE PLAYER COLOR" 40 20 20 colors/darkgray)

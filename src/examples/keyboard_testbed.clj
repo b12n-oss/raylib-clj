@@ -98,9 +98,12 @@
   (first
    (reduce (fn [[acc x] [k label width]]
              (let [w (or width default-key-width)]
-               [(conj acc {:rect {:x (float x) :y (float y)
-                                  :width (float w) :height (float height)}
-                           :key (keycode k) :label label})
+               [(conj acc {:rect {:x (float x)
+                                  :y (float y)
+                                  :width (float w)
+                                  :height (float height)}
+                           :key (keycode k)
+                           :label label})
                 (+ x w key-spacing)]))
            [[] offset-x] keys)))
 

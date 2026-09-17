@@ -45,16 +45,27 @@
 (def symmetry 6)
 (def thickness 3.0)
 
-(def offset {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
+(def offset {:x (/ screen-width 2.0)
+             :y (/ screen-height 2.0)})
 
 ;; Mirroring across the horizontal is a component-wise multiply by (1, -1),
 ;; which is why the C reaches for Vector2Multiply rather than a negate.
-(def mirror {:x 1.0 :y -1.0})
+(def mirror {:x 1.0
+             :y -1.0})
 
 (def buttons
-  {:reset {:x (- screen-width 55.0) :y 5.0 :width 50.0 :height 25.0}
-   :back  {:x (- screen-width 55.0) :y (- screen-height 30.0) :width 25.0 :height 25.0}
-   :next  {:x (- screen-width 30.0) :y (- screen-height 30.0) :width 25.0 :height 25.0}})
+  {:reset {:x (- screen-width 55.0)
+           :y 5.0
+           :width 50.0
+           :height 25.0}
+   :back  {:x (- screen-width 55.0)
+           :y (- screen-height 30.0)
+           :width 25.0
+           :height 25.0}
+   :next  {:x (- screen-width 30.0)
+           :y (- screen-height 30.0)
+           :width 25.0
+           :height 25.0}})
 
 (defn stroke-lines
   "The lines one mouse movement contributes: for each of `symmetry` steps,
@@ -72,16 +83,27 @@
         (let [a (rm/v2-rotate a step)
               b (rm/v2-rotate b step)]
           (recur (conj acc
-                       {:start a :end b}
-                       {:start (rm/v2-multiply a mirror) :end (rm/v2-multiply b mirror)})
+                       {:start a
+                        :end b}
+                       {:start (rm/v2-multiply a mirror)
+                        :end (rm/v2-multiply b mirror)})
                  (inc s) a b))))))
 
 (defn initial-state []
-  {:lines [] :shown 0 :mouse {:x 0.0 :y 0.0} :prev-mouse {:x 0.0 :y 0.0}})
+  {:lines []
+   :shown 0
+   :mouse {:x 0.0
+           :y 0.0}
+   :prev-mouse {:x 0.0
+                :y 0.0}})
 
 (def game-atom (atom (initial-state)))
 
-(def camera {:offset offset :target {:x 0.0 :y 0.0} :rotation 0.0 :zoom 1.0})
+(def camera {:offset offset
+             :target {:x 0.0
+                      :y 0.0}
+             :rotation 0.0
+             :zoom 1.0})
 
 (defn init []
   (rcw/init-window! screen-width screen-height "raylib [shapes] example - kaleidoscope")
@@ -93,7 +115,8 @@
 (defn- over-a-button? [point]
   (some (fn [r] (pos? (rcol/check-collision-point-rec? point r))) (vals buttons)))
 
-(defn tick [{:keys [lines shown mouse] :as state}]
+(defn tick [{:keys [lines shown mouse]
+             :as state}]
   (debug-stats/update!)
   (let [prev-mouse mouse
         mouse (rcm/get-mouse-position)
@@ -110,13 +133,16 @@
            ;; is what makes shown lag the total.
            :shown (if new-lines (count lines) shown))))
 
-(defn draw [{:keys [lines shown] :as state}]
+(defn draw [{:keys [lines shown]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
   (rc2/begin-mode-2d! camera)
   (doseq [{:keys [start end]} (take shown lines)]
-    (rsb/draw-line-ex! {:x (float (:x start)) :y (float (:y start))}
-                       {:x (float (:x end)) :y (float (:y end))}
+    (rsb/draw-line-ex! {:x (float (:x start))
+                        :y (float (:y start))}
+                       {:x (float (:x end))
+                        :y (float (:y end))}
                        (float thickness) colors/black))
   (rc2/end-mode-2d!)
 

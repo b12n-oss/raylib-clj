@@ -25,7 +25,8 @@
 
 (defn initial-state []
   {:start-text true
-   :prev-mouse {:x 0.0 :y 0.0}
+   :prev-mouse {:x 0.0
+                :y 0.0}
    :line-thickness 8.0
    :line-hue 0.0
    :canvas nil})
@@ -48,7 +49,8 @@
         dy (- (:y b) (:y a))]
     (Math/sqrt (+ (* dx dx) (* dy dy)))))
 
-(defn tick [{:keys [canvas start-text prev-mouse line-thickness line-hue] :as state}]
+(defn tick [{:keys [canvas start-text prev-mouse line-thickness line-hue]
+             :as state}]
   (debug-stats/update!)
   (let [mouse-pos (rcm/get-mouse-position)
         start-text (if (and start-text (rcm/is-mouse-button-pressed? (:left enums/mouse-button)))
@@ -93,15 +95,22 @@
     (let [tex (:texture canvas)]
       (rtl/draw-texture-rec!
        tex
-       {:x 0.0 :y 0.0 :width (float (:width tex)) :height (float (- (:height tex)))}
-       {:x 0.0 :y 0.0}
+       {:x 0.0
+        :y 0.0
+        :width (float (:width tex))
+        :height (float (- (:height tex)))}
+       {:x 0.0
+        :y 0.0}
        colors/white)))
 
   ;; Draw preview circle when not drawing
   (when-not (rcm/is-mouse-button-down? (:left enums/mouse-button))
     (let [mouse-pos (rcm/get-mouse-position)]
       (rsb/draw-circle-lines-v! mouse-pos (float (/ line-thickness 2.0))
-                                {:r 127 :g 127 :b 127 :a 127})))
+                                {:r 127
+                                 :g 127
+                                 :b 127
+                                 :a 127})))
 
   ;; Draw hint text
   (when start-text

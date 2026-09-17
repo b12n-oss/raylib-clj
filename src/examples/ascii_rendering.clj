@@ -44,9 +44,14 @@
 
 (defn initial-state []
   {:font-size min-font-size
-   :circle-pos {:x 40.0 :y (* screen-height 0.5)}
+   :circle-pos {:x 40.0
+                :y (* screen-height 0.5)}
    :circle-speed 1.0
-   :shader nil :font-size-loc nil :target nil :fudesumi nil :raysan nil})
+   :shader nil
+   :font-size-loc nil
+   :target nil
+   :fudesumi nil
+   :raysan nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -68,7 +73,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [circle-pos circle-speed font-size] :as state}]
+(defn tick [{:keys [circle-pos circle-speed font-size]
+             :as state}]
   (debug-stats/update!)
   (let [x (+ (:x circle-pos) circle-speed)
         ;; Bounce between 40 and 200. The C flips the sign AFTER stepping,
@@ -92,7 +98,8 @@
   (rcd/clear-background! colors/white)
   (rtdw/draw-texture! fudesumi 500 -30 colors/white)
   (rtl/draw-texture-v! raysan
-                       {:x (float (:x circle-pos)) :y (float (:y circle-pos))}
+                       {:x (float (:x circle-pos))
+                        :y (float (:y circle-pos))}
                        colors/white)
   (rtl/end-texture-mode!)
 
@@ -102,11 +109,13 @@
   (rcs/begin-shader-mode! shader)
   (let [tex (:texture target)]
     (rtl/draw-texture-rec! tex
-                           {:x 0.0 :y 0.0
+                           {:x 0.0
+                            :y 0.0
                             :width (float (:width tex))
                             ;; Negative: flips the bottom-up GL target upright.
                             :height (float (- (:height tex)))}
-                           {:x 0.0 :y 0.0} colors/white))
+                           {:x 0.0
+                            :y 0.0} colors/white))
   (rcs/end-shader-mode!)
 
   (rsb/draw-rectangle! 0 0 screen-width 40 colors/black)

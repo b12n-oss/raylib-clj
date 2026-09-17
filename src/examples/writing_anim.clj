@@ -32,13 +32,14 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [frames-counter] :as state}]
+(defn tick [{:keys [frames-counter]
+             :as state}]
   (debug-stats/update!)
   (let [frames-counter (if (rck/is-key-pressed? (:enter enums/keyboard-key))
-                          0
-                          (if (rck/is-key-down? (:space enums/keyboard-key))
-                            (+ frames-counter 8)
-                            (inc frames-counter)))]
+                         0
+                         (if (rck/is-key-down? (:space enums/keyboard-key))
+                           (+ frames-counter 8)
+                           (inc frames-counter)))]
     (assoc state :frames-counter frames-counter)))
 
 (defn draw [{:keys [frames-counter]}]

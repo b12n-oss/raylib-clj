@@ -55,7 +55,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [state frames-counter] :as s}]
+(defn tick [{:keys [state frames-counter]
+             :as s}]
   (debug-stats/update!)
   (case state
     ;; Playing
@@ -85,7 +86,8 @@
     (doseq [rec recs]
       (rsb/draw-rectangle-pro!
        rec
-       {:x (float (/ (:width rec) 2)) :y (float (/ (:height rec) 2))}
+       {:x (float (/ (:width rec) 2))
+        :y (float (/ (:height rec) 2))}
        (float rotation)
        colors/red))
     (rtd/draw-text! "PRESS [SPACE] TO PLAY AGAIN!" 240 200 20 colors/gray))

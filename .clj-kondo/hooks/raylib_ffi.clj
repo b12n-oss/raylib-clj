@@ -114,7 +114,8 @@
       ;; A defcfn may carry a wrapper: (defcfn f … ret native-fn [args] body).
       ;; When it does, the wrapper's own fn-tail is the real arity and body, so
       ;; use it verbatim and leave the return type to clj-kondo's inference.
-      (let [wrapper (when (seq more) {:native-fn (first more) :fn-tail (rest more)})]
+      (let [wrapper (when (seq more) {:native-fn (first more)
+                                      :fn-tail (rest more)})]
         (when (and (:native-fn wrapper) (empty? (:fn-tail wrapper)))
           (api/reg-finding!
            {:row (:row (meta node))

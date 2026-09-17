@@ -45,13 +45,19 @@
 (def curves (conj (vec ease/all) ["None" nil]))
 (def none-index (dec (count curves)))
 
-(def start-pos {:x 100.0 :y 100.0})
+(def start-pos {:x 100.0
+                :y 100.0})
 (def travel-x (- 700.0 170.0))
 (def travel-y (- 400.0 170.0))
 
 (defn initial-state []
-  {:ball start-pos :t 0.0 :d 300.0 :paused true :bounded true
-   :easing-x none-index :easing-y none-index})
+  {:ball start-pos
+   :t 0.0
+   :d 300.0
+   :paused true
+   :bounded true
+   :easing-x none-index
+   :easing-y none-index})
 
 (def game-atom (atom (initial-state)))
 
@@ -70,7 +76,8 @@
 (defn- key-pressed? [k] (rck/is-key-pressed? (get enums/keyboard-key k)))
 (defn- key-down? [k] (rck/is-key-down? (get enums/keyboard-key k)))
 
-(defn tick [{:keys [t d paused bounded easing-x easing-y ball] :as state}]
+(defn tick [{:keys [t d paused bounded easing-x easing-y ball]
+             :as state}]
   (debug-stats/update!)
   (let [bounded (if (key-pressed? :t) (not bounded) bounded)
         easing-x (cond (key-pressed? :right) (cycle-index easing-x 1)
@@ -124,7 +131,8 @@
                     20 (- h (* font-size 4)) font-size colors/lightgray)
     (rtd/draw-text! "Use UP or DOWN keys to choose easing for the y axis"
                     20 (- h (* font-size 5)) font-size colors/lightgray))
-  (rsb/draw-circle-v! {:x (float (:x ball)) :y (float (:y ball))}
+  (rsb/draw-circle-v! {:x (float (:x ball))
+                       :y (float (:y ball))}
                       (float 16.0) colors/maroon)
   (debug-stats/draw!)
   (rcd/end-drawing!))

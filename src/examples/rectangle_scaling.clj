@@ -25,7 +25,10 @@
 (def MARK-SIZE 12)
 
 (defn initial-state []
-  {:rec {:x 100.0 :y 100.0 :width 200.0 :height 80.0}
+  {:rec {:x 100.0
+         :y 100.0
+         :width 200.0
+         :height 80.0}
    :scale-ready false
    :scale-mode false})
 
@@ -36,7 +39,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [rec scale-mode] :as state}]
+(defn tick [{:keys [rec scale-mode]
+             :as state}]
   (debug-stats/update!)
   (let [mouse (rcm/get-mouse-position)
         mx (:x mouse)
@@ -72,12 +76,12 @@
   (when scale-ready
     (rsb/draw-rectangle-lines-ex! rec (float 1) colors/red)
     (rsb/draw-triangle! {:x (float (+ (:x rec) (:width rec) (- MARK-SIZE)))
-                          :y (float (+ (:y rec) (:height rec)))}
-                         {:x (float (+ (:x rec) (:width rec)))
-                          :y (float (+ (:y rec) (:height rec)))}
-                         {:x (float (+ (:x rec) (:width rec)))
-                          :y (float (+ (:y rec) (:height rec) (- MARK-SIZE)))}
-                         colors/red))
+                         :y (float (+ (:y rec) (:height rec)))}
+                        {:x (float (+ (:x rec) (:width rec)))
+                         :y (float (+ (:y rec) (:height rec)))}
+                        {:x (float (+ (:x rec) (:width rec)))
+                         :y (float (+ (:y rec) (:height rec) (- MARK-SIZE)))}
+                        colors/red))
 
   (debug-stats/draw!)
   (rcd/end-drawing!))

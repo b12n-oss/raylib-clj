@@ -30,21 +30,29 @@
 ;; raylib's gesture flags are a bit set, one bit per gesture.
 (def gesture-none 0)
 (def gesture-names
-  {1 "GESTURE TAP"          2 "GESTURE DOUBLETAP"
-   4 "GESTURE HOLD"         8 "GESTURE DRAG"
-   16 "GESTURE SWIPE RIGHT" 32 "GESTURE SWIPE LEFT"
-   64 "GESTURE SWIPE UP"    128 "GESTURE SWIPE DOWN"
-   256 "GESTURE PINCH IN"   512 "GESTURE PINCH OUT"})
+  {1 "GESTURE TAP"
+   2 "GESTURE DOUBLETAP"
+   4 "GESTURE HOLD"
+   8 "GESTURE DRAG"
+   16 "GESTURE SWIPE RIGHT"
+   32 "GESTURE SWIPE LEFT"
+   64 "GESTURE SWIPE UP"
+   128 "GESTURE SWIPE DOWN"
+   256 "GESTURE PINCH IN"
+   512 "GESTURE PINCH OUT"})
 
 ;; The C uses a fixed char[20][32] and wraps by clearing the whole array.
 ;; A vector with a cap does the same job; the log clears on overflow to
 ;; match, rather than scrolling.
 (def max-gesture-strings 20)
 
-(def touch-area {:x 220.0 :y 10.0
-                 :width (- screen-width 230.0) :height (- screen-height 20.0)})
+(def touch-area {:x 220.0
+                 :y 10.0
+                 :width (- screen-width 230.0)
+                 :height (- screen-height 20.0)})
 
-(defn initial-state [] {:log [] :last-gesture gesture-none})
+(defn initial-state [] {:log []
+                        :last-gesture gesture-none})
 
 (def game-atom (atom (initial-state)))
 
@@ -53,7 +61,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [log last-gesture] :as state}]
+(defn tick [{:keys [log last-gesture]
+             :as state}]
   (debug-stats/update!)
   (let [current (rcg/get-gesture-detected)
         touch (rcg/get-touch-position 0)

@@ -54,7 +54,8 @@
       (recur (if (<= 32 key 125) (conj chars (char key)) chars)
              (rck/get-char-pressed)))))
 
-(defn tick [{:keys [name text-box] :as state}]
+(defn tick [{:keys [name text-box]
+             :as state}]
   (debug-stats/update!)
   (let [mouse (rcm/get-mouse-position)
         mouse-on-text (pos? (rcol/check-collision-point-rec? mouse text-box))]

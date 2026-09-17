@@ -72,9 +72,14 @@
    left fractional (also allows downscaling)."
   [sw sh gw gh ratio-fn]
   (let [r (min (ratio-fn sw gw) (ratio-fn sh gh))]
-    {:source {:x 0.0 :y (float gh) :width (float gw) :height (float (- gh))}
-     :dest {:x (trunc (* 0.5 (- sw (* gw r)))) :y (trunc (* 0.5 (- sh (* gh r))))
-            :width (trunc (* gw r)) :height (trunc (* gh r))}}))
+    {:source {:x 0.0
+              :y (float gh)
+              :width (float gw)
+              :height (float (- gh))}
+     :dest {:x (trunc (* 0.5 (- sw (* gw r))))
+            :y (trunc (* 0.5 (- sh (* gh r))))
+            :width (trunc (* gw r))
+            :height (trunc (* gh r))}}))
 
 (defn keep-height-centered
   "Lock the vertical scale to the window height and widen the source to
@@ -83,9 +88,14 @@
   [sw sh _gw gh]
   (let [r (/ (double sh) gh)
         src-w (trunc (/ sw r))]
-    {:source {:x 0.0 :y 0.0 :width src-w :height (float (- gh))}
-     :dest {:x (trunc (* 0.5 (- sw (* src-w r)))) :y (trunc (* 0.5 (- sh (* gh r))))
-            :width (trunc (* src-w r)) :height (trunc (* gh r))}}))
+    {:source {:x 0.0
+              :y 0.0
+              :width src-w
+              :height (float (- gh))}
+     :dest {:x (trunc (* 0.5 (- sw (* src-w r))))
+            :y (trunc (* 0.5 (- sh (* gh r))))
+            :width (trunc (* src-w r))
+            :height (trunc (* gh r))}}))
 
 (defn keep-width-centered
   "The transpose of keep-height-centered: lock the horizontal scale and let
@@ -93,9 +103,14 @@
   [sw sh gw _gh]
   (let [r (/ (double sw) gw)
         src-h (trunc (/ sh r))]
-    {:source {:x 0.0 :y 0.0 :width (float gw) :height (float (- src-h))}
-     :dest {:x (trunc (* 0.5 (- sw (* gw r)))) :y (trunc (* 0.5 (- sh (* src-h r))))
-            :width (trunc (* gw r)) :height (trunc (* src-h r))}}))
+    {:source {:x 0.0
+              :y 0.0
+              :width (float gw)
+              :height (float (- src-h))}
+     :dest {:x (trunc (* 0.5 (- sw (* gw r))))
+            :y (trunc (* 0.5 (- sh (* src-h r))))
+            :width (trunc (* gw r))
+            :height (trunc (* src-h r))}}))
 
 (def ^:private int-ratio (fn [a b] (double (quot a b))))
 (def ^:private flt-ratio (fn [a b] (/ (double a) b)))
@@ -127,15 +142,31 @@
      :y (* (- y (:y dest)) ratio)}))
 
 (def buttons
-  {:resolution-down {:x 200.0 :y 30.0 :width 10.0 :height 10.0}
-   :resolution-up {:x 215.0 :y 30.0 :width 10.0 :height 10.0}
-   :type-down {:x 200.0 :y 45.0 :width 10.0 :height 10.0}
-   :type-up {:x 215.0 :y 45.0 :width 10.0 :height 10.0}})
+  {:resolution-down {:x 200.0
+                     :y 30.0
+                     :width 10.0
+                     :height 10.0}
+   :resolution-up {:x 215.0
+                   :y 30.0
+                   :width 10.0
+                   :height 10.0}
+   :type-down {:x 200.0
+               :y 45.0
+               :width 10.0
+               :height 10.0}
+   :type-up {:x 215.0
+             :y 45.0
+             :width 10.0
+             :height 10.0}})
 
 (defn initial-state []
-  {:resolution-index 0 :type-index 0
-   :screen-width screen-width :screen-height screen-height
-   :source nil :dest nil :target nil})
+  {:resolution-index 0
+   :type-index 0
+   :screen-width screen-width
+   :screen-height screen-height
+   :source nil
+   :dest nil
+   :target nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -143,7 +174,8 @@
   "Recompute the rectangles for the current window and reallocate the render
    texture to match. The C reallocates on every change too - the source rect
    IS the texture size, so a resize is a new texture, not a rescale."
-  [{:keys [resolution-index type-index target] :as state}]
+  [{:keys [resolution-index type-index target]
+    :as state}]
   (let [sw (rcw/get-screen-width) sh (rcw/get-screen-height)
         [gw gh] (nth resolutions resolution-index)
         {:keys [source dest]} (rects-for (nth viewport-types type-index) sw sh gw gh)]
@@ -182,7 +214,10 @@
 
 (defn- draw-info [{:keys [screen-width screen-height resolution-index type-index source dest]}]
   (let [[gw gh] (nth resolutions resolution-index)
-        rect {:x 5.0 :y 5.0 :width 330.0 :height 105.0}
+        rect {:x 5.0
+              :y 5.0
+              :width 330.0
+              :height 105.0}
         scale-x (/ (:width dest) (:width source))
         scale-y (/ (- (:height dest)) (:height source))]
     (rsb/draw-rectangle-rec! rect (ru/fade colors/lightgray 0.7))
@@ -201,18 +236,22 @@
       (rsb/draw-rectangle-rec! b colors/skyblue)
       (rtd/draw-text! label (+ (int (:x b)) 3) (+ (int (:y b)) 1) 10 colors/black))))
 
-(defn draw [{:keys [target source dest mouse] :as state}]
+(defn draw [{:keys [target source dest mouse]
+             :as state}]
   ;; The scene itself: one circle following the mouse, rendered at the game's
   ;; own resolution so the scaling is visible in how chunky the circle looks.
   (rtl/begin-texture-mode! target)
   (rcd/clear-background! colors/white)
-  (let [{:keys [x y]} (screen->render-texture (or mouse {:x 0.0 :y 0.0}) source dest)]
-    (rsb/draw-circle-v! {:x (float x) :y (float y)} 20.0 colors/lime))
+  (let [{:keys [x y]} (screen->render-texture (or mouse {:x 0.0
+                                                         :y 0.0}) source dest)]
+    (rsb/draw-circle-v! {:x (float x)
+                         :y (float y)} 20.0 colors/lime))
   (rtl/end-texture-mode!)
 
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/black)
-  (rtl/draw-texture-pro! (:texture target) source dest {:x 0.0 :y 0.0} 0.0 colors/white)
+  (rtl/draw-texture-pro! (:texture target) source dest {:x 0.0
+                                                        :y 0.0} 0.0 colors/white)
   (draw-info state)
   (debug-stats/draw!)
   (rcd/end-drawing!))

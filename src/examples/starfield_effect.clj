@@ -57,7 +57,8 @@
       (make-star)
       (assoc star :z (float new-z)))))
 
-(defn tick [{:keys [speed draw-lines] :as state}]
+(defn tick [{:keys [speed draw-lines]
+             :as state}]
   (debug-stats/update!)
   (let [wheel-move (rcm/get-mouse-wheel-move)
         speed (cond-> (+ speed (* 2.0 (/ wheel-move 9.0)))
@@ -92,11 +93,13 @@
             (let [start-pos {:x (float (+ (* screen-width 0.5) (/ (:x star) t)))
                              :y (float (+ (* screen-height 0.5) (/ (:y star) t)))}]
               (rsb/draw-line-v! start-pos
-                                {:x (float (:x spos)) :y (float (:y spos))}
+                                {:x (float (:x spos))
+                                 :y (float (:y spos))}
                                 colors/raywhite))))
         ;; Draw circles
         (let [radius (lerp (:z star) 1.0 5.0)]
-          (rsb/draw-circle-v! {:x (float (:x spos)) :y (float (:y spos))}
+          (rsb/draw-circle-v! {:x (float (:x spos))
+                               :y (float (:y spos))}
                               (float radius) colors/raywhite)))))
 
   (rtd/draw-text! (format "[MOUSE WHEEL] Current Speed: %.0f" (* 9.0 (/ speed 2.0)))

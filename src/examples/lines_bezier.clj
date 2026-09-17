@@ -22,8 +22,10 @@
 (def screen-height 450)
 
 (defn initial-state []
-  {:start-point {:x 30.0 :y 30.0}
-   :end-point {:x (- screen-width 30.0) :y (- screen-height 30.0)}
+  {:start-point {:x 30.0
+                 :y 30.0}
+   :end-point {:x (- screen-width 30.0)
+               :y (- screen-height 30.0)}
    :move-start false
    :move-end false})
 
@@ -35,7 +37,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [start-point end-point move-start move-end] :as state}]
+(defn tick [{:keys [start-point end-point move-start move-end]
+             :as state}]
   (debug-stats/update!)
   (let [mouse (rcm/get-mouse-position)
         left-down (rcm/is-mouse-button-down? (:left enums/mouse-button))

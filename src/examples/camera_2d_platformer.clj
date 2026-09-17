@@ -29,11 +29,36 @@
 (def PLAYER-HOR-SPD 200.0)
 
 (def env-items
-  [{:rect {:x 0.0 :y 0.0 :width 1000.0 :height 400.0} :blocking false :color colors/lightgray}
-   {:rect {:x 0.0 :y 400.0 :width 1000.0 :height 200.0} :blocking true :color colors/gray}
-   {:rect {:x 300.0 :y 200.0 :width 400.0 :height 10.0} :blocking true :color colors/gray}
-   {:rect {:x 250.0 :y 300.0 :width 100.0 :height 10.0} :blocking true :color colors/gray}
-   {:rect {:x 650.0 :y 300.0 :width 100.0 :height 10.0} :blocking true :color colors/gray}])
+  [{:rect {:x 0.0
+           :y 0.0
+           :width 1000.0
+           :height 400.0}
+    :blocking false
+    :color colors/lightgray}
+   {:rect {:x 0.0
+           :y 400.0
+           :width 1000.0
+           :height 200.0}
+    :blocking true
+    :color colors/gray}
+   {:rect {:x 300.0
+           :y 200.0
+           :width 400.0
+           :height 10.0}
+    :blocking true
+    :color colors/gray}
+   {:rect {:x 250.0
+           :y 300.0
+           :width 100.0
+           :height 10.0}
+    :blocking true
+    :color colors/gray}
+   {:rect {:x 650.0
+           :y 300.0
+           :width 100.0
+           :height 10.0}
+    :blocking true
+    :color colors/gray}])
 
 (def camera-descriptions
   ["Follow player center"
@@ -47,8 +72,10 @@
    :player-y 280.0
    :player-speed 0.0
    :can-jump false
-   :camera {:offset {:x (/ screen-width 2.0) :y (/ screen-height 2.0)}
-            :target {:x 400.0 :y 280.0}
+   :camera {:offset {:x (/ screen-width 2.0)
+                     :y (/ screen-height 2.0)}
+            :target {:x 400.0
+                     :y 280.0}
             :rotation (float 0.0)
             :zoom (float 1.0)}
    :camera-option 0
@@ -63,12 +90,13 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn update-player [{:keys [player-x player-y player-speed can-jump] :as state} delta]
+(defn update-player [{:keys [player-x player-y player-speed can-jump]
+                      :as state} delta]
   (let [player-x (cond-> player-x
-                    (rck/is-key-down? (:left enums/keyboard-key))
-                    (- (* PLAYER-HOR-SPD delta))
-                    (rck/is-key-down? (:right enums/keyboard-key))
-                    (+ (* PLAYER-HOR-SPD delta)))
+                   (rck/is-key-down? (:left enums/keyboard-key))
+                   (- (* PLAYER-HOR-SPD delta))
+                   (rck/is-key-down? (:right enums/keyboard-key))
+                   (+ (* PLAYER-HOR-SPD delta)))
         [player-speed can-jump]
         (if (and (rck/is-key-down? (:space enums/keyboard-key)) can-jump)
           [(- PLAYER-JUMP-SPD) false]
@@ -82,7 +110,8 @@
                       (>= (+ (:x rect) (:width rect)) player-x)
                       (>= (:y rect) player-y)
                       (<= (:y rect) (+ player-y (* player-speed delta))))
-             (reduced {:hit true :y (:y rect)})))
+             (reduced {:hit true
+                       :y (:y rect)})))
          nil
          env-items)]
     (if (:hit hit-result)
@@ -97,15 +126,21 @@
              :player-speed (+ player-speed (* GRAVITY delta))
              :can-jump false))))
 
-(defn camera-center [{:keys [player-x player-y] :as state}]
+(defn camera-center [{:keys [player-x player-y]
+                      :as state}]
   (assoc-in
-   (assoc-in state [:camera :offset] {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
-   [:camera :target] {:x player-x :y player-y}))
+   (assoc-in state [:camera :offset] {:x (/ screen-width 2.0)
+                                      :y (/ screen-height 2.0)})
+   [:camera :target] {:x player-x
+                      :y player-y}))
 
-(defn camera-center-inside-map [{:keys [player-x player-y camera] :as state}]
+(defn camera-center-inside-map [{:keys [player-x player-y camera]
+                                 :as state}]
   (let [camera (assoc camera
-                      :target {:x player-x :y player-y}
-                      :offset {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
+                      :target {:x player-x
+                               :y player-y}
+                      :offset {:x (/ screen-width 2.0)
+                               :y (/ screen-height 2.0)})
         ;; Find map bounds
         {:keys [min-x min-y max-x max-y]}
         (reduce (fn [acc {:keys [rect]}]
@@ -113,26 +148,34 @@
                    :max-x (max (:max-x acc) (+ (:x rect) (:width rect)))
                    :min-y (min (:min-y acc) (:y rect))
                    :max-y (max (:max-y acc) (+ (:y rect) (:height rect)))})
-                {:min-x 1000.0 :max-x -1000.0 :min-y 1000.0 :max-y -1000.0}
+                {:min-x 1000.0
+                 :max-x -1000.0
+                 :min-y 1000.0
+                 :max-y -1000.0}
                 env-items)
-        max-screen (rc2d/get-world-to-screen-2d {:x max-x :y max-y} camera)
-        min-screen (rc2d/get-world-to-screen-2d {:x min-x :y min-y} camera)
+        max-screen (rc2d/get-world-to-screen-2d {:x max-x
+                                                 :y max-y} camera)
+        min-screen (rc2d/get-world-to-screen-2d {:x min-x
+                                                 :y min-y} camera)
         offset-x (:x (:offset camera))
         offset-y (:y (:offset camera))
         offset-x (cond-> offset-x
-                    (< (:x max-screen) screen-width)
-                    (- (- (:x max-screen) screen-width) (- (/ screen-width 2.0)))
-                    (> (:x min-screen) 0)
-                    (- (:x min-screen) (/ screen-width 2.0)))
+                   (< (:x max-screen) screen-width)
+                   (- (- (:x max-screen) screen-width) (- (/ screen-width 2.0)))
+                   (> (:x min-screen) 0)
+                   (- (:x min-screen) (/ screen-width 2.0)))
         offset-y (cond-> offset-y
-                    (< (:y max-screen) screen-height)
-                    (- (- (:y max-screen) screen-height) (- (/ screen-height 2.0)))
-                    (> (:y min-screen) 0)
-                    (- (:y min-screen) (/ screen-height 2.0)))]
+                   (< (:y max-screen) screen-height)
+                   (- (- (:y max-screen) screen-height) (- (/ screen-height 2.0)))
+                   (> (:y min-screen) 0)
+                   (- (:y min-screen) (/ screen-height 2.0)))]
     ;; Recompute with corrected offsets
-    (let [cam2 (assoc camera :offset {:x offset-x :y offset-y})
-          max-screen2 (rc2d/get-world-to-screen-2d {:x max-x :y max-y} cam2)
-          min-screen2 (rc2d/get-world-to-screen-2d {:x min-x :y min-y} cam2)
+    (let [cam2 (assoc camera :offset {:x offset-x
+                                      :y offset-y})
+          max-screen2 (rc2d/get-world-to-screen-2d {:x max-x
+                                                    :y max-y} cam2)
+          min-screen2 (rc2d/get-world-to-screen-2d {:x min-x
+                                                    :y min-y} cam2)
           ox (:x (:offset cam2))
           oy (:y (:offset cam2))
           ox (cond
@@ -147,13 +190,16 @@
                (> (:y min-screen2) 0)
                (- (/ screen-height 2.0) (:y min-screen2))
                :else oy)]
-      (assoc state :camera (assoc cam2 :offset {:x ox :y oy})))))
+      (assoc state :camera (assoc cam2 :offset {:x ox
+                                                :y oy})))))
 
-(defn camera-smooth-follow [{:keys [player-x player-y camera] :as state} delta]
+(defn camera-smooth-follow [{:keys [player-x player-y camera]
+                             :as state} delta]
   (let [min-speed 30.0
         min-effect-length 10.0
         fraction-speed 0.8
-        camera (assoc camera :offset {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
+        camera (assoc camera :offset {:x (/ screen-width 2.0)
+                                      :y (/ screen-height 2.0)})
         target (:target camera)
         diff-x (- player-x (:x target))
         diff-y (- player-y (:y target))
@@ -167,9 +213,11 @@
       (assoc state :camera camera))))
 
 (defn camera-even-out-on-landing [{:keys [player-x player-y player-speed can-jump
-                                           evening-out even-out-target camera] :as state} delta]
+                                          evening-out even-out-target camera]
+                                   :as state} delta]
   (let [even-out-speed 700.0
-        camera (assoc camera :offset {:x (/ screen-width 2.0) :y (/ screen-height 2.0)})
+        camera (assoc camera :offset {:x (/ screen-width 2.0)
+                                      :y (/ screen-height 2.0)})
         camera (assoc-in camera [:target :x] player-x)]
     (if evening-out
       (let [target-y (:y (:target camera))]
@@ -193,7 +241,8 @@
                :even-out-target player-y)
         (assoc state :camera camera)))))
 
-(defn camera-player-bounds-push [{:keys [player-x player-y camera] :as state}]
+(defn camera-player-bounds-push [{:keys [player-x player-y camera]
+                                  :as state}]
   (let [bbox-x 0.2
         bbox-y 0.2
         bbox-world-min (rc2d/get-screen-to-world-2d
@@ -205,20 +254,21 @@
                          :y (* (+ 1.0 bbox-y) 0.5 screen-height)}
                         camera)
         camera (assoc camera :offset {:x (* (- 1.0 bbox-x) 0.5 screen-width)
-                                       :y (* (- 1.0 bbox-y) 0.5 screen-height)})
+                                      :y (* (- 1.0 bbox-y) 0.5 screen-height)})
         target-x (:x (:target camera))
         target-y (:y (:target camera))
         target-x (cond
-                    (< player-x (:x bbox-world-min)) player-x
-                    (> player-x (:x bbox-world-max))
-                    (+ (:x bbox-world-min) (- player-x (:x bbox-world-max)))
-                    :else target-x)
+                   (< player-x (:x bbox-world-min)) player-x
+                   (> player-x (:x bbox-world-max))
+                   (+ (:x bbox-world-min) (- player-x (:x bbox-world-max)))
+                   :else target-x)
         target-y (cond
-                    (< player-y (:y bbox-world-min)) player-y
-                    (> player-y (:y bbox-world-max))
-                    (+ (:y bbox-world-min) (- player-y (:y bbox-world-max)))
-                    :else target-y)]
-    (assoc state :camera (assoc camera :target {:x target-x :y target-y}))))
+                   (< player-y (:y bbox-world-min)) player-y
+                   (> player-y (:y bbox-world-max))
+                   (+ (:y bbox-world-min) (- player-y (:y bbox-world-max)))
+                   :else target-y)]
+    (assoc state :camera (assoc camera :target {:x target-x
+                                                :y target-y}))))
 
 (defn update-camera [state delta]
   (case (:camera-option state)
@@ -266,11 +316,12 @@
 
   ;; Draw player
   (rsb/draw-rectangle-rec! {:x (float (- player-x 20))
-                             :y (float (- player-y 40))
-                             :width (float 40)
-                             :height (float 40)}
-                            colors/red)
-  (rsb/draw-circle-v! {:x player-x :y player-y} (float 5) colors/gold)
+                            :y (float (- player-y 40))
+                            :width (float 40)
+                            :height (float 40)}
+                           colors/red)
+  (rsb/draw-circle-v! {:x player-x
+                       :y player-y} (float 5) colors/gold)
 
   (rc2d/end-mode-2d!)
 

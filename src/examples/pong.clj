@@ -76,7 +76,7 @@
 
 (defn check-collision [x y radius rect]
   (let [result (rcol/check-collision-circle-rec? {:x x
-                                                 :y y} radius rect)]
+                                                  :y y} radius rect)]
     (if (boolean? result) result (pos? result))))
 
 (defn move-ball [{:keys [ball paddle1 paddle2]

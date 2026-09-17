@@ -31,11 +31,20 @@
 (def move-speed 3.0)
 
 (defn- camera-on [{:keys [x y]}]
-  {:offset {:x 200.0 :y 200.0} :target {:x (float x) :y (float y)}
-   :rotation 0.0 :zoom 1.0})
+  {:offset {:x 200.0
+            :y 200.0}
+   :target {:x (float x)
+            :y (float y)}
+   :rotation 0.0
+   :zoom 1.0})
 
 (defn initial-state []
-  {:p1 {:x 200.0 :y 200.0} :p2 {:x 250.0 :y 200.0} :tex1 nil :tex2 nil})
+  {:p1 {:x 200.0
+        :y 200.0}
+   :p2 {:x 250.0
+        :y 200.0}
+   :tex1 nil
+   :tex2 nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -72,21 +81,29 @@
   (let [cols (inc (quot screen-width player-size))
         rows (inc (quot screen-height player-size))]
     (doseq [i (range cols)]
-      (rsb/draw-line-v! {:x (float (* player-size i)) :y 0.0}
-                        {:x (float (* player-size i)) :y (float screen-height)}
+      (rsb/draw-line-v! {:x (float (* player-size i))
+                         :y 0.0}
+                        {:x (float (* player-size i))
+                         :y (float screen-height)}
                         colors/lightgray))
     (doseq [i (range rows)]
-      (rsb/draw-line-v! {:x 0.0 :y (float (* player-size i))}
-                        {:x (float screen-width) :y (float (* player-size i))}
+      (rsb/draw-line-v! {:x 0.0
+                         :y (float (* player-size i))}
+                        {:x (float screen-width)
+                         :y (float (* player-size i))}
                         colors/lightgray))
     (doseq [i (range (quot screen-width player-size))
             j (range (quot screen-height player-size))]
       (rtd/draw-text! (format "[%d,%d]" i j)
                       (+ 10 (* player-size i)) (+ 15 (* player-size j)) 10 colors/lightgray))
-    (rsb/draw-rectangle-rec! {:x (float (:x p1)) :y (float (:y p1))
-                              :width (float player-size) :height (float player-size)} colors/red)
-    (rsb/draw-rectangle-rec! {:x (float (:x p2)) :y (float (:y p2))
-                              :width (float player-size) :height (float player-size)} colors/blue)))
+    (rsb/draw-rectangle-rec! {:x (float (:x p1))
+                              :y (float (:y p1))
+                              :width (float player-size)
+                              :height (float player-size)} colors/red)
+    (rsb/draw-rectangle-rec! {:x (float (:x p2))
+                              :y (float (:y p2))
+                              :width (float player-size)
+                              :height (float player-size)} colors/blue)))
 
 (defn- render-view! [tex player p1 p2 label label-color]
   (rtl/begin-texture-mode! tex)
@@ -110,10 +127,15 @@
   (when (and tex1 tex2)
     (let [t (:texture tex1)
           ;; Negative height: render targets are stored bottom-up.
-          flipped {:x 0.0 :y 0.0 :width (float (:width t)) :height (float (- (:height t)))}]
-      (rtl/draw-texture-rec! t flipped {:x 0.0 :y 0.0} colors/white)
+          flipped {:x 0.0
+                   :y 0.0
+                   :width (float (:width t))
+                   :height (float (- (:height t)))}]
+      (rtl/draw-texture-rec! t flipped {:x 0.0
+                                        :y 0.0} colors/white)
       (rtl/draw-texture-rec! (:texture tex2) flipped
-                             {:x (float (/ screen-width 2.0)) :y 0.0} colors/white)))
+                             {:x (float (/ screen-width 2.0))
+                              :y 0.0} colors/white)))
   (rsb/draw-rectangle! (- (quot (rcw/get-screen-width) 2) 2) 0 4
                        (rcw/get-screen-height) colors/lightgray)
   (debug-stats/draw!)

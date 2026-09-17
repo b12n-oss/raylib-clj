@@ -226,7 +226,7 @@
     ;; Touch count indicators
     (doseq [i (range 4)]
       (rsb/draw-circle! (+ x 180) (+ y 7 (* i 15)) 5
-                            (if (<= touch-count i) colors/lightgray gesture-color)))))
+                        (if (<= touch-count i) colors/lightgray gesture-color)))))
 
 (defn draw-gesture-log [{:keys [gesture-log gesture-log-index gesture-color log-mode]}]
   (let [x (:x gesture-log-pos)

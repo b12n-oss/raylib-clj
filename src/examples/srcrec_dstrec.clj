@@ -26,7 +26,8 @@
 ;; scarfy.png is a 6-frame strip; one frame is a sixth of its width.
 (def frame-count 6)
 
-(defn initial-state [] {:texture nil :rotation 0})
+(defn initial-state [] {:texture nil
+                        :rotation 0})
 
 (def game-atom (atom (initial-state)))
 
@@ -53,12 +54,18 @@
           dest-y (/ screen-height 2.0)]
       (rtl/draw-texture-pro!
        texture
-       {:x 0.0 :y 0.0 :width (float frame-w) :height (float frame-h)}
-       {:x (float dest-x) :y (float dest-y)
-        :width (float (* frame-w 2.0)) :height (float (* frame-h 2.0))}
+       {:x 0.0
+        :y 0.0
+        :width (float frame-w)
+        :height (float frame-h)}
+       {:x (float dest-x)
+        :y (float dest-y)
+        :width (float (* frame-w 2.0))
+        :height (float (* frame-h 2.0))}
        ;; Origin is relative to the destination rect, so this pivots about
        ;; the drawn image's centre rather than its top-left corner.
-       {:x (float frame-w) :y (float frame-h)}
+       {:x (float frame-w)
+        :y (float frame-h)}
        (float rotation)
        colors/white)
       (rsb/draw-line! (int dest-x) 0 (int dest-x) screen-height colors/gray)

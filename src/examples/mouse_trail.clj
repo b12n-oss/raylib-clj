@@ -23,7 +23,8 @@
 (def MAX-TRAIL-LENGTH 30)
 
 (defn initial-state []
-  {:trail (vec (repeat MAX-TRAIL-LENGTH {:x 0.0 :y 0.0}))})
+  {:trail (vec (repeat MAX-TRAIL-LENGTH {:x 0.0
+                                         :y 0.0}))})
 
 (def game-atom (atom (initial-state)))
 
@@ -32,7 +33,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [trail] :as state}]
+(defn tick [{:keys [trail]
+             :as state}]
   (debug-stats/update!)
   (let [mouse (rcm/get-mouse-position)
         ;; Shift all positions back by one, drop oldest, prepend current
@@ -50,7 +52,8 @@
         (let [ratio (/ (float (- MAX-TRAIL-LENGTH i)) MAX-TRAIL-LENGTH)
               trail-color (ru/fade colors/skyblue (float (+ (* ratio 0.5) 0.5)))
               trail-radius (* 15.0 ratio)]
-          (rsb/draw-circle-v! {:x x :y y} (float trail-radius) trail-color)))))
+          (rsb/draw-circle-v! {:x x
+                               :y y} (float trail-radius) trail-color)))))
 
   ;; Draw current mouse position
   (let [mouse (rcm/get-mouse-position)]

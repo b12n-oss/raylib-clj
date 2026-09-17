@@ -30,12 +30,12 @@
 
   ;; Black outer rectangle
   (rsb/draw-rectangle! (- (quot screen-width 2) 128)
-                        (- (quot screen-height 2) 128)
-                        256 256 colors/black)
+                       (- (quot screen-height 2) 128)
+                       256 256 colors/black)
   ;; White inner rectangle
   (rsb/draw-rectangle! (- (quot screen-width 2) 112)
-                        (- (quot screen-height 2) 112)
-                        224 224 colors/raywhite)
+                       (- (quot screen-height 2) 112)
+                       224 224 colors/raywhite)
   ;; "raylib" text
   (rtd/draw-text! "raylib" (- (quot screen-width 2) 44)
                   (+ (quot screen-height 2) 48) 50 colors/black)

@@ -32,8 +32,14 @@
   4)
 
 (defn initial-state []
-  {:roundness 0.2 :width 200.0 :height 100.0 :segments 0.0 :line-thick 1.0
-   :rect? false :rounded-rect? true :rounded-lines? false})
+  {:roundness 0.2
+   :width 200.0
+   :height 100.0
+   :segments 0.0
+   :line-thick 1.0
+   :rect? false
+   :rounded-rect? true
+   :rounded-lines? false})
 
 (def game-atom (atom (initial-state)))
 
@@ -50,14 +56,16 @@
   [screen-w screen-h width height]
   {:x (/ (- screen-w width 250) 2.0)
    :y (/ (- screen-h height) 2.0)
-   :width (float width) :height (float height)})
+   :width (float width)
+   :height (float height)})
 
 (defn tick [state]
   (debug-stats/update!)
   state)
 
 (defn draw [{:keys [roundness width height segments line-thick
-                    rect? rounded-rect? rounded-lines?] :as state}]
+                    rect? rounded-rect? rounded-lines?]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
   (rsb/draw-line! 560 0 560 (rcw/get-screen-height) (ru/fade colors/lightgray 0.6))
@@ -75,10 +83,16 @@
                                             (ru/fade colors/maroon 0.4))))
 
   (let [bar (fn [y label v mn mx]
-              (gui/slider-bar {:x 640.0 :y (double y) :width 105.0 :height 20.0}
+              (gui/slider-bar {:x 640.0
+                               :y (double y)
+                               :width 105.0
+                               :height 20.0}
                               label (format "%.2f" v) v mn mx))
         cb (fn [y label v]
-             (gui/check-box {:x 640.0 :y (double y) :width 20.0 :height 20.0} label v))
+             (gui/check-box {:x 640.0
+                             :y (double y)
+                             :width 20.0
+                             :height 20.0} label v))
         width (bar 40 "Width" width 0.0 (double (- (rcw/get-screen-width) 300)))
         height (bar 70 "Height" height 0.0 (double (- (rcw/get-screen-height) 50)))
         roundness (bar 140 "Roundness" roundness 0.0 1.0)

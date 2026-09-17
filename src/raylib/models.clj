@@ -256,10 +256,19 @@
 
 (def material-map-index
   "Which slot of a material's `maps` array a texture/colour applies to."
-  {:albedo 0 :diffuse 0        ; raylib defines these as the same slot
-   :metalness 1 :specular 1
-   :normal 2 :roughness 3 :occlusion 4 :emission 5 :height 6
-   :cubemap 7 :irradiance 8 :prefilter 9 :brdf 10})
+  {:albedo 0
+   :diffuse 0        ; raylib defines these as the same slot
+   :metalness 1
+   :specular 1
+   :normal 2
+   :roughness 3
+   :occlusion 4
+   :emission 5
+   :height 6
+   :cubemap 7
+   :irradiance 8
+   :prefilter 9
+   :brdf 10})
 
 (def ^:private material-size 40)   ; Shader(16) + maps ptr(8) + params[4](16)
 (def ^:private material-maps-offset 16)

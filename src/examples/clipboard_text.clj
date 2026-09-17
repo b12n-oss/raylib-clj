@@ -44,7 +44,9 @@
    "Copy and paste me!"])
 
 (defn initial-state []
-  {:input "Hello from raylib!" :clipboard nil :edit? false})
+  {:input "Hello from raylib!"
+   :clipboard nil
+   :edit? false})
 
 (def game-atom (atom (initial-state)))
 
@@ -84,29 +86,60 @@
       (rck/is-key-pressed? (:v enums/keyboard-key)) (paste state)
       :else state)))
 
-(defn draw [{:keys [input clipboard edit?] :as state}]
+(defn draw [{:keys [input clipboard edit?]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
 
-  (gui/label {:x 50.0 :y 20.0 :width 700.0 :height 36.0} "Use the BUTTONS or KEY SHORTCUTS:")
+  (gui/label {:x 50.0
+              :y 20.0
+              :width 700.0
+              :height 36.0} "Use the BUTTONS or KEY SHORTCUTS:")
   (rtd/draw-text! "[CTRL+X] - CUT | [CTRL+C] COPY | [CTRL+V] | PASTE" 50 60 20 colors/maroon)
 
   (let [{:keys [text toggled?]}
-        (gui/text-box {:x 50.0 :y 120.0 :width 652.0 :height 40.0} input max-text-length edit?)
-        random? (gui/button {:x 710.0 :y 120.0 :width 40.0 :height 40.0} "#77#")
-        cut? (gui/button {:x 50.0 :y 180.0 :width 158.0 :height 40.0} "#17#CUT")
-        copy? (gui/button {:x 215.0 :y 180.0 :width 158.0 :height 40.0} "#16#COPY")
-        paste? (gui/button {:x 380.0 :y 180.0 :width 158.0 :height 40.0} "#18#PASTE")
-        clear? (gui/button {:x 545.0 :y 180.0 :width 158.0 :height 40.0} "#143#CLEAR")]
+        (gui/text-box {:x 50.0
+                       :y 120.0
+                       :width 652.0
+                       :height 40.0} input max-text-length edit?)
+        random? (gui/button {:x 710.0
+                             :y 120.0
+                             :width 40.0
+                             :height 40.0} "#77#")
+        cut? (gui/button {:x 50.0
+                          :y 180.0
+                          :width 158.0
+                          :height 40.0} "#17#CUT")
+        copy? (gui/button {:x 215.0
+                           :y 180.0
+                           :width 158.0
+                           :height 40.0} "#16#COPY")
+        paste? (gui/button {:x 380.0
+                            :y 180.0
+                            :width 158.0
+                            :height 40.0} "#18#PASTE")
+        clear? (gui/button {:x 545.0
+                            :y 180.0
+                            :width 158.0
+                            :height 40.0} "#143#CLEAR")]
 
     ;; The clipboard readout is drawn disabled and read-only: it reports
     ;; state rather than offering an edit.
     (gui/set-state! gui/state-disabled)
-    (gui/label {:x 50.0 :y 260.0 :width 700.0 :height 40.0} "Clipboard current text data:")
+    (gui/label {:x 50.0
+                :y 260.0
+                :width 700.0
+                :height 40.0} "Clipboard current text data:")
     (gui/set-style! :textbox :text-readonly 1)
-    (gui/text-box {:x 50.0 :y 300.0 :width 700.0 :height 40.0} clipboard max-text-length false)
+    (gui/text-box {:x 50.0
+                   :y 300.0
+                   :width 700.0
+                   :height 40.0} clipboard max-text-length false)
     (gui/set-style! :textbox :text-readonly 0)
-    (gui/label {:x 50.0 :y 360.0 :width 700.0 :height 40.0}
+    (gui/label {:x 50.0
+                :y 360.0
+                :width 700.0
+                :height 40.0}
                "Try copying text from other applications and pasting here!")
     (gui/enable!)
 

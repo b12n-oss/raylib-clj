@@ -226,8 +226,10 @@
          dy (- (:y end-pos) (:y start-pos))
          line-length (Math/sqrt (+ (* dx dx) (* dy dy)))]
      (if (or (< line-length (+ dash-size space-size)) (<= dash-size 0))
-       (draw-line-ex! {:x (float (:x start-pos)) :y (float (:y start-pos))}
-                      {:x (float (:x end-pos)) :y (float (:y end-pos))}
+       (draw-line-ex! {:x (float (:x start-pos))
+                       :y (float (:y start-pos))}
+                      {:x (float (:x end-pos))
+                       :y (float (:y end-pos))}
                       (float thickness) color)
        (let [dir-x (/ dx line-length)
              dir-y (/ dy line-length)

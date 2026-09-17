@@ -65,19 +65,31 @@
 
 ;; --------------------------------------------------------------- Vector2
 
-(defn v2 [x y] {:x x :y y})
-(def v2-zero (constantly {:x 0.0 :y 0.0}))
-(def v2-one (constantly {:x 1.0 :y 1.0}))
+(defn v2 [x y] {:x x
+                :y y})
+(def v2-zero (constantly {:x 0.0
+                          :y 0.0}))
+(def v2-one (constantly {:x 1.0
+                         :y 1.0}))
 
-(defn v2-add [a b] {:x (+ (:x a) (:x b)) :y (+ (:y a) (:y b))})
-(defn v2-add-value [v n] {:x (+ (:x v) n) :y (+ (:y v) n)})
-(defn v2-subtract [a b] {:x (- (:x a) (:x b)) :y (- (:y a) (:y b))})
-(defn v2-subtract-value [v n] {:x (- (:x v) n) :y (- (:y v) n)})
-(defn v2-scale [v s] {:x (* (:x v) s) :y (* (:y v) s)})
-(defn v2-multiply [a b] {:x (* (:x a) (:x b)) :y (* (:y a) (:y b))})
-(defn v2-divide [a b] {:x (/ (:x a) (:x b)) :y (/ (:y a) (:y b))})
-(defn v2-negate [v] {:x (- (:x v)) :y (- (:y v))})
-(defn v2-invert [v] {:x (/ 1.0 (:x v)) :y (/ 1.0 (:y v))})
+(defn v2-add [a b] {:x (+ (:x a) (:x b))
+                    :y (+ (:y a) (:y b))})
+(defn v2-add-value [v n] {:x (+ (:x v) n)
+                          :y (+ (:y v) n)})
+(defn v2-subtract [a b] {:x (- (:x a) (:x b))
+                         :y (- (:y a) (:y b))})
+(defn v2-subtract-value [v n] {:x (- (:x v) n)
+                               :y (- (:y v) n)})
+(defn v2-scale [v s] {:x (* (:x v) s)
+                      :y (* (:y v) s)})
+(defn v2-multiply [a b] {:x (* (:x a) (:x b))
+                         :y (* (:y a) (:y b))})
+(defn v2-divide [a b] {:x (/ (:x a) (:x b))
+                       :y (/ (:y a) (:y b))})
+(defn v2-negate [v] {:x (- (:x v))
+                     :y (- (:y v))})
+(defn v2-invert [v] {:x (/ 1.0 (:x v))
+                     :y (/ 1.0 (:y v))})
 
 (defn v2-length-sqr [v] (+ (* (:x v) (:x v)) (* (:y v) (:y v))))
 (defn v2-length [v] (Math/sqrt (v2-length-sqr v)))
@@ -106,10 +118,12 @@
 
 (defn v2-normalize [v]
   (let [len (v2-length v)]
-    (if (zero? len) {:x 0.0 :y 0.0} (v2-scale v (/ 1.0 len)))))
+    (if (zero? len) {:x 0.0
+                     :y 0.0} (v2-scale v (/ 1.0 len)))))
 
 (defn v2-lerp [a b amount]
-  {:x (lerp (:x a) (:x b) amount) :y (lerp (:y a) (:y b) amount)})
+  {:x (lerp (:x a) (:x b) amount)
+   :y (lerp (:y a) (:y b) amount)})
 
 (defn v2-reflect
   "Reflect `v` about `normal`."
@@ -136,11 +150,14 @@
         {:x (+ (:x v) (* (/ dx dist) max-distance))
          :y (+ (:y v) (* (/ dy dist) max-distance))}))))
 
-(defn v2-min [a b] {:x (Math/min (:x a) (:x b)) :y (Math/min (:y a) (:y b))})
-(defn v2-max [a b] {:x (Math/max (:x a) (:x b)) :y (Math/max (:y a) (:y b))})
+(defn v2-min [a b] {:x (Math/min (:x a) (:x b))
+                    :y (Math/min (:y a) (:y b))})
+(defn v2-max [a b] {:x (Math/max (:x a) (:x b))
+                    :y (Math/max (:y a) (:y b))})
 
 (defn v2-clamp [v mn mx]
-  {:x (clamp (:x v) (:x mn) (:x mx)) :y (clamp (:y v) (:y mn) (:y mx))})
+  {:x (clamp (:x v) (:x mn) (:x mx))
+   :y (clamp (:y v) (:y mn) (:y mx))})
 
 (defn v2-clamp-value
   "Clamp the vector's LENGTH into [mn mx], keeping its direction."
@@ -159,18 +176,40 @@
 
 ;; --------------------------------------------------------------- Vector3
 
-(defn v3 [x y z] {:x x :y y :z z})
-(def v3-zero (constantly {:x 0.0 :y 0.0 :z 0.0}))
-(def v3-one (constantly {:x 1.0 :y 1.0 :z 1.0}))
+(defn v3 [x y z] {:x x
+                  :y y
+                  :z z})
+(def v3-zero (constantly {:x 0.0
+                          :y 0.0
+                          :z 0.0}))
+(def v3-one (constantly {:x 1.0
+                         :y 1.0
+                         :z 1.0}))
 
-(defn v3-add [a b] {:x (+ (:x a) (:x b)) :y (+ (:y a) (:y b)) :z (+ (:z a) (:z b))})
-(defn v3-add-value [v n] {:x (+ (:x v) n) :y (+ (:y v) n) :z (+ (:z v) n)})
-(defn v3-subtract [a b] {:x (- (:x a) (:x b)) :y (- (:y a) (:y b)) :z (- (:z a) (:z b))})
-(defn v3-subtract-value [v n] {:x (- (:x v) n) :y (- (:y v) n) :z (- (:z v) n)})
-(defn v3-scale [v s] {:x (* (:x v) s) :y (* (:y v) s) :z (* (:z v) s)})
-(defn v3-multiply [a b] {:x (* (:x a) (:x b)) :y (* (:y a) (:y b)) :z (* (:z a) (:z b))})
-(defn v3-divide [a b] {:x (/ (:x a) (:x b)) :y (/ (:y a) (:y b)) :z (/ (:z a) (:z b))})
-(defn v3-negate [v] {:x (- (:x v)) :y (- (:y v)) :z (- (:z v))})
+(defn v3-add [a b] {:x (+ (:x a) (:x b))
+                    :y (+ (:y a) (:y b))
+                    :z (+ (:z a) (:z b))})
+(defn v3-add-value [v n] {:x (+ (:x v) n)
+                          :y (+ (:y v) n)
+                          :z (+ (:z v) n)})
+(defn v3-subtract [a b] {:x (- (:x a) (:x b))
+                         :y (- (:y a) (:y b))
+                         :z (- (:z a) (:z b))})
+(defn v3-subtract-value [v n] {:x (- (:x v) n)
+                               :y (- (:y v) n)
+                               :z (- (:z v) n)})
+(defn v3-scale [v s] {:x (* (:x v) s)
+                      :y (* (:y v) s)
+                      :z (* (:z v) s)})
+(defn v3-multiply [a b] {:x (* (:x a) (:x b))
+                         :y (* (:y a) (:y b))
+                         :z (* (:z a) (:z b))})
+(defn v3-divide [a b] {:x (/ (:x a) (:x b))
+                       :y (/ (:y a) (:y b))
+                       :z (/ (:z a) (:z b))})
+(defn v3-negate [v] {:x (- (:x v))
+                     :y (- (:y v))
+                     :z (- (:z v))})
 
 (defn v3-length-sqr [v] (+ (* (:x v) (:x v)) (* (:y v) (:y v)) (* (:z v) (:z v))))
 (defn v3-length [v] (Math/sqrt (v3-length-sqr v)))
@@ -189,7 +228,9 @@
 
 (defn v3-normalize [v]
   (let [len (v3-length v)]
-    (if (zero? len) {:x 0.0 :y 0.0 :z 0.0} (v3-scale v (/ 1.0 len)))))
+    (if (zero? len) {:x 0.0
+                     :y 0.0
+                     :z 0.0} (v3-scale v (/ 1.0 len)))))
 
 (defn v3-angle
   "Unsigned angle in radians between `a` and `b`, via atan2 of the cross
@@ -209,10 +250,14 @@
      :z (- (:z v) (* 2.0 (:z normal) d))}))
 
 (defn v3-min [a b]
-  {:x (Math/min (:x a) (:x b)) :y (Math/min (:y a) (:y b)) :z (Math/min (:z a) (:z b))})
+  {:x (Math/min (:x a) (:x b))
+   :y (Math/min (:y a) (:y b))
+   :z (Math/min (:z a) (:z b))})
 
 (defn v3-max [a b]
-  {:x (Math/max (:x a) (:x b)) :y (Math/max (:y a) (:y b)) :z (Math/max (:z a) (:z b))})
+  {:x (Math/max (:x a) (:x b))
+   :y (Math/max (:y a) (:y b))
+   :z (Math/max (:z a) (:z b))})
 
 (defn v3-clamp [v mn mx]
   {:x (clamp (:x v) (:x mn) (:x mx))

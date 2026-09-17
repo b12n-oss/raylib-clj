@@ -45,12 +45,30 @@
 
 ;; Where each pattern sits inside patterns.png.
 (def pattern-rects
-  [{:x 3.0 :y 3.0 :width 66.0 :height 66.0}
-   {:x 75.0 :y 3.0 :width 100.0 :height 100.0}
-   {:x 3.0 :y 75.0 :width 66.0 :height 66.0}
-   {:x 7.0 :y 156.0 :width 50.0 :height 50.0}
-   {:x 85.0 :y 106.0 :width 90.0 :height 45.0}
-   {:x 75.0 :y 154.0 :width 100.0 :height 60.0}])
+  [{:x 3.0
+    :y 3.0
+    :width 66.0
+    :height 66.0}
+   {:x 75.0
+    :y 3.0
+    :width 100.0
+    :height 100.0}
+   {:x 3.0
+    :y 75.0
+    :width 66.0
+    :height 66.0}
+   {:x 7.0
+    :y 156.0
+    :width 50.0
+    :height 50.0}
+   {:x 85.0
+    :y 106.0
+    :width 90.0
+    :height 45.0}
+   {:x 75.0
+    :y 154.0
+    :width 100.0
+    :height 60.0}])
 
 (def palette
   [colors/black colors/maroon colors/orange colors/blue colors/purple
@@ -64,14 +82,17 @@
                    col (mod i (quot (count palette) 2))]]
          {:x (+ 2.0 margin (* col (+ (* color-size 2) margin)))
           :y (+ 22.0 256.0 margin (* row (+ color-size margin)))
-          :width (* color-size 2.0) :height (double color-size)})))
+          :width (* color-size 2.0)
+          :height (double color-size)})))
 
 (defn- crop
   "A source rect shortened to the fraction of a tile actually drawn, so a
    partial tile truncates the pattern rather than squashing it."
   [source fw fh]
-  {:x (:x source) :y (:y source)
-   :width (* fw (:width source)) :height (* fh (:height source))})
+  {:x (:x source)
+   :y (:y source)
+   :width (* fw (:width source))
+   :height (* fh (:height source))})
 
 (defn tile-rects
   "The (source, dest) pairs that tile `source` across `dest` at `scale`.
@@ -82,36 +103,52 @@
   [source dest scale]
   (let [tw (long (* (:width source) scale))
         th (long (* (:height source) scale))
-        {dx0 :x dy0 :y dw :width dh :height} dest]
+        {dx0 :x
+         dy0 :y
+         dw :width
+         dh :height} dest]
     (if (or (<= scale 0) (zero? (:width source)) (zero? (:height source))
             (zero? tw) (zero? th))
       []
       (cond
         ;; Bigger than the area in both axes: one tile, cropped to fit.
         (and (< dw tw) (< dh th))
-        [{:source (crop source (/ dw tw) (/ dh th)) :dest dest}]
+        [{:source (crop source (/ dw tw) (/ dh th))
+          :dest dest}]
 
         ;; Bigger horizontally: a single column.
         (<= dw tw)
         (let [full (take-while #(< (+ % th) dh) (iterate #(+ % th) 0))
               rows (mapv (fn [dy] {:source (crop source (/ dw tw) 1.0)
-                                   :dest {:x dx0 :y (+ dy0 dy) :width dw :height (double th)}})
+                                   :dest {:x dx0
+                                          :y (+ dy0 dy)
+                                          :width dw
+                                          :height (double th)}})
                          full)
               used (* th (count full))]
           (cond-> rows
             (< used dh) (conj {:source (crop source (/ dw tw) (/ (- dh used) th))
-                               :dest {:x dx0 :y (+ dy0 used) :width dw :height (- dh used)}})))
+                               :dest {:x dx0
+                                      :y (+ dy0 used)
+                                      :width dw
+                                      :height (- dh used)}})))
 
         ;; Bigger vertically: a single row.
         (<= dh th)
         (let [full (take-while #(< (+ % tw) dw) (iterate #(+ % tw) 0))
               cols (mapv (fn [dx] {:source (crop source 1.0 (/ dh th))
-                                   :dest {:x (+ dx0 dx) :y dy0 :width (double tw) :height dh}})
+                                   :dest {:x (+ dx0 dx)
+                                          :y dy0
+                                          :width (double tw)
+                                          :height dh}})
                          full)
               used (* tw (count full))]
           (cond-> cols
             (< used dw) (conj {:source (crop source (/ (- dw used) tw) (/ dh th))
-                               :dest {:x (+ dx0 used) :y dy0 :width (- dw used) :height dh}})))
+                               :dest {:x (+ dx0 used)
+                                      :y dy0
+                                      :width (- dw used)
+                                      :height dh}})))
 
         ;; Smaller in both: a grid, with partial tiles down the right and
         ;; bottom edges and one corner tile cropped in both axes.
@@ -121,25 +158,38 @@
               used-x (* tw (count xs)) used-y (* th (count ys))
               full (for [dx xs dy ys]
                      {:source source
-                      :dest {:x (+ dx0 dx) :y (+ dy0 dy) :width (double tw) :height (double th)}})
+                      :dest {:x (+ dx0 dx)
+                             :y (+ dy0 dy)
+                             :width (double tw)
+                             :height (double th)}})
               bottom (when (< used-y dh)
                        (for [dx xs]
                          {:source (crop source 1.0 (/ (- dh used-y) th))
-                          :dest {:x (+ dx0 dx) :y (+ dy0 used-y)
-                                 :width (double tw) :height (- dh used-y)}}))
+                          :dest {:x (+ dx0 dx)
+                                 :y (+ dy0 used-y)
+                                 :width (double tw)
+                                 :height (- dh used-y)}}))
               right (when (< used-x dw)
                       (for [dy ys]
                         {:source (crop source (/ (- dw used-x) tw) 1.0)
-                         :dest {:x (+ dx0 used-x) :y (+ dy0 dy)
-                                :width (- dw used-x) :height (double th)}}))
+                         :dest {:x (+ dx0 used-x)
+                                :y (+ dy0 dy)
+                                :width (- dw used-x)
+                                :height (double th)}}))
               corner (when (and (< used-x dw) (< used-y dh))
                        [{:source (crop source (/ (- dw used-x) tw) (/ (- dh used-y) th))
-                         :dest {:x (+ dx0 used-x) :y (+ dy0 used-y)
-                                :width (- dw used-x) :height (- dh used-y)}}])]
+                         :dest {:x (+ dx0 used-x)
+                                :y (+ dy0 used-y)
+                                :width (- dw used-x)
+                                :height (- dh used-y)}}])]
           (vec (concat full bottom right corner)))))))
 
 (defn initial-state []
-  {:pattern 0 :colour 0 :scale 1.0 :rotation 0.0 :texture nil})
+  {:pattern 0
+   :colour 0
+   :scale 1.0
+   :rotation 0.0
+   :texture nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -152,7 +202,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [scale rotation] :as state}]
+(defn tick [{:keys [scale rotation]
+             :as state}]
   (debug-stats/update!)
   (let [mouse (rcm/get-mouse-position)
         clicked? (rcm/is-mouse-button-pressed? (:left enums/mouse-button))
@@ -183,15 +234,18 @@
   (rcd/clear-background! colors/raywhite)
 
   (let [sw (rcw/get-screen-width) sh (rcw/get-screen-height)
-        area {:x (double (+ opt-width margin)) :y (double margin)
-              :width (- sw opt-width (* 2.0 margin)) :height (- sh (* 2.0 margin))}
+        area {:x (double (+ opt-width margin))
+              :y (double margin)
+              :width (- sw opt-width (* 2.0 margin))
+              :height (- sh (* 2.0 margin))}
         tint (nth palette colour)]
     (doseq [{:keys [source dest]} (tile-rects (nth pattern-rects pattern) area scale)]
       (rtl/draw-texture-pro! texture
                              (update source :width float)
                              (-> dest (update :x float) (update :y float)
                                  (update :width float) (update :height float))
-                             {:x 0.0 :y 0.0} (float rotation) tint))
+                             {:x 0.0
+                              :y 0.0} (float rotation) tint))
 
     (rsb/draw-rectangle! margin margin (- opt-width margin) (- sh (* 2 margin))
                          (ru/fade colors/lightgray 0.5))

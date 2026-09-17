@@ -38,8 +38,14 @@
   (let [l1 15.0 m1 0.2 theta1 (* DEG2RAD 170) w1 0.0
         l2 15.0 m2 0.1 theta2 (* DEG2RAD 0) w2 0.0
         prev (double-pendulum-endpoint l1 theta1 l2 theta2)]
-    {:l1 l1 :m1 m1 :theta1 theta1 :w1 w1
-     :l2 l2 :m2 m2 :theta2 theta2 :w2 w2
+    {:l1 l1
+     :m1 m1
+     :theta1 theta1
+     :w1 w1
+     :l2 l2
+     :m2 m2
+     :theta2 theta2
+     :w2 w2
      :length-scaler 0.1
      :prev-pos {:x (float (+ (/ screen-width 2.0) (:x prev)))
                 :y (float (+ (- (/ screen-height 2.0) 100) (:y prev)))}
@@ -71,24 +77,27 @@
         ww2 (* w2 w2)
         ;; Angular acceleration for pendulum 1
         a1 (/ (+ (* (- G) (+ (* 2 m1) m2) (Math/sin theta1))
-               (* (- m2) G (Math/sin (- theta1 (* 2 theta2))))
-               (* -2 sin-d m2 (+ (* ww2 big-l2) (* ww1 big-l1 cos-d))))
-            (* big-l1 (- (+ (* 2 m1) m2) (* m2 cos-2d))))
+                 (* (- m2) G (Math/sin (- theta1 (* 2 theta2))))
+                 (* -2 sin-d m2 (+ (* ww2 big-l2) (* ww1 big-l1 cos-d))))
+              (* big-l1 (- (+ (* 2 m1) m2) (* m2 cos-2d))))
         ;; Angular acceleration for pendulum 2
         a2 (/ (* 2 sin-d (+ (* ww1 big-l1 total-m)
-                             (* G total-m (Math/cos theta1))
-                             (* ww2 big-l2 m2 cos-d)))
-            (* big-l2 (- (+ (* 2 m1) m2) (* m2 cos-2d))))
+                            (* G total-m (Math/cos theta1))
+                            (* ww2 big-l2 m2 cos-d)))
+              (* big-l2 (- (+ (* 2 m1) m2) (* m2 cos-2d))))
         ;; Update angles
         new-theta1 (+ theta1 (* w1 step) (* 0.5 a1 step2))
         new-theta2 (+ theta2 (* w2 step) (* 0.5 a2 step2))
         ;; Update angular velocities
         new-w1 (+ w1 (* a1 step))
         new-w2 (+ w2 (* a2 step))]
-    {:theta1 new-theta1 :theta2 new-theta2
-     :w1 new-w1 :w2 new-w2}))
+    {:theta1 new-theta1
+     :theta2 new-theta2
+     :w1 new-w1
+     :w2 new-w2}))
 
-(defn tick [{:keys [target l1 l2 theta1 theta2 prev-pos] :as state}]
+(defn tick [{:keys [target l1 l2 theta1 theta2 prev-pos]
+             :as state}]
   (debug-stats/update!)
   (let [dt (rct/get-frame-time)
         step (/ dt SIMULATION-STEPS)
@@ -98,7 +107,10 @@
                   (let [s (merge state acc)
                         r (physics-step s step)]
                     (merge acc r)))
-                {:theta1 theta1 :theta2 theta2 :w1 (:w1 state) :w2 (:w2 state)}
+                {:theta1 theta1
+                 :theta2 theta2
+                 :w1 (:w1 state)
+                 :w2 (:w2 state)}
                 (range SIMULATION-STEPS))
         ;; Calculate new endpoint position
         cur (double-pendulum-endpoint l1 (:theta1 result) l2 (:theta2 result))
@@ -109,7 +121,10 @@
       (rtl/begin-texture-mode! target)
       ;; Fade effect - smaller alpha = longer trails
       (rsb/draw-rectangle-rec!
-       {:x 0.0 :y 0.0 :width (float screen-width) :height (float screen-height)}
+       {:x 0.0
+        :y 0.0
+        :width (float screen-width)
+        :height (float screen-height)}
        (ru/fade colors/black (float 0.01)))
       ;; Draw trail segment
       (rsb/draw-circle-v! prev-pos (float 2.0) colors/red)
@@ -126,8 +141,12 @@
     (let [tex (:texture target)]
       (rtl/draw-texture-rec!
        tex
-       {:x 0.0 :y 0.0 :width (float (:width tex)) :height (float (- (:height tex)))}
-       {:x 0.0 :y 0.0}
+       {:x 0.0
+        :y 0.0
+        :width (float (:width tex))
+        :height (float (- (:height tex)))}
+       {:x 0.0
+        :y 0.0}
        colors/white)))
 
   ;; Draw pendulum arms
@@ -137,16 +156,22 @@
         e1 (pendulum-endpoint l1 theta1)]
     ;; First arm
     (rsb/draw-rectangle-pro!
-     {:x (float pivot-x) :y (float pivot-y)
-      :width (float (* 10 l1)) :height (float line-thick)}
-     {:x 0.0 :y (float (* line-thick 0.5))}
+     {:x (float pivot-x)
+      :y (float pivot-y)
+      :width (float (* 10 l1))
+      :height (float line-thick)}
+     {:x 0.0
+      :y (float (* line-thick 0.5))}
      (float (- 90 (* RAD2DEG theta1)))
      colors/raywhite)
     ;; Second arm
     (rsb/draw-rectangle-pro!
-     {:x (float (+ pivot-x (:x e1))) :y (float (+ pivot-y (:y e1)))
-      :width (float (* 10 l2)) :height (float line-thick)}
-     {:x 0.0 :y (float (* line-thick 0.5))}
+     {:x (float (+ pivot-x (:x e1)))
+      :y (float (+ pivot-y (:y e1)))
+      :width (float (* 10 l2))
+      :height (float line-thick)}
+     {:x 0.0
+      :y (float (* line-thick 0.5))}
      (float (- 90 (* RAD2DEG theta2)))
      colors/raywhite))
 

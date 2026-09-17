@@ -36,13 +36,31 @@
 (def virtual-ratio (/ (double screen-width) virtual-width))
 
 (def rects
-  [[{:x 70.0 :y 35.0 :width 20.0 :height 20.0} colors/black  0.0]
-   [{:x 90.0 :y 55.0 :width 30.0 :height 10.0} colors/red   -1.0]   ; -1.0 = negated rotation
-   [{:x 80.0 :y 65.0 :width 15.0 :height 25.0} colors/blue  45.0]]) ; 45.0 = rotation + 45
+  [[{:x 70.0
+     :y 35.0
+     :width 20.0
+     :height 20.0} colors/black  0.0]
+   [{:x 90.0
+     :y 55.0
+     :width 30.0
+     :height 10.0} colors/red   -1.0]   ; -1.0 = negated rotation
+   [{:x 80.0
+     :y 65.0
+     :width 15.0
+     :height 25.0} colors/blue  45.0]]) ; 45.0 = rotation + 45
 
-(defn- camera [target] {:offset {:x 0.0 :y 0.0} :target target :rotation 0.0 :zoom 1.0})
+(defn- camera [target] {:offset {:x 0.0
+                                 :y 0.0}
+                        :target target
+                        :rotation 0.0
+                        :zoom 1.0})
 
-(defn initial-state [] {:target nil :rotation 0.0 :world {:x 0.0 :y 0.0} :screen {:x 0.0 :y 0.0}})
+(defn initial-state [] {:target nil
+                        :rotation 0.0
+                        :world {:x 0.0
+                                :y 0.0}
+                        :screen {:x 0.0
+                                 :y 0.0}})
 
 (def game-atom (atom (initial-state)))
 
@@ -65,7 +83,8 @@
         world-y (double (long cam-y))]
     (assoc state
            :rotation (+ (:rotation state) (* 60.0 (rct/get-frame-time)))
-           :world {:x world-x :y world-y}
+           :world {:x world-x
+                   :y world-y}
            :screen {:x (* (- cam-x world-x) virtual-ratio)
                     :y (* (- cam-y world-y) virtual-ratio)})))
 
@@ -73,9 +92,11 @@
   (when target
     (rtl/begin-texture-mode! target)
     (rcd/clear-background! colors/raywhite)
-    (rc2d/begin-mode-2d! (camera {:x (float (:x world)) :y (float (:y world))}))
+    (rc2d/begin-mode-2d! (camera {:x (float (:x world))
+                                  :y (float (:y world))}))
     (doseq [[rec color spin] rects]
-      (rsb/draw-rectangle-pro! rec {:x 0.0 :y 0.0}
+      (rsb/draw-rectangle-pro! rec {:x 0.0
+                                    :y 0.0}
                                (float (if (neg? spin) (- rotation) (+ rotation spin)))
                                color))
     (rc2d/end-mode-2d!)
@@ -85,17 +106,23 @@
   (rcd/clear-background! colors/red)
   (when target
     (let [tex (:texture target)]
-      (rc2d/begin-mode-2d! (camera {:x (float (:x screen)) :y (float (:y screen))}))
+      (rc2d/begin-mode-2d! (camera {:x (float (:x screen))
+                                    :y (float (:y screen))}))
       (rtl/draw-texture-pro!
        tex
        ;; Negative height: OpenGL targets are stored bottom-up.
-       {:x 0.0 :y 0.0 :width (float (:width tex)) :height (float (- (:height tex)))}
+       {:x 0.0
+        :y 0.0
+        :width (float (:width tex))
+        :height (float (- (:height tex)))}
        ;; Overdraw by one world-pixel on each side so the sub-pixel shift
        ;; never exposes the background at an edge.
-       {:x (float (- virtual-ratio)) :y (float (- virtual-ratio))
+       {:x (float (- virtual-ratio))
+        :y (float (- virtual-ratio))
         :width (float (+ screen-width (* virtual-ratio 2)))
         :height (float (+ screen-height (* virtual-ratio 2)))}
-       {:x 0.0 :y 0.0} (float 0.0) colors/white)
+       {:x 0.0
+        :y 0.0} (float 0.0) colors/white)
       (rc2d/end-mode-2d!)))
 
   (rtd/draw-text! (format "Screen resolution: %dx%d" screen-width screen-height)

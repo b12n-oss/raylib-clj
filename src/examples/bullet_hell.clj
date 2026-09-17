@@ -44,10 +44,14 @@
 
 (defn initial-state []
   {:bullets []
-   :speed 3.0 :rows 6
-   :base-direction 0.0 :angle-increment 5
-   :cooldown 2.0 :cooldown-timer 2.0
-   :rotation 0.0 :performance-mode true
+   :speed 3.0
+   :rows 6
+   :base-direction 0.0
+   :angle-increment 5
+   :cooldown 2.0
+   :cooldown-timer 2.0
+   :rotation 0.0
+   :performance-mode true
    :texture nil})
 
 (def game-atom (atom (initial-state)))
@@ -61,7 +65,10 @@
   ;; whole point of "performance mode".
   (let [tex (rtl/load-render-texture! 24 24)]
     (rtl/begin-texture-mode! tex)
-    (rcd/clear-background! {:r 0 :g 0 :b 0 :a 0})
+    (rcd/clear-background! {:r 0
+                            :g 0
+                            :b 0
+                            :a 0})
     (rsb/draw-circle! 12 12 (float bullet-radius) colors/white)
     (rsb/draw-circle-lines! 12 12 (float bullet-radius) colors/black)
     (rtl/end-texture-mode!)
@@ -74,8 +81,10 @@
   (let [degrees-per-row (/ 360.0 rows)]
     (for [row (range rows)
           :let [dir (Math/toRadians (+ base-direction (* degrees-per-row row)))]]
-      {:pos {:x (/ screen-width 2.0) :y (/ screen-height 2.0)}
-       :acc {:x (* speed (Math/cos dir)) :y (* speed (Math/sin dir))}
+      {:pos {:x (/ screen-width 2.0)
+             :y (/ screen-height 2.0)}
+       :acc {:x (* speed (Math/cos dir))
+             :y (* speed (Math/sin dir))}
        :color (nth bullet-colors (mod row 2))})))
 
 (defn on-screen?
@@ -95,7 +104,8 @@
 (defn- pressed? [& ks] (some #(rck/is-key-pressed? (get enums/keyboard-key %)) ks))
 
 (defn tick [{:keys [bullets cooldown cooldown-timer rows speed
-                    angle-increment base-direction] :as state}]
+                    angle-increment base-direction]
+             :as state}]
   (debug-stats/update!)
   (let [rows (cond (and (pressed? :right :d) (< rows 359)) (inc rows)
                    (and (pressed? :left :a) (> rows 1)) (dec rows)
@@ -125,9 +135,14 @@
 
 (defn- draw-magic-circle [rotation]
   (let [cx (/ screen-width 2.0) cy (/ screen-height 2.0)
-        square {:x (float cx) :y (float cy) :width 120.0 :height 120.0}]
-    (rsb/draw-rectangle-pro! square {:x 60.0 :y 60.0} (float rotation) colors/purple)
-    (rsb/draw-rectangle-pro! square {:x 60.0 :y 60.0} (float (+ rotation 45)) colors/purple)
+        square {:x (float cx)
+                :y (float cy)
+                :width 120.0
+                :height 120.0}]
+    (rsb/draw-rectangle-pro! square {:x 60.0
+                                     :y 60.0} (float rotation) colors/purple)
+    (rsb/draw-rectangle-pro! square {:x 60.0
+                                     :y 60.0} (float (+ rotation 45)) colors/purple)
     (doseq [r [70.0 50.0 30.0]]
       (rsb/draw-circle-lines! (int cx) (int cy) (float r) colors/black))))
 
@@ -144,11 +159,15 @@
       (doseq [{:keys [pos color]} bullets]
         (rtdw/draw-texture! tex (int (- (:x pos) hw)) (int (- (:y pos) hh)) color)))
     (doseq [{:keys [pos color]} bullets]
-      (let [p {:x (float (:x pos)) :y (float (:y pos))}]
+      (let [p {:x (float (:x pos))
+               :y (float (:y pos))}]
         (rsb/draw-circle-v! p (float bullet-radius) color)
         (rsb/draw-circle-lines-v! p (float bullet-radius) colors/black))))
 
-  (let [panel {:r 0 :g 0 :b 0 :a 200}]
+  (let [panel {:r 0
+               :g 0
+               :b 0
+               :a 200}]
     (rsb/draw-rectangle! 10 10 280 150 panel)
     (rtd/draw-text! "Controls:" 20 20 10 colors/lightgray)
     (doseq [[i s] (map-indexed vector ["- Right/Left or A/D: Change rows number"

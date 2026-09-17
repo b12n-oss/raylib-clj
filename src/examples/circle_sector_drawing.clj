@@ -31,7 +31,10 @@
 (def screen-height 450)
 
 (defn initial-state []
-  {:outer-radius 180.0 :start-angle 0.0 :end-angle 180.0 :segments 10.0})
+  {:outer-radius 180.0
+   :start-angle 0.0
+   :end-angle 180.0
+   :segments 10.0})
 
 (def game-atom (atom (initial-state)))
 
@@ -55,7 +58,8 @@
   (debug-stats/update!)
   state)
 
-(defn draw [{:keys [outer-radius start-angle end-angle segments] :as state}]
+(defn draw [{:keys [outer-radius start-angle end-angle segments]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
 
@@ -74,16 +78,28 @@
   ;; Each slider returns its new value, so the frame's draw pass is also
   ;; what produces the next state. That is immediate mode: there is no
   ;; separate update step for these.
-  (let [start-angle (gui/slider-bar {:x 600.0 :y 40.0 :width 120.0 :height 20.0}
+  (let [start-angle (gui/slider-bar {:x 600.0
+                                     :y 40.0
+                                     :width 120.0
+                                     :height 20.0}
                                     "StartAngle" (format "%.2f" start-angle)
                                     start-angle 0.0 720.0)
-        end-angle (gui/slider-bar {:x 600.0 :y 70.0 :width 120.0 :height 20.0}
+        end-angle (gui/slider-bar {:x 600.0
+                                   :y 70.0
+                                   :width 120.0
+                                   :height 20.0}
                                   "EndAngle" (format "%.2f" end-angle)
                                   end-angle 0.0 720.0)
-        outer-radius (gui/slider-bar {:x 600.0 :y 140.0 :width 120.0 :height 20.0}
+        outer-radius (gui/slider-bar {:x 600.0
+                                      :y 140.0
+                                      :width 120.0
+                                      :height 20.0}
                                      "Radius" (format "%.2f" outer-radius)
                                      outer-radius 0.0 200.0)
-        segments (gui/slider-bar {:x 600.0 :y 170.0 :width 120.0 :height 20.0}
+        segments (gui/slider-bar {:x 600.0
+                                  :y 170.0
+                                  :width 120.0
+                                  :height 20.0}
                                  "Segments" (format "%.2f" segments)
                                  segments 0.0 100.0)
         manual? (>= segments (min-segments start-angle end-angle))]

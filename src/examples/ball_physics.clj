@@ -22,22 +22,30 @@
 (def screen-height 450)
 
 (defn make-ball [x y]
-  {:pos {:x (float x) :y (float y)}
-   :vel {:x (float (- (rand-int 601) 300)) :y (float (- (rand-int 601) 300))}
-   :ppos {:x 0.0 :y 0.0}
+  {:pos {:x (float x)
+         :y (float y)}
+   :vel {:x (float (- (rand-int 601) 300))
+         :y (float (- (rand-int 601) 300))}
+   :ppos {:x 0.0
+          :y 0.0}
    :radius (+ 20.0 (rand-int 31))
    :friction 0.99
    :elasticity 0.9
-   :color {:r (rand-int 256) :g (rand-int 256) :b (rand-int 256) :a 255}
+   :color {:r (rand-int 256)
+           :g (rand-int 256)
+           :b (rand-int 256)
+           :a 255}
    :grabbed false})
 
 (defn initial-state []
   {:balls [(assoc (make-ball (/ screen-width 2.0) (/ screen-height 2.0))
-                  :vel {:x 200.0 :y 200.0}
+                  :vel {:x 200.0
+                        :y 200.0}
                   :radius 40.0
                   :color colors/blue)]
    :grabbed-idx nil
-   :press-offset {:x 0.0 :y 0.0}
+   :press-offset {:x 0.0
+                  :y 0.0}
    :gravity 100.0})
 
 (def game-atom (atom (initial-state)))
@@ -50,10 +58,14 @@
 (defn- dist [p1 p2]
   (Math/hypot (- (:x p1) (:x p2)) (- (:y p1) (:y p2))))
 
-(defn- clamp-ball [{:keys [pos vel radius elasticity] :as ball}]
+(defn- clamp-ball [{:keys [pos vel radius elasticity]
+                    :as ball}]
   (let [{:keys [x y]} pos
         {:keys [x vx y vy]}
-        (cond-> {:x x :vx (:x vel) :y y :vy (:y vel)}
+        (cond-> {:x x
+                 :vx (:x vel)
+                 :y y
+                 :vy (:y vel)}
           (>= (+ x radius) screen-width)
           (assoc :x (- screen-width radius) :vx (* (- (:x vel)) elasticity))
           (<= (- x radius) 0)
@@ -62,7 +74,9 @@
           (assoc :y (- screen-height radius) :vy (* (- (:y vel)) elasticity))
           (<= (- y radius) 0)
           (assoc :y radius :vy (* (- (:y vel)) elasticity)))]
-    (assoc ball :pos {:x x :y y} :vel {:x vx :y vy})))
+    (assoc ball :pos {:x x
+                      :y y} :vel {:x vx
+                                  :y vy})))
 
 (defn- update-free-ball [ball dt gravity]
   (let [{:keys [pos vel friction]} ball
@@ -79,7 +93,8 @@
                  :y (/ (- (:y new-pos) (:y (:ppos ball))) (max dt 0.001))}]
     (assoc ball :pos new-pos :vel new-vel :ppos new-pos)))
 
-(defn tick [{:keys [balls grabbed-idx press-offset gravity] :as state}]
+(defn tick [{:keys [balls grabbed-idx press-offset gravity]
+             :as state}]
   (debug-stats/update!)
   (let [dt (rct/get-frame-time)
         mouse-pos (rcm/get-mouse-position)
@@ -123,7 +138,7 @@
                         (if (:grabbed ball)
                           ball
                           (assoc ball :vel {:x (float (- (rand-int 4001) 2000))
-                                           :y (float (- (rand-int 4001) 2000))})))
+                                            :y (float (- (rand-int 4001) 2000))})))
                       balls)
                 balls)
 

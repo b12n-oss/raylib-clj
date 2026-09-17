@@ -26,8 +26,10 @@
 (def screen-width 800)
 (def screen-height 450)
 
-(def ellipse-a {:rx 120.0 :ry 70.0})
-(def ellipse-b {:rx 90.0 :ry 140.0})
+(def ellipse-a {:rx 120.0
+                :ry 70.0})
+(def ellipse-b {:rx 90.0
+                :ry 140.0})
 
 (defn- boundary-radius
   "Distance from an ellipse's centre to its edge along `theta`.
@@ -42,7 +44,9 @@
   "Compare centre distance against the two boundary radii along the line
    joining the centres. Scales correctly with differing radii, unlike a
    bounding-circle test."
-  [c1 {rx1 :rx ry1 :ry} c2 {rx2 :rx ry2 :ry}]
+  [c1 {rx1 :rx
+       ry1 :ry} c2 {rx2 :rx
+                    ry2 :ry}]
   (let [dx (- (:x c2) (:x c1))
         dy (- (:y c2) (:y c1))
         dist (Math/sqrt (+ (* dx dx) (* dy dy)))]
@@ -56,14 +60,18 @@
 
 (defn point-in-ellipse?
   "Normalise the point into unit-circle space, then test against 1."
-  [{px :x py :y} {cx :x cy :y} {:keys [rx ry]}]
+  [{px :x
+    py :y} {cx :x
+            cy :y} {:keys [rx ry]}]
   (let [nx (/ (- px cx) rx)
         ny (/ (- py cy) ry)]
     (<= (+ (* nx nx) (* ny ny)) 1.0)))
 
 (defn initial-state []
-  {:a {:x (/ screen-width 4.0) :y (/ screen-height 2.0)}
-   :b {:x (* screen-width 0.75) :y (/ screen-height 2.0)}
+  {:a {:x (/ screen-width 4.0)
+       :y (/ screen-height 2.0)}
+   :b {:x (* screen-width 0.75)
+       :y (/ screen-height 2.0)}
    :controlled :a})
 
 (def game-atom (atom (initial-state)))

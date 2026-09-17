@@ -30,15 +30,24 @@
 (def screen-width 800)
 (def screen-height 450)
 
-(def map-position {:x -8.0 :y 0.0 :z -8.0})
+(def map-position {:x -8.0
+                   :y 0.0
+                   :z -8.0})
 
 (defn initial-state []
-  {:camera {:position {:x 18.0 :y 21.0 :z 18.0}
-            :target {:x 0.0 :y 0.0 :z 0.0}
-            :up {:x 0.0 :y 1.0 :z 0.0}
+  {:camera {:position {:x 18.0
+                       :y 21.0
+                       :z 18.0}
+            :target {:x 0.0
+                     :y 0.0
+                     :z 0.0}
+            :up {:x 0.0
+                 :y 1.0
+                 :z 0.0}
             :fovy 45.0
             :projection rc3d/CAMERA_PERSPECTIVE}
-   :model nil :texture nil})
+   :model nil
+   :texture nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -46,7 +55,9 @@
   (rcw/init-window! screen-width screen-height "raylib [models] example - heightmap rendering")
   (let [image (rtl/load-image "resources/heightmap.png")
         texture (rtl/load-texture-from-image image)
-        model (rm/load-model-from-mesh (rm/gen-mesh-heightmap image {:x 16.0 :y 8.0 :z 16.0}))]
+        model (rm/load-model-from-mesh (rm/gen-mesh-heightmap image {:x 16.0
+                                                                     :y 8.0
+                                                                     :z 16.0}))]
     (rm/set-model-material-texture! model texture)
     ;; The mesh and the texture both live on the GPU now; the pixels do not.
     (rtl/unload-image! image)

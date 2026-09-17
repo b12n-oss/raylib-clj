@@ -42,17 +42,27 @@
    the gamepad's left face buttons; the alternate uses the arrow keys and the
    right face buttons. FIRE is SPACE in both."
   {:default {:label "Current input set: WASD (default)"
-             :actions {:up    {:key :w :button rcg/GAMEPAD_BUTTON_LEFT_FACE_UP}
-                       :down  {:key :s :button rcg/GAMEPAD_BUTTON_LEFT_FACE_DOWN}
-                       :left  {:key :a :button rcg/GAMEPAD_BUTTON_LEFT_FACE_LEFT}
-                       :right {:key :d :button rcg/GAMEPAD_BUTTON_LEFT_FACE_RIGHT}
-                       :fire  {:key :space :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}}}
+             :actions {:up    {:key :w
+                               :button rcg/GAMEPAD_BUTTON_LEFT_FACE_UP}
+                       :down  {:key :s
+                               :button rcg/GAMEPAD_BUTTON_LEFT_FACE_DOWN}
+                       :left  {:key :a
+                               :button rcg/GAMEPAD_BUTTON_LEFT_FACE_LEFT}
+                       :right {:key :d
+                               :button rcg/GAMEPAD_BUTTON_LEFT_FACE_RIGHT}
+                       :fire  {:key :space
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}}}
    :cursor  {:label "Current input set: Arrow keys"
-             :actions {:up    {:key :up :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_UP}
-                       :down  {:key :down :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}
-                       :left  {:key :left :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_LEFT}
-                       :right {:key :right :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_RIGHT}
-                       :fire  {:key :space :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}}}})
+             :actions {:up    {:key :up
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_UP}
+                       :down  {:key :down
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}
+                       :left  {:key :left
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_LEFT}
+                       :right {:key :right
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_RIGHT}
+                       :fire  {:key :space
+                               :button rcg/GAMEPAD_BUTTON_RIGHT_FACE_DOWN}}}})
 
 (defn- action-input [keyset action]
   (get-in keysets [keyset :actions action]))
@@ -74,7 +84,8 @@
 (defn action-released? [keyset action]
   (check keyset action rck/is-key-released? rcg/is-gamepad-button-released?))
 
-(def size {:x 40.0 :y 40.0})
+(def size {:x 40.0
+           :y 40.0})
 
 (defn centred-position []
   {:x (/ (- screen-width (:x size)) 2.0)
@@ -82,7 +93,8 @@
 
 (defn initial-state []
   {:keyset :default
-   :position {:x 400.0 :y 200.0}
+   :position {:x 400.0
+              :y 200.0}
    :released? false})
 
 (def game-atom (atom (initial-state)))
@@ -92,7 +104,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [keyset position] :as state}]
+(defn tick [{:keys [keyset position]
+             :as state}]
   (debug-stats/update!)
   (let [move (fn [pos action dx dy]
                (if (action-down? keyset action)

@@ -125,7 +125,10 @@
 (defn ^:private style-color [control kind st]
   (color-of (get-style control (keyword (str (name kind) "-" (name (state-suffix st)))))))
 
-(def ^:private blank {:r 0 :g 0 :b 0 :a 0})
+(def ^:private blank {:r 0
+                      :g 0
+                      :b 0
+                      :a 0})
 
 ;; ------------------------------------------------------------------- icons
 
@@ -159,7 +162,8 @@
             (rsb/draw-rectangle-rec!
              {:x (float (+ x (* (mod k icon-size) pixel-size)))
               :y (float (+ y (* (+ (* 2 i) (quot k 16)) pixel-size)))
-              :width (float pixel-size) :height (float pixel-size)}
+              :width (float pixel-size)
+              :height (float pixel-size)}
              color)))))))
 
 (defn split-icon
@@ -254,7 +258,8 @@
         left? (= (get-style :checkbox :text-alignment) align-left)
         text-bounds {:x (if left? (- (:x bounds) tw padding) (+ (:x bounds) (:width bounds) padding))
                      :y (+ (:y bounds) (- (/ (:height bounds) 2.0) (/ size 2.0)))
-                     :width (float tw) :height (float size)}
+                     :width (float tw)
+                     :height (float size)}
         total {:x (if left? (:x text-bounds) (:x bounds))
                :y (:y bounds)
                :width (+ (:width bounds) tw padding)
@@ -266,7 +271,8 @@
     (draw-box bounds bw (style-color :checkbox :border st) blank)
     (when checked?
       (let [inset (+ bw (get-style :checkbox :check-padding))]
-        (rsb/draw-rectangle-rec! {:x (+ (:x bounds) inset) :y (+ (:y bounds) inset)
+        (rsb/draw-rectangle-rec! {:x (+ (:x bounds) inset)
+                                  :y (+ (:y bounds) inset)
                                   :width (- (:width bounds) (* 2 inset))
                                   :height (- (:height bounds) (* 2 inset))}
                                  (style-color :checkbox :text st))))
@@ -302,7 +308,8 @@
           :else [value @gui-state])
         value (max min-value (min max-value value))
         filled (* (/ (- value min-value) span) (- (:width bounds) slider-width (* 2 bw)))
-        track {:x (+ (:x bounds) bw) :y (+ (:y bounds) bw pad)
+        track {:x (+ (:x bounds) bw)
+               :y (+ (:y bounds) bw pad)
                :height (- (:height bounds) (* 2 bw) (* 2 pad))}
         knob (if (pos? slider-width)
                (assoc track :x (min (- (+ (:x bounds) (:width bounds)) slider-width bw)
@@ -324,13 +331,17 @@
                                       :text-disabled)))))
     (when text-left
       (draw-aligned-text text-left
-                         {:x (- (:x bounds) (text-width text-left) tpad) :y mid-y
-                          :width (float (text-width text-left)) :height (float size)}
+                         {:x (- (:x bounds) (text-width text-left) tpad)
+                          :y mid-y
+                          :width (float (text-width text-left))
+                          :height (float size)}
                          align-right (style-color :label :text st)))
     (when text-right
       (draw-aligned-text text-right
-                         {:x (+ (:x bounds) (:width bounds) tpad) :y mid-y
-                          :width (float (text-width text-right)) :height (float size)}
+                         {:x (+ (:x bounds) (:width bounds) tpad)
+                          :y mid-y
+                          :width (float (text-width text-right))
+                          :height (float size)}
                          align-left (style-color :label :text st)))
     value))
 
@@ -357,14 +368,24 @@
         mid (+ (:y bounds) (/ (:height bounds) 2.0))
         margin 12.0 pad 4.0]
     (if (or (nil? text) (= "" text))
-      (rsb/draw-rectangle-rec! {:x (:x bounds) :y mid :width (:width bounds) :height 1.0} color)
+      (rsb/draw-rectangle-rec! {:x (:x bounds)
+                                :y mid
+                                :width (:width bounds)
+                                :height 1.0} color)
       (let [tw (+ (text-width text) 2)]
-        (rsb/draw-rectangle-rec! {:x (:x bounds) :y mid :width (- margin pad) :height 1.0} color)
-        (draw-aligned-text text {:x (+ (:x bounds) margin) :y (:y bounds)
-                                 :width (float tw) :height (:height bounds)}
+        (rsb/draw-rectangle-rec! {:x (:x bounds)
+                                  :y mid
+                                  :width (- margin pad)
+                                  :height 1.0} color)
+        (draw-aligned-text text {:x (+ (:x bounds) margin)
+                                 :y (:y bounds)
+                                 :width (float tw)
+                                 :height (:height bounds)}
                            align-left color)
-        (rsb/draw-rectangle-rec! {:x (+ (:x bounds) margin tw pad) :y mid
-                                  :width (- (:width bounds) tw margin pad) :height 1.0}
+        (rsb/draw-rectangle-rec! {:x (+ (:x bounds) margin tw pad)
+                                  :y mid
+                                  :width (- (:width bounds) tw margin pad)
+                                  :height 1.0}
                                  color))))
   nil)
 
@@ -375,14 +396,22 @@
   (let [color (color-of (get-style :default (if (= @gui-state state-disabled)
                                               :border-disabled :line-color)))
         thick 1.0]
-    (rsb/draw-rectangle-rec! {:x (:x bounds) :y (:y bounds)
-                              :width thick :height (:height bounds)} color)
-    (rsb/draw-rectangle-rec! {:x (:x bounds) :y (+ (:y bounds) (:height bounds) -1)
-                              :width (:width bounds) :height thick} color)
-    (rsb/draw-rectangle-rec! {:x (+ (:x bounds) (:width bounds) -1) :y (:y bounds)
-                              :width thick :height (:height bounds)} color)
-    (line {:x (:x bounds) :y (- (:y bounds) (/ (get-style :default :text-size) 2.0))
-           :width (:width bounds) :height (float (get-style :default :text-size))}
+    (rsb/draw-rectangle-rec! {:x (:x bounds)
+                              :y (:y bounds)
+                              :width thick
+                              :height (:height bounds)} color)
+    (rsb/draw-rectangle-rec! {:x (:x bounds)
+                              :y (+ (:y bounds) (:height bounds) -1)
+                              :width (:width bounds)
+                              :height thick} color)
+    (rsb/draw-rectangle-rec! {:x (+ (:x bounds) (:width bounds) -1)
+                              :y (:y bounds)
+                              :width thick
+                              :height (:height bounds)} color)
+    (line {:x (:x bounds)
+           :y (- (:y bounds) (/ (get-style :default :text-size) 2.0))
+           :width (:width bounds)
+           :height (float (get-style :default :text-size))}
           text))
   nil)
 
@@ -418,11 +447,18 @@
   [bounds text value min-value max-value]
   (let [bw (get-style :valuebox :spinner-button-width)
         gap (get-style :valuebox :spinner-button-spacing)
-        left {:x (:x bounds) :y (:y bounds) :width (float bw) :height (:height bounds)}
-        right {:x (+ (:x bounds) (:width bounds) (- bw)) :y (:y bounds)
-               :width (float bw) :height (:height bounds)}
-        box {:x (+ (:x bounds) bw gap) :y (:y bounds)
-             :width (- (:width bounds) (* 2 (+ bw gap))) :height (:height bounds)}
+        left {:x (:x bounds)
+              :y (:y bounds)
+              :width (float bw)
+              :height (:height bounds)}
+        right {:x (+ (:x bounds) (:width bounds) (- bw))
+               :y (:y bounds)
+               :width (float bw)
+               :height (:height bounds)}
+        box {:x (+ (:x bounds) bw gap)
+             :y (:y bounds)
+             :width (- (:width bounds) (* 2 (+ bw gap)))
+             :height (:height bounds)}
         st (if (and (interactive?) (inside? (mouse) bounds))
              (if (button-down?) state-pressed state-focused)
              @gui-state)
@@ -443,7 +479,8 @@
                (- (:x bounds) tw pad)
                (+ (:x bounds) (:width bounds) pad))
           :y (+ (:y bounds) (- (/ (:height bounds) 2.0) (/ size 2.0)))
-          :width (float tw) :height (float size)}
+          :width (float tw)
+          :height (float size)}
          (if left-aligned? align-right align-left)
          (style-color :label :text st))))
     value))
@@ -496,8 +533,10 @@
                  :else state-normal)
         pad (get-style :textbox :text-padding)
         size (get-style :default :text-size)
-        inner {:x (+ (:x bounds) pad) :y (:y bounds)
-               :width (- (:width bounds) (* 2 pad)) :height (:height bounds)}
+        inner {:x (+ (:x bounds) pad)
+               :y (:y bounds)
+               :width (- (:width bounds) (* 2 pad))
+               :height (:height bounds)}
         ;; Long text scrolls: keep dropping leading characters until the
         ;; tail fits, so the caret end stays visible rather than the text
         ;; running out past the border.
@@ -515,6 +554,8 @@
         (rsb/draw-rectangle-rec!
          {:x (float (+ (:x inner) cw (get-style :default :text-spacing)))
           :y (float (+ (:y bounds) (/ (- (:height bounds) h) 2.0)))
-          :width 2.0 :height (float h)}
+          :width 2.0
+          :height (float h)}
          (style-color :textbox :border state-pressed))))
-    {:text text :toggled? (boolean toggled?)}))
+    {:text text
+     :toggled? (boolean toggled?)}))

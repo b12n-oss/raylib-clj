@@ -47,7 +47,8 @@
 
 (defn- wrap [x] (if (> x screen-width) 0.0 x))
 
-(defn tick [{:keys [current-fps] :as state}]
+(defn tick [{:keys [current-fps]
+             :as state}]
   (debug-stats/update!)
   (let [wheel (rcm/get-mouse-wheel-move)
         fps (if (zero? wheel)
@@ -67,9 +68,11 @@
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
 
-  (rsb/draw-circle-v! {:x (float delta-x) :y (float (/ screen-height 3.0))}
+  (rsb/draw-circle-v! {:x (float delta-x)
+                       :y (float (/ screen-height 3.0))}
                       (float circle-radius) colors/red)
-  (rsb/draw-circle-v! {:x (float frame-x) :y (float (* screen-height (/ 2.0 3.0)))}
+  (rsb/draw-circle-v! {:x (float frame-x)
+                       :y (float (* screen-height (/ 2.0 3.0)))}
                       (float circle-radius) colors/blue)
 
   (rtd/draw-text! (if (<= current-fps 0)

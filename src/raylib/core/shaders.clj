@@ -117,7 +117,9 @@
         n (count values)]
     (when-not (zero? (mod n per-group))
       (throw (ex-info "value count is not a multiple of the uniform's group size"
-                      {:values n :per-group per-group :uniform-type uniform-type})))
+                      {:values n
+                       :per-group per-group
+                       :uniform-type uniform-type})))
     (let [buf (mem/alloc (* 4 n))]
       (dotimes [i n]
         (mem/write-int (mem/slice buf (* 4 i)) 0 (int (nth values i))))

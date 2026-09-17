@@ -32,9 +32,14 @@
 (def screen-height 450)
 
 (defn initial-state []
-  {:inner-radius 80.0 :outer-radius 190.0
-   :start-angle 0.0 :end-angle 360.0 :segments 0.0
-   :ring? true :ring-lines? false :circle-lines? false})
+  {:inner-radius 80.0
+   :outer-radius 190.0
+   :start-angle 0.0
+   :end-angle 360.0
+   :segments 0.0
+   :ring? true
+   :ring-lines? false
+   :circle-lines? false})
 
 (def game-atom (atom (initial-state)))
 
@@ -59,7 +64,8 @@
   state)
 
 (defn draw [{:keys [inner-radius outer-radius start-angle end-angle segments
-                    ring? ring-lines? circle-lines?] :as state}]
+                    ring? ring-lines? circle-lines?]
+             :as state}]
   (rcd/begin-drawing!)
   (rcd/clear-background! colors/raywhite)
   (rsb/draw-line! 500 0 500 (rcw/get-screen-height) (ru/fade colors/lightgray 0.6))
@@ -78,10 +84,16 @@
       (rsb/draw-circle-sector-lines! c outer from to seg (ru/fade colors/black 0.4))))
 
   (let [bar (fn [y label v mn mx]
-              (gui/slider-bar {:x 600.0 :y (double y) :width 120.0 :height 20.0}
+              (gui/slider-bar {:x 600.0
+                               :y (double y)
+                               :width 120.0
+                               :height 20.0}
                               label (format "%.2f" v) v mn mx))
         cb (fn [y label v]
-             (gui/check-box {:x 600.0 :y (double y) :width 20.0 :height 20.0} label v))
+             (gui/check-box {:x 600.0
+                             :y (double y)
+                             :width 20.0
+                             :height 20.0} label v))
         start-angle (bar 40 "StartAngle" start-angle -450.0 450.0)
         end-angle (bar 70 "EndAngle" end-angle -450.0 450.0)
         inner-radius (bar 140 "InnerRadius" inner-radius 0.0 100.0)

@@ -776,4 +776,5 @@
                     (not (fs/exists? gif)) :missing
                     (not= (:sha entry) (sha256 (example-src aliases alias))) :stale
                     :else :current)]
-        {:alias alias :state state}))))
+        {:alias alias
+         :state state}))))

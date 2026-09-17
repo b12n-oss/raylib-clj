@@ -46,7 +46,9 @@
              69 107 115,  75 151 166,  165 189 194,  255 245 247]}])
 
 (defn initial-state []
-  {:palette 0 :shader nil :palette-loc nil})
+  {:palette 0
+   :shader nil
+   :palette-loc nil})
 
 (def game-atom (atom (initial-state)))
 
@@ -64,7 +66,8 @@
   (rct/set-target-fps! 60)
   (debug-stats/enable!))
 
-(defn tick [{:keys [palette] :as state}]
+(defn tick [{:keys [palette]
+             :as state}]
   (debug-stats/update!)
   (let [n (count palettes)
         palette (cond (rck/is-key-pressed? (:right enums/keyboard-key)) (inc palette)
@@ -87,7 +90,10 @@
   ;; here knows what colour will appear.
   (doseq [i (range colors-per-palette)]
     (rsb/draw-rectangle! 0 (* line-height i) (rcw/get-screen-width) line-height
-                         {:r i :g i :b i :a 255}))
+                         {:r i
+                          :g i
+                          :b i
+                          :a 255}))
   (rcs/end-shader-mode!)
 
   (rtd/draw-text! "< >" 10 10 30 colors/darkblue)
