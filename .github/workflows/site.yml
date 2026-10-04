@@ -1,7 +1,8 @@
 name: Site
 
-# Builds the documentation site on every pull request, and will publish it to
-# GitHub Pages from main once that is switched on. The generator lives in
+# Builds the documentation site on every pull request, and publishes it to
+# GitHub Pages at https://b12n-oss.github.io/raylib-clj/ on every push to
+# main. The generator lives in
 # jlt-commons/docs-engine (b12n-oss/docs-engine, a fork with zero commits
 # of its own ever, was retired 2026-09-11); this repo owns its content,
 # its config in docs/site.edn, and nothing else about the rendering.
@@ -9,10 +10,10 @@ name: Site
 # The engine is pinned to a tag rather than tracking its main branch, so a
 # change over there cannot break these docs without someone choosing it.
 #
-# PUBLISHING IS OFF. The deploy job is gated on the PUBLISH_SITE repository
-# variable, which does not exist yet, and GitHub Pages is not enabled on this
-# repo. Both must change for anything to be served. To turn it on, enable
-# Pages and set PUBLISH_SITE to "true".
+# Publishing is gated on the PUBLISH_SITE repository variable, which is set
+# to "true", and on GitHub Pages being enabled with "GitHub Actions" as its
+# source, which it is. To stop publishing without touching this file, delete
+# the variable or set it to anything else.
 
 on:
   push:
@@ -90,9 +91,8 @@ jobs:
           path: _site
 
   deploy:
-    # Publishing is off until BOTH of these are true: the PUBLISH_SITE
-    # repository variable is set to "true", and GitHub Pages is enabled on
-    # this repo. Neither is the case today, on purpose.
+    # Runs only when BOTH of these hold: the PUBLISH_SITE repository variable
+    # is "true", and GitHub Pages is enabled on this repo. Both are the case.
     if: github.ref == 'refs/heads/main' && vars.PUBLISH_SITE == 'true'
     needs: build
     runs-on: ubuntu-latest
