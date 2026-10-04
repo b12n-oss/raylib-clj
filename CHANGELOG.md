@@ -8,7 +8,7 @@ notice rather than what a commit did.
 Sections are dated, not numbered. This is an example suite rather than a
 released library, so "what changed, and when" is the useful question.
 
-Examples read at <https://raylib-clj.b12n.app>.
+Examples read at <https://b12n-oss.github.io/raylib-clj/>.
 
 ## Unreleased
 
