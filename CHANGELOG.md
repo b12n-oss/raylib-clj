@@ -12,6 +12,10 @@ Examples read at <https://b12n-oss.github.io/raylib-clj/>.
 
 ## Unreleased
 
+- `bb docs-sync` is gone. It published to `raylib-clj.b12n.app` through a
+  sibling site repo, the shared wiki and S3, but the docs now publish from
+  CI to <https://b12n-oss.github.io/raylib-clj/> on every push to `main`,
+  so nothing needed it any more.
 - 3 models examples ported, taking the suite to **113**:
   `billboard-rendering`, `cubicmap-rendering` and `heightmap-rendering`.
   All three orbit on their own, so their demo GIFs are honest recordings
