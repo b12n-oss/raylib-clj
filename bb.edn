@@ -10,498 +10,6 @@
              [bb.helpers :as h])
 
   ;; =============================================================================
-  ;; 🎮 Run Examples - Main Entry Point
-  ;; =============================================================================
-
-  run
-  {:doc "Run an example by name (usage: bb run <example-name>)"
-   :override-builtin true
-   :task (if-let [example-name (first *command-line-args*)]
-           (h/run-example! example-name)
-           (do
-             (h/error-msg "No example specified")
-             (h/info "Usage: bb run <example-name>")
-             (h/info "Run 'bb examples' to see available examples")
-             (System/exit 1)))}
-
-  examples
-  {:doc "List all available examples by category"
-   :task (h/print-examples-help)}
-
-  record
-  {:doc "Batch-record a demo GIF for every example: bb record [--only a,b] [--force] [--dry-run]"
-   ;; Maintainer-only: the capture CLI isn't publicly released. The fs/which
-   ;; guard exists so a contributor gets the message below, not an ENOENT stack
-   ;; trace. Every GIF under docs/demos/ is committed, so nobody else needs it.
-   :task (if (fs/which "screen-grab")
-           (let [{:keys [exit]} (apply shell {:continue true}
-                                       "screen-grab" "record"
-                                       "--manifest" "scripts/demo_manifest.edn"
-                                       *command-line-args*)]
-             (System/exit exit))
-           (do
-             (h/error-msg "`bb record` is maintainer-only. The screen-grab CLI it drives is not publicly released.")
-             (h/info "Nothing to do: every demo GIF is already committed under docs/demos/.")
-             (h/info "To propose a capture timeline for a new example, add an :overrides")
-             (h/info "entry in scripts/demo_manifest.edn and mention it in your PR.")
-             (System/exit 0)))}
-
-  record:status
-  {:doc "Which demo GIFs are missing, stale or current (no recording, no screen-grab needed)"
-   ;; Safe for anyone: reads the ledger and hashes source files, nothing else.
-   :task (let [rows (h/demo-status)
-               by (group-by :state rows)
-               show (fn [state label]
-                      (let [xs (sort (map :alias (get by state)))]
-                        (println (str "  " label " " (count xs)))
-                        (doseq [g (partition-all 4 xs)]
-                          (println (str "      " (str/join "  " g))))))]
-           (h/header "🎬 Demo recording status")
-           (show :missing "missing (never recorded):")
-           (show :stale   "stale   (source changed since recording):")
-           (println (str "  current " (count (get by :current))))
-           (println)
-           (h/info "bb record:new   records only the missing ones")
-           (h/info "bb record       records missing AND stale (screen-grab's default)"))}
-
-  record:new
-  {:doc "Record demo GIFs for examples that have none yet - skips stale ones: bb record:new [--dry-run]"
-   ;; The reason this exists rather than just using `bb record`: screen-grab
-   ;; treats "source changed" as needing a re-record, so a refactor touching
-   ;; many example files marks dozens stale without changing what they draw.
-   ;; This records only what has never been recorded.
-   ;;
-   ;; Maintainer-only, like `bb record` - screen-grab is not publicly released.
-   :task (let [missing (sort (map :alias (filter (fn [r] (= :missing (:state r)))
-                                                 (h/demo-status))))]
-           (cond
-             (empty? missing)
-             (h/success "Every example already has a demo GIF - nothing to record.")
-
-             (not (fs/which "screen-grab"))
-             (do (h/error-msg "`bb record:new` is maintainer-only - the screen-grab CLI it drives is not publicly released.")
-                 (h/info (str (count missing) " example(s) have no GIF: " (str/join ", " missing)))
-                 (h/info "A maintainer will record them; every committed GIF is already in docs/demos/.")
-                 (System/exit 0))
-
-             :else
-             (do
-               (h/info (str "Recording " (count missing) " example(s) with no GIF:"))
-               (doseq [g (partition-all 4 missing)]
-                 (println (str "    " (str/join "  " g))))
-               (println)
-               ;; --only takes exact ids here. It also matches by PREFIX, so an
-               ;; id that prefixes another would pull the other in too; that
-               ;; would only re-record an already-good GIF, never skip one.
-               (let [{:keys [exit]} (apply shell {:continue true}
-                                           "screen-grab" "record"
-                                           "--manifest" "scripts/demo_manifest.edn"
-                                           "--only" (str/join "," missing)
-                                           *command-line-args*)]
-                 (System/exit exit)))))}
-
-  demos:examples
-  {:doc "Print the demo item list as EDN for screen-grab"
-   :requires ([bb.helpers :as h]
-              [clojure.edn :as edn]
-              [clojure.string :as str])
-   :task
-   (let [aliases (:aliases (edn/read-string (slurp "deps.edn")))
-         ;; Mirrors scripts/record_all.clj's src-path: the namespace comes
-         ;; from deps.edn's :main-opts after "-m", NOT from the alias
-         ;; string. Changing this changes every sha and invalidates the
-         ;; whole ledger.
-         src-path (fn [alias]
-                    (let [main-opts (:main-opts (get aliases (keyword alias)))
-                          ns-str (str (second (drop-while (fn [x] (not= "-m" x))
-                                                          main-opts)))]
-                      (str "src/"
-                           (str/replace (str/replace ns-str "." "/") "-" "_")
-                           ".clj")))]
-     (prn (vec (for [{:keys [alias category desc]} h/examples]
-                 {:id alias
-                  :group (name category)
-                  :desc desc
-                  :src (src-path alias)
-                  :run (str "clojure -M:" alias)}))))}
-
-  ;; =============================================================================
-  ;; 🎮 Original Games
-  ;; =============================================================================
-
-  hello-world {:doc "🎮 Hello World - basic window test"
-               :task (h/run-example! "hello-world")}
-
-  pong {:doc "🎮 Pong - classic two-player paddle game"
-        :task (h/run-example! "pong")}
-
-  asteroids {:doc "🎮 Asteroids - shoot asteroids and survive"
-             :task (h/run-example! "asteroids")}
-
-  asteroids2 {:doc "🎮 Asteroids 2 - alternate version"
-              :task (h/run-example! "asteroids2")}
-
-  tetris {:doc "🎮 Tetris - block-stacking puzzle"
-          :task (h/run-example! "tetris")}
-
-  vampire-survivors {:doc "🎮 Vampire Survivors - survival action game"
-                     :task (h/run-example! "vampire-survivors")}
-
-  ;; =============================================================================
-  ;; 📦 Core Examples
-  ;; =============================================================================
-
-  bouncing-ball {:doc "📦 Bouncing Ball - simple physics demo"
-                 :task (h/run-example! "bouncing-ball")}
-
-  following-eyes {:doc "📦 Following Eyes - mouse tracking demo"
-                  :task (h/run-example! "following-eyes")}
-
-  screen-manager {:doc "📦 Screen Manager - state machine demo"
-                  :task (h/run-example! "screen-manager")}
-
-  input-keys {:doc "📦 Input Keys - keyboard control demo"
-              :task (h/run-example! "input-keys")}
-
-  input-mouse {:doc "📦 Input Mouse - mouse control demo"
-               :task (h/run-example! "input-mouse")}
-
-  input-gamepad {:doc "📦 Input Gamepad - gamepad visualization"
-                 :task (h/run-example! "input-gamepad")}
-
-  mouse-wheel {:doc "📦 Mouse Wheel - scroll input demo"
-               :task (h/run-example! "mouse-wheel")}
-
-  gestures-testbed {:doc "📦 Gestures Testbed - touch gesture detection"
-                    :task (h/run-example! "gestures-testbed")}
-
-  scissor-test {:doc "📦 Scissor Test - scissor mode clipping"
-                :task (h/run-example! "scissor-test")}
-
-  random-values {:doc "📦 Random Values - random number generation"
-                 :task (h/run-example! "random-values")}
-
-  camera-2d {:doc "📦 Camera 2D - 2D camera with zoom/rotation"
-             :task (h/run-example! "camera-2d")}
-
-  camera-3d-free {:doc "📦 Camera 3D Free - free-form 3D camera"
-                  :task (h/run-example! "camera-3d-free")}
-
-  split-screen-3d {:doc "📦 Split Screen 3D - two-player 3D split screen"
-                   :task (h/run-example! "split-screen-3d")}
-
-  first-person-3d {:doc "📦 First Person 3D - FPS camera demo"
-                   :task (h/run-example! "first-person-3d")}
-
-  camera-fps {:doc "📦 Camera FPS - advanced FPS camera with physics"
-              :task (h/run-example! "camera-fps")}
-
-  world-screen {:doc "📦 World Screen - 3D to 2D coordinates"
-                :task (h/run-example! "world-screen")}
-
-  picking-3d {:doc "📦 Picking 3D - ray casting object selection"
-              :task (h/run-example! "picking-3d")}
-
-  collision-area {:doc "📦 Collision Area - collision detection demo"
-                  :task (h/run-example! "collision-area")}
-
-  colors-palette {:doc "📦 Colors Palette - raylib color showcase"
-                  :task (h/run-example! "colors-palette")}
-
-  logo-anim {:doc "📦 Logo Animation - raylib logo demo"
-             :task (h/run-example! "logo-anim")}
-
-  ;; =============================================================================
-  ;; 🖼️ Textures Examples
-  ;; =============================================================================
-
-  background-scrolling {:doc "🖼️ Background Scrolling - parallax demo"
-                        :task (h/run-example! "background-scrolling")}
-
-  sprite-animation {:doc "🖼️ Sprite Animation - spritesheet animation"
-                    :task (h/run-example! "sprite-animation")}
-
-  ;; =============================================================================
-  ;; 🔊 Audio Examples
-  ;; =============================================================================
-
-  audio-module {:doc "🔊 Audio Module - music visualization"
-                :task (h/run-example! "audio-module")}
-
-  sound-loading {:doc "🔊 Sound Loading - WAV/OGG playback"
-                 :task (h/run-example! "sound-loading")}
-
-  music-stream {:doc "🔊 Music Stream - MP3 streaming"
-                :task (h/run-example! "music-stream")}
-
-  sound-multi {:doc "🔊 Sound Multi - multiple sound instances"
-               :task (h/run-example! "sound-multi")}
-
-  ;; =============================================================================
-  ;; ✨ Shaders Examples
-  ;; =============================================================================
-
-  basic-lighting {:doc "✨ Basic Lighting - shader-based lighting"
-                  :task (h/run-example! "basic-lighting")}
-
-  ;; =============================================================================
-  ;; 🗿 Models Examples
-  ;; =============================================================================
-
-  geometric-shapes {:doc "🗿 Geometric Shapes - 3D primitives (cubes, spheres, cylinders, capsules)"
-                    :task (h/run-example! "geometric-shapes")}
-
-  waving-cubes {:doc "🗿 Waving Cubes - animated rainbow cube wave with orbiting camera"
-                :task (h/run-example! "waving-cubes")}
-
-  box-collisions {:doc "🗿 Box Collisions - 3D collision detection demo"
-                  :task (h/run-example! "box-collisions")}
-
-  orthographic-projection {:doc "🗿 Orthographic Projection - perspective vs orthographic camera"
-                           :task (h/run-example! "orthographic-projection")}
-
-  tesseract-view {:doc "🗿 Tesseract View - 4D hypercube visualization"
-                  :task (h/run-example! "tesseract-view")}
-
-  solar-system {:doc "🗿 Solar System - orbiting planets demo"
-                :task (h/run-example! "solar-system")}
-
-  spinning-cubes {:doc "🗿 Spinning Cubes - animated color-cycling cubes"
-                  :task (h/run-example! "spinning-cubes")}
-
-  point-cloud {:doc "🗿 Point Cloud - spherical point cloud visualization"
-               :task (h/run-example! "point-cloud")}
-
-  wireframe-shapes {:doc "🗿 Wireframe Shapes - pyramid, octahedron, torus, spiral"
-                    :task (h/run-example! "wireframe-shapes")}
-
-  camera-modes {:doc "🗿 Camera Modes - free, orbital, first-person camera"
-                :task (h/run-example! "camera-modes")}
-
-  ray-picking {:doc "🗿 Ray Picking - click to select 3D cubes"
-               :task (h/run-example! "ray-picking")}
-
-  bouncing-spheres {:doc "🗿 Bouncing Spheres - physics simulation in 3D box"
-                    :task (h/run-example! "bouncing-spheres")}
-
-  rotating-cube {:doc "🗿 Rotating Cube - 3D rotation with Rodrigues' formula"
-                 :task (h/run-example! "rotating-cube")}
-
-  particle-system {:doc "🗿 Particle System - 3D particles with gravity/wind"
-                   :task (h/run-example! "particle-system")}
-
-  dna-helix {:doc "🗿 DNA Helix - animated double helix visualization"
-             :task (h/run-example! "dna-helix")}
-
-  first-person-maze {:doc "🗿 First Person Maze - navigate 3D procedural maze"
-                     :task (h/run-example! "first-person-maze")}
-
-  yaw-pitch-roll {:doc "🗿 Yaw Pitch Roll - 3D rotation demonstration"
-                  :task (h/run-example! "yaw-pitch-roll")}
-
-  lissajous-3d {:doc "🗿 Lissajous 3D - parametric curve visualization"
-                :task (h/run-example! "lissajous-3d")}
-
-  lorenz-attractor {:doc "🗿 Lorenz Attractor - chaos theory visualization"
-                    :task (h/run-example! "lorenz-attractor")}
-
-  terrain-generation {:doc "🗿 Terrain Generation - procedural heightmap"
-                      :task (h/run-example! "terrain-generation")}
-
-  mesh-generation {:doc "🗿 Mesh Generation - procedural 3D shapes"
-                   :task (h/run-example! "mesh-generation")}
-
-  ;; =============================================================================
-  ;; 🎮 Classic Games (ported from raylib-games/classics)
-  ;; =============================================================================
-
-  snake {:doc "🎮 Snake - classic snake game"
-         :task (h/run-example! "snake")}
-
-  floppy {:doc "🎮 Floppy - flappy bird clone"
-          :task (h/run-example! "floppy")}
-
-  retro-maze-3d {:doc "🎮 Retro Maze 3D - GameBoy-style maze escape"
-                 :task (h/run-example! "retro-maze-3d")}
-
-  ;; =============================================================================
-  ;; 🔷 Shapes Examples
-  ;; =============================================================================
-
-  logo-raylib {:doc "🔷 Logo Raylib - raylib logo drawn with shapes"
-               :task (h/run-example! "logo-raylib")}
-
-  logo-raylib-anim {:doc "🔷 Logo Raylib Anim - animated logo construction"
-                    :task (h/run-example! "logo-raylib-anim")}
-
-  basic-shapes {:doc "🔷 Basic Shapes - circles, rectangles, triangles, polygons"
-                :task (h/run-example! "basic-shapes")}
-
-  rectangle-scaling {:doc "🔷 Rectangle Scaling - drag to resize rectangle"
-                     :task (h/run-example! "rectangle-scaling")}
-
-  mouse-trail {:doc "🔷 Mouse Trail - circles following mouse cursor"
-               :task (h/run-example! "mouse-trail")}
-
-  lines-bezier {:doc "🔷 Lines Bezier - interactive bezier curve"
-                :task (h/run-example! "lines-bezier")}
-
-  easings-ball {:doc "🔷 Easings Ball - easing function animation"
-                :task (h/run-example! "easings-ball")}
-
-  ball-physics {:doc "🔷 Ball Physics - grab and throw balls"
-                :task (h/run-example! "ball-physics")}
-
-  simple-particles {:doc "🔷 Simple Particles - water/smoke/fire effects"
-                    :task (h/run-example! "simple-particles")}
-
-  dashed-line {:doc "🔷 Dashed Line - interactive dashed line"
-               :task (h/run-example! "dashed-line")}
-
-  starfield-effect {:doc "🔷 Starfield Effect - 3D starfield simulation"
-                    :task (h/run-example! "starfield-effect")}
-
-  easings-box {:doc "🔷 Easings Box - box animation with easing functions"
-               :task (h/run-example! "easings-box")}
-
-  double-pendulum {:doc "🔷 Double Pendulum - chaotic pendulum simulation"
-                   :task (h/run-example! "double-pendulum")}
-
-  penrose-tile {:doc "🔷 Penrose Tile - l-system penrose tiling drawn by turtle"
-                :task (h/run-example! "penrose-tile")}
-
-  bullet-hell {:doc "🔴 Bullet Hell - throughput test firing rows of bullets"
-               :task (h/run-example! "bullet-hell")}
-
-  viewport-scaling {:doc "🖼️  Viewport Scaling - six ways to fit a game onto a resizable window"
-                    :task (h/run-example! "viewport-scaling")}
-
-  keyboard-testbed {:doc "⌨️  Keyboard Testbed - on-screen keyboard showing what raylib reports"
-                    :task (h/run-example! "keyboard-testbed")}
-
-  input-actions {:doc "🎯 Input Actions - remappable action layer over keys and gamepad"
-                 :task (h/run-example! "input-actions")}
-
-  circle-sector-drawing {:doc "🥧 Circle Sector Drawing - sector params on raygui sliders"
-                         :task (h/run-example! "circle-sector-drawing")}
-
-  ring-drawing {:doc "🍩 Ring Drawing - ring params on raygui sliders"
-                :task (h/run-example! "ring-drawing")}
-
-  recursive-tree {:doc "🌳 Recursive Tree - binary tree with raygui-controlled growth"
-                  :task (h/run-example! "recursive-tree")}
-
-  kaleidoscope {:doc "🔮 Kaleidoscope - draw with six-fold mirrored symmetry"
-                :task (h/run-example! "kaleidoscope")}
-
-  rounded-rectangle-drawing {:doc "▢ Rounded Rectangle Drawing - roundness params on raygui sliders"
-                             :task (h/run-example! "rounded-rectangle-drawing")}
-
-  hilbert-curve {:doc "🌀 Hilbert Curve - space-filling curve with a raygui spinner"
-                 :task (h/run-example! "hilbert-curve")}
-
-  math-sine-cosine {:doc "📐 Math Sine Cosine - unit circle trig visualised"
-                    :task (h/run-example! "math-sine-cosine")}
-
-  clipboard-text {:doc "📋 Clipboard Text - cut/copy/paste with the system clipboard"
-                  :task (h/run-example! "clipboard-text")}
-
-  tiled-drawing {:doc "🧱 Tiled Drawing - tile a texture patch across a resizable window"
-                 :task (h/run-example! "tiled-drawing")}
-
-  palette-switch {:doc "🎨 Palette Switch - shader remaps index-encoded bands"
-                  :task (h/run-example! "palette-switch")}
-
-  ascii-rendering {:doc "🔤 Ascii Rendering - post-process the scene into ASCII glyphs"
-                   :task (h/run-example! "ascii-rendering")}
-
-  basic-voxel {:doc "🧊 Basic Voxel - walk an 8x8x8 block and shoot cubes away"
-               :task (h/run-example! "basic-voxel")}
-  billboard-rendering {:doc "🖼️  Billboard Rendering - camera-facing sprites, depth-sorted"
-                       :task (h/run-example! "billboard-rendering")}
-  cubicmap-rendering {:doc "🧱 Cubicmap Rendering - a 3D maze generated from a PNG"
-                      :task (h/run-example! "cubicmap-rendering")}
-  heightmap-rendering {:doc "⛰️  Heightmap Rendering - terrain from a greyscale PNG"
-                       :task (h/run-example! "heightmap-rendering")}
-
-  easings-testbed {:doc "🔷 Easings Testbed - all 28 easing curves, one per axis"
-                   :task (h/run-example! "easings-testbed")}
-
-  undo-redo {:doc "📦 Undo Redo - ring-buffer undo history on a grid"
-             :task (h/run-example! "undo-redo")}
-
-  storage-values {:doc "📦 Storage Values - save and load scores to a file"
-                  :task (h/run-example! "storage-values")}
-
-  input-virtual-controls {:doc "📦 Input Virtual Controls - on-screen d-pad"
-                          :task (h/run-example! "input-virtual-controls")}
-
-  input-gestures {:doc "📦 Input Gestures - log of detected touch gestures"
-                  :task (h/run-example! "input-gestures")}
-
-  camera-2d-split-screen {:doc "📦 Camera 2D Split Screen - two players, two cameras, one grid"
-                          :task (h/run-example! "camera-2d-split-screen")}
-
-  clock-of-clocks {:doc "🔷 Clock Of Clocks - digits drawn from a grid of analogue clocks"
-                   :task (h/run-example! "clock-of-clocks")}
-
-  render-texture {:doc "📦 Render Texture - bouncing ball drawn into an offscreen target"
-                  :task (h/run-example! "render-texture")}
-
-  smooth-pixelperfect {:doc "📦 Smooth Pixelperfect - pixel-aligned world, sub-pixel smooth camera"
-                       :task (h/run-example! "smooth-pixelperfect")}
-
-  srcrec-dstrec {:doc "🖼️ Srcrec Dstrec - source/destination rects with rotation"
-                 :task (h/run-example! "srcrec-dstrec")}
-
-  delta-time {:doc "📦 Delta Time - frame-rate independent vs fixed-step motion"
-              :task (h/run-example! "delta-time")}
-
-  camera-3d-mode {:doc "📦 Camera 3D Mode - minimal 3d scene - cube on a grid"
-                  :task (h/run-example! "camera-3d-mode")}
-
-  input-multitouch {:doc "📦 Input Multitouch - numbered circle per touch point"
-                    :task (h/run-example! "input-multitouch")}
-
-  ellipse-collision {:doc "🔷 Ellipse Collision - steer one ellipse into another"
-                     :task (h/run-example! "ellipse-collision")}
-
-  math-angle-rotation {:doc "🔷 Math Angle Rotation - fixed and sweeping angle lines"
-                       :task (h/run-example! "math-angle-rotation")}
-
-  lines-drawing {:doc "🔷 Lines Drawing - draw rainbow lines on canvas"
-                 :task (h/run-example! "lines-drawing")}
-
-  easings-rectangles {:doc "🔷 Easings Rectangles - grid animation with easing"
-                      :task (h/run-example! "easings-rectangles")}
-
-  ;; =============================================================================
-  ;; 📝 Text Examples
-  ;; =============================================================================
-
-  writing-anim {:doc "📝 Writing Animation - typewriter text effect"
-                :task (h/run-example! "writing-anim")}
-
-  format-text {:doc "📝 Format Text - formatted score/timer display"
-               :task (h/run-example! "format-text")}
-
-  input-box {:doc "📝 Input Box - text input field"
-             :task (h/run-example! "input-box")}
-
-  ;; =============================================================================
-  ;; 📦 Additional Core Examples
-  ;; =============================================================================
-
-  window-should-close {:doc "📦 Window Should Close - custom close confirmation"
-                       :task (h/run-example! "window-should-close")}
-
-  camera-2d-platformer {:doc "📦 Camera 2D Platformer - 5 camera follow modes"
-                        :task (h/run-example! "camera-2d-platformer")}
-
-  window-letterbox {:doc "📦 Window Letterbox - resolution-independent rendering"
-                    :task (h/run-example! "window-letterbox")}
-
-  ;; =============================================================================
   ;; 🔧 Development
   ;; =============================================================================
 
@@ -510,7 +18,7 @@
    :override-builtin true
    :task (do
            (h/header "🔧 Starting Clojure REPL")
-           (h/info "Use (require '[examples.asteroids :as game]) then (game/-main)")
+           (h/info "Starts a plain REPL. The demos live in raylib-clj-demo: https://github.com/b12n-oss/raylib-clj-demo")
            (p/shell "clj"))}
 
   nrepl
@@ -518,7 +26,7 @@
    :task (do
            (h/header "🔧 Starting nREPL Server")
            (h/info "nREPL listening on port 7999 (standalone, non-GUI work)")
-           (h/info "For live game dev: run a game first, connect to port 7888")
+           (h/info "For live game dev, run a game from raylib-clj-demo and connect to port 7888")
            (p/shell "clojure" "-M:dev"))}
 
   ;; =============================================================================
@@ -581,12 +89,9 @@
            (println)
            (h/step 2 "Lint check...")
            ;; clj-kondo exit codes: 0 clean, 2 warnings, 3 errors (verified).
-           ;; The gate is ERRORS. There is a standing backlog of ~69 warnings,
-           ;; nearly all `unused binding` in example code, and CONTRIBUTING.md
-           ;; tells contributors the bar is "0 errors" - so failing on exit 2
-           ;; made the documented gate unpassable and turned CI permanently red
-           ;; on a known backlog. Warnings still print, and still show up in the
-           ;; summary line, they just do not fail the build.
+           ;; The gate is ERRORS. CONTRIBUTING.md tells contributors the bar is
+           ;; "0 errors", so exit 2 (warnings only) prints and shows up in the
+           ;; summary line but does not fail the build.
            (let [{:keys [exit]} (p/shell {:continue true} "clj-kondo" "--lint" "src")]
              (println)
              (cond
@@ -600,7 +105,7 @@
    :task (do
            (h/header "🔍 Running Comprehensive Checks")
            (h/step 1 "Checking compilation...")
-           (p/shell "clj" "-M" "-e" "(require 'examples.asteroids)")
+           (p/shell "clojure" "-M:check")
            (println)
            (h/step 2 "Running clj-kondo lint...")
            (let [{:keys [exit]} (p/shell {:continue true} "clj-kondo" "--lint" "src")]
@@ -870,16 +375,9 @@ echo \"✅ Lint check passed!\"
                   ["📦 Dependencies" ["deps" "deps:tree" "outdated"]]
                   ["🛠️ Utilities"    ["clean" "loc" "tree" "macos:sign-lib"]]
                   ["❓ Help"         ["help" "info"]]]
-         example-aliases (into #{} (map :alias h/examples))
-         grouped (into example-aliases (into #{"examples" "run" "record"} (mapcat second groups)))
+         grouped (into #{} (mapcat second groups))
          other   (->> (keys tasks) (filter symbol?) (map str) (remove grouped) sort)]
-     (h/header "🎮 Raylib Clojure Playground: task cheatsheet")
-     (println (str (count h/examples) " examples across " (count h/example-categories) " categories."))
-     (sect "🎮 Run examples")
-     (line "examples")
-     (println (str "  " (h/color h/cyan (format "%-24s" "bb <name>")) "Run any example directly, e.g. bb asteroids"))
-     (line "run")
-     (line "record")
+     (h/header "🎮 raylib-clj: task cheatsheet")
      (doseq [[title names] groups]
        (sect title)
        (doseq [t names :when (contains? tasks (symbol t))] (line t)))
@@ -887,38 +385,24 @@ echo \"✅ Lint check passed!\"
        (sect "Other (ungrouped)")
        (doseq [t other] (line t)))
      (println)
-     (println "  Full example list: `bb examples` · narrative help: `bb help` · flat task list: `bb tasks`"))}
+     (println "  Demos: https://github.com/b12n-oss/raylib-clj-demo · narrative help: `bb help` · flat task list: `bb tasks`"))}
 
   help
   {:doc "❓ Show help and available tasks"
    :override-builtin true
    :task (do
            (println)
-           (println (h/color h/bold "🎮 Raylib Clojure Playground"))
+           (println (h/color h/bold "🎮 raylib-clj"))
            (println "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-           (println "Game development experiments with Raylib in Clojure")
-           (println)
-           (println (h/color h/magenta "🎮 Run Examples:"))
-           (println "   bb examples         List all examples by category")
-           (println "   bb <example-name>   Run any example directly")
-           (println "   bb run <name>       Alternative way to run examples")
-           (println)
-           (println (h/color h/cyan "📚 Example Categories:"))
-           (println "   🎮 Games      - pong, asteroids, tetris, vampire-survivors")
-           (println "   📦 Core       - camera-2d, input-keys, picking-3d, ...")
-           (println "   🗿 Models     - geometric-shapes, waving-cubes, box-collisions")
-           (println "   🔷 Shapes     - (coming soon)")
-           (println "   🖼️ Textures   - background-scrolling, sprite-animation")
-           (println "   🔊 Audio      - audio-module, sound-loading, music-stream")
-           (println "   ✨ Shaders    - basic-lighting")
+           (println "raylib bindings for Clojure over coffi and Panama FFI")
            (println)
            (println (h/color h/cyan "🔧 Development:"))
            (println "   bb repl             Start Clojure REPL")
            (println "   bb nrepl            Start nREPL on port 7999")
            (println)
-           (println (h/color h/magenta "🎮 Live Game Dev (recommended):"))
-           (println "   1. bb asteroids     Start game (nREPL on 7888)")
-           (println "   2. Connect editor to localhost:7888")
+           (println (h/color h/magenta "🎮 Demos:"))
+           (println "   The example programs live in raylib-clj-demo:")
+           (println "   https://github.com/b12n-oss/raylib-clj-demo")
            (println)
            (println (h/color h/yellow "🔍 Code Quality:"))
            (println "   bb check            ⭐ Fast check (compile + lint)")
@@ -939,5 +423,4 @@ echo \"✅ Lint check passed!\"
            (println "   bb loc              Count lines of code")
            (println "   bb macos:sign-lib   Sign raylib for macOS")
            (println)
-           (println "Run 'bb tasks' for complete task list")
-           (println "Run 'bb examples' for all examples"))}}}
+           (println "Run 'bb tasks' for complete task list"))}}}

@@ -211,7 +211,7 @@
 ;;
 ;; raylib draws the dashes 1px wide and takes no thickness argument. The
 ;; 5-argument form matches it; the 6-argument form exists because the
-;; dashed-line example draws at 2px and predates this helper.
+;; dashed-line scene in raylib-clj-demo draws at 2px and predates this helper.
 
 (defn draw-dashed-line!
   "Draw a dashed line from `start-pos` to `end-pos`.

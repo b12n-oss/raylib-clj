@@ -1,5 +1,5 @@
 (defproject raylib-clj "0.1.0-SNAPSHOT"
-  :description "raylib game-development examples in Clojure, over coffi/Panama FFI"
+  :description "raylib bindings for Clojure, over coffi/Panama FFI"
   :url "https://github.com/b12n-oss/raylib-clj"
   :license {:name "EPL-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"
@@ -13,7 +13,6 @@
                  [insn/insn "0.5.4"]]
 
   :source-paths ["src"]
-  :resource-paths ["resources"]
 
   ;; JVM options for native access
   ;; The bundled raylib library is loaded from libs/
@@ -21,9 +20,4 @@
              "-XstartOnFirstThread"  ; Required for macOS GUI/OpenGL
              "-Djava.library.path=libs:/opt/homebrew/opt/raylib/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib"]
 
-  :profiles {:dev {:dependencies [[nrepl "1.3.0"]]}}
-
-  :main examples.asteroids
-  :aot [examples.asteroids]
-
-  :repl-options {:init-ns examples.asteroids})
+  :profiles {:dev {:dependencies [[nrepl "1.3.0"]]}})

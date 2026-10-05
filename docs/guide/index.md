@@ -1,17 +1,17 @@
 # raylib-clj Guide
 
-User-facing documentation for `raylib-clj`: a collection of
-**[raylib](https://www.raylib.com/)** game-development examples in
-**Clojure**, calling raylib's C library directly via
+User-facing documentation for `raylib-clj`: **Clojure** bindings for
+**[raylib](https://www.raylib.com/)**, calling raylib's C library directly via
 **[coffi](https://github.com/IGJoshua/coffi)** over JDK 22+'s Foreign
 Function & Memory API (Project Panama). No wrapper library, no codegen:
 `coffi`'s `defcfn` binds each raylib C function directly.
 
 ## Why this exists
 
-One idea (a suite of raylib examples that reach the C library
+One idea (raylib examples that reach the C library
 directly, with no wrapper layer in between) explored on three Clojure
-runtimes, one repo each.
+runtimes, one repo each. The examples for this one live in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo).
 
 This is the JVM one: JDK 22+'s Panama Foreign Function & Memory API via
 `coffi`, where a binding is a `defcfn` form and a C struct arrives as a
@@ -45,18 +45,17 @@ A `.clj` (JVM Clojure) project:
 (rcw/close-window!)
 ```
 
-113 examples ship in `src/examples/` on top of the FFI bindings in
-`src/net/b12n/raylib_clj/`: a mix of original games and ports of official raylib C
-examples across core/shapes/text/textures/shaders/audio/models
-categories. See [`example-catalog.md`](example-catalog.md) for the
-per-example breakdown of what's an original creation and what's
-ported from which raylib C source file.
+The FFI bindings are in `src/net/b12n/raylib_clj/`. The 113 example
+programs built on them, a mix of original games and ports of official raylib C
+examples, are in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), one project per
+example with its own animated GIF.
 
 ## Pages
 
 ### Orientation
 - [`getting-started.md`](getting-started.md): install JDK 22+, the
-  Clojure CLI, Babashka; running examples; IDE setup
+  Clojure CLI, Babashka; IDE setup
 - [`architecture.md`](architecture.md): module layout, the FFI/native
   library flow, bundled libraries
 
@@ -67,23 +66,19 @@ ported from which raylib C source file.
   happens under `defcfn` on the JDK Panama FFI, memory arenas, why
   JDK 22+
 
-### Working with examples
+### Working with games
 - [`example-architecture-patterns.md`](example-architecture-patterns.md):
-  the shared example skeleton, state-as-atom, `debug-stats`/embedded
-  nREPL integration, the porting recipe
+  how a raylib-clj game is structured: state-as-atom, `debug-stats`/embedded
+  nREPL integration, the porting recipe. The examples are in raylib-clj-demo.
 - [`repl-workflow.md`](repl-workflow.md): embedded vs standalone REPL,
   live game development
-- [`example-catalog.md`](example-catalog.md): all 113 examples, grouped
-  and tabulated
-- [`demos.md`](demos.md): the full-size demo gallery (every example's
-  animated GIF, one-line description)
 
 ### Support
 - [`troubleshooting.md`](troubleshooting.md): common errors and fixes
 
 ## See also
 
-The same suite on the other two Clojure runtimes:
+The same idea on the other two Clojure runtimes:
 
 - [`raylib-jlt`](https://github.com/jlt-commons/raylib-jlt): in Jolt
   (native Clojure on Chez Scheme, no JVM), over `jolt.ffi`. It moved to the

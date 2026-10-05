@@ -99,62 +99,32 @@ bb --version
 
 ## Running examples
 
-Clone this repository:
+The example programs live in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), one project per
+example. Clone it and follow its README to run one. This repo holds the
+library only, so there is nothing to launch here. To check your checkout, run
+`bb check`, which compiles every namespace under `src/` and then lints.
 
-```bash
-git clone https://github.com/b12n-oss/raylib-clj.git
-cd raylib-clj
-```
-
-### `bb <example>` (recommended)
-
-If you have Babashka installed, running games is simple:
-
-```bash
-bb help              # Show all available commands
-bb asteroids         # Run Asteroids game
-bb tetris            # Run Tetris game
-```
-
-### Running by alias (macOS only)
-
-```bash
-clojure -M:asteroids     # Run Asteroids
-clojure -M:tetris        # Run Tetris
-clojure -M:pong          # Run Pong
-clojure -M:hello-world   # Run Hello World
-```
-
-Two things to know about this path:
+Two things to know when you run any raylib-clj game yourself:
 
 **Use `clojure`, not `clj`.** `clj` wraps the same launcher in `rlwrap` for
-line editing, which interferes with a GUI app's event loop. Every `bb` task
-here shells out to `clojure` for exactly this reason.
+line editing, which interferes with a GUI app's event loop.
 
-**These aliases only work on macOS.** Every example alias in `deps.edn`
-carries `-XstartOnFirstThread`, which macOS requires to run OpenGL on the
-main thread. It is a macOS-only flag, and the JVM treats an unrecognized
-`-X` option as fatal, so on Linux the same command dies before it starts:
+**`-XstartOnFirstThread` is macOS-only.** macOS requires it to run OpenGL on
+the main thread. The JVM treats an unrecognized `-X` option as fatal, so on
+Linux a command that carries it dies before it starts:
 
 ```
 Unrecognized option: -XstartOnFirstThread
 Error: Could not create the Java Virtual Machine.
 ```
 
-On Linux, use `bb <name>` (below), which builds a flag-free command line for
-you. If you'd rather not install Babashka, that command is:
+On Linux, leave it out:
 
 ```bash
 clojure -J--enable-native-access=ALL-UNNAMED \
         -J-Djava.library.path=libs:libs/linux_amd64:/usr/local/lib:/usr/lib \
-        -M -m examples.asteroids
-```
-
-### `lein run -m examples.<ns>`
-
-```bash
-lein run                        # Run default (Asteroids)
-lein run -m examples.tetris     # Run Tetris
+        -M -m your.game.ns
 ```
 
 ## Setting JAVA_HOME
@@ -198,10 +168,7 @@ To start a REPL, right-click on `deps.edn` and select "Run REPL".
 
 **For live game development (recommended):**
 
-```bash
-bb asteroids   # Starts game + nREPL on port 7888
-```
-
+Run a game from raylib-clj-demo. It starts an embedded nREPL on port 7888.
 Then connect your editor to `localhost:7888`.
 
 **For standalone REPL (non-GUI work):**

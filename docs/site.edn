@@ -14,5 +14,6 @@
  :base-path   "/raylib-clj"
 
  :title       "raylib-clj"
- :description "raylib game-development examples in Clojure, over coffi/Panama FFI."
- :asset-dirs  ["demos"]}
+ ;; The demo gallery moved to raylib-clj-demo with the examples, so there is
+ ;; no :asset-dirs here any more.
+ :description "Clojure bindings for raylib, over coffi/Panama FFI."}

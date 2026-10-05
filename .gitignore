@@ -37,8 +37,5 @@ storage.data
 # OS
 .DS_Store
 
-# screen-grab teardown markers (out-dir scratch; recover-pending! executes these)
-docs/demos/.screen-grab-pending.edn*
-
 # docs-engine build output
 _site/

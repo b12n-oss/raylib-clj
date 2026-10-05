@@ -5,9 +5,9 @@
 ```mermaid
 flowchart TB
     subgraph Clojure["Clojure Application"]
-        Game["Game Code<br/>(examples/*.clj)"]
-        Bindings["Raylib Bindings<br/>(raylib/*.clj)"]
-        Structs["Struct Definitions<br/>(raylib/structs.clj)"]
+        Game["Game Code<br/>(your project, or raylib-clj-demo)"]
+        Bindings["Raylib Bindings<br/>(net/b12n/raylib_clj/*.clj)"]
+        Structs["Struct Definitions<br/>(net/b12n/raylib_clj/structs.clj)"]
     end
     
     subgraph FFI["Foreign Function Interface"]
@@ -74,7 +74,7 @@ flowchart LR
   - `lights.clj`: shader-lighting helpers, based on raylib's `rlights.h`
   - `easings.clj`: all 28 easing curves, based on raylib's `reasings.h`
   - `raymath.clj`: scalar, Vector2 and Vector3 maths, based on raylib's `raymath.h`
-  - `raygui.clj`: the raygui controls the examples use, based on `raygui.h`
+  - `raygui.clj`: the raygui controls the examples in raylib-clj-demo use, based on `raygui.h`
   - `nrepl.clj`: embedded nREPL server startup, powers the port 7888 live-development workflow
   - `core/`: window, drawing, keyboard, mouse, cursor, timing, camera2d, camera3d, collision, gamepad, gestures, shaders
     - `window.clj`: window management
@@ -91,7 +91,6 @@ flowchart LR
     - `shaders.clj`: shader loading and management
   - `models.clj`: 3D model loading, mesh generation and drawing
   - `text/`, `shapes/`, `textures/`: text, shape and texture bindings
-- `src/examples/`: the 113 example namespaces (85 top-level + 3 in `games/` + 25 in `models/`)
 - `src/net/b12n/raylib_clj/debug_stats.clj`: F1 overlay plugin (see [Example Architecture Patterns](example-architecture-patterns.md) for usage)
 - `libs/`: bundled native libraries per platform
 
@@ -137,7 +136,7 @@ nm -gU libs/macos/libraylib.6.0.0.dylib | awk '{print $3}' | sed 's/^_//' | sort
 ```mermaid
 flowchart TB
     subgraph src["src/"]
-        subgraph raylib["raylib/ - FFI Bindings"]
+        subgraph raylib["net/b12n/raylib_clj/ - FFI Bindings"]
             core["core.clj - Library loading"]
             structs["structs.clj - C struct definitions"]
             colors["colors.clj - Color constants"]
@@ -150,14 +149,6 @@ flowchart TB
                 mouse["mouse.clj"]
                 timing["timing.clj"]
             end
-        end
-        
-        subgraph examples["examples/ - Game Examples"]
-            hello["hello_world.clj"]
-            pongex["pong.clj"]
-            astex["asteroids.clj"]
-            tetex["tetris.clj"]
-            vampex["vampire_survivors.clj"]
         end
         
         debug["debug_stats.clj - FPS/Memory overlay"]

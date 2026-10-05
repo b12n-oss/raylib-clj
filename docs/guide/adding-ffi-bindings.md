@@ -230,8 +230,9 @@ draw call with two `Color` arguments and no pointer trickery.
      [::mem/int ::mem/int ::mem/int ::mem/int ::rs/color ::rs/color] ::mem/void)
    ```
 
-4. **Verify it.** Start any example (`bb basic-shapes`, which already
-   connects an embedded nREPL on port 7888), connect your editor, and
+4. **Verify it.** Start a game that connects an embedded nREPL on port 7888
+   (the `basic-shapes` scene in
+   [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo) does), connect your editor, and
    `clj-nrepl-eval` a call like
    `(net.b12n.raylib-clj.shapes.basic/draw-rectangle-gradient-v! 100 100 200 100 colors/red colors/blue)`
    inside the running game's draw loop to confirm it renders instead
