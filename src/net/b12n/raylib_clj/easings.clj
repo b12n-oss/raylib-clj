@@ -3,7 +3,7 @@
 
   Not a binding layer: reasings.h is a header-only helper that ships with
   raylib's examples rather than part of the library, so there is no C symbol
-  to bind. Same situation as raylib/lights.clj, which ports rlights.h.
+  to bind. Same situation as net.b12n.raylib-clj.lights, which ports rlights.h.
 
   Every function takes the same four arguments as the C, and the argument
   order is worth stating because it is not the usual normalised 0..1 form:
