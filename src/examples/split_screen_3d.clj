@@ -13,18 +13,18 @@
    - F1: Toggle debug stats
    - Q: Exit"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.core.camera3d :as rc3d]
-   [raylib.text.drawing :as rtd]
-   [raylib.shapes.basic :as rsb]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.nrepl :as nrepl]
-   [raylib.textures.texture-loading :as rtl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.core.camera3d :as rc3d]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.textures.texture-loading :as rtl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 ;; Constants
 (def WIDTH 800)

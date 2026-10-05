@@ -96,7 +96,7 @@ inherently a side effect.
 
 ## Plugging in `debug-stats`
 
-[`src/debug_stats.clj`](../../src/debug_stats.clj) is an optional F1
+[`src/net/b12n/raylib_clj/debug_stats.clj`](../../src/net/b12n/raylib_clj/debug_stats.clj) is an optional F1
 overlay plugin. Its own docstring is the usage guide, verbatim:
 
 ```
@@ -111,7 +111,7 @@ Usage:
 
 Example:
 (ns my-game
-  (:require [debug-stats]))
+  (:require [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (defn init []
   (debug-stats/enable!))
@@ -135,7 +135,7 @@ end of `init`, `(debug-stats/update!)` in its tick function, and
 
 ## Plugging in the embedded nREPL
 
-[`src/raylib/nrepl.clj`](../../src/raylib/nrepl.clj) wraps
+[`src/net/b12n/raylib_clj/nrepl.clj`](../../src/net/b12n/raylib_clj/nrepl.clj) wraps
 `nrepl.server/start-server`:
 
 ```clojure

@@ -6,17 +6,17 @@
    Difficulty: ⭐☆☆☆ (1/4)
    Based on: core/core_3d_camera_free.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.core.camera3d :as rc3d]
-   [raylib.core.cursor :as rcur]
-   [raylib.text.drawing :as rtd]
-   [raylib.shapes.basic :as rsb]
-   [raylib.utils :as ru]
-   [raylib.enums :as enums]
-   [raylib.colors :as colors]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.core.camera3d :as rc3d]
+   [net.b12n.raylib-clj.core.cursor :as rcur]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.utils :as ru]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.colors :as colors]))
 
 (def screen-width 800)
 (def screen-height 450)

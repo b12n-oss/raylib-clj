@@ -7,7 +7,7 @@
    there too.
 
    First example here using `raygui`'s text box and its icon captions. A
-   caption like `\"#17#CUT\"` carries a leading icon id; `raylib.raygui` ports
+   caption like `\"#17#CUT\"` carries a leading icon id; `net.b12n.raylib-clj.raygui` ports
    the five icons these buttons need rather than raygui's full 200+ set.
 
    Two departures from the C, both consequences of not having a mutable
@@ -20,16 +20,16 @@
    Difficulty: 2/4
    Based on: core/core_clipboard_text.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.raygui :as gui]
-   [raylib.text.drawing :as rtd]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.raygui :as gui]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

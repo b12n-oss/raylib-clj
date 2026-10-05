@@ -20,7 +20,7 @@ raylib-clojure-playground (the origin of this project)
 
   This repository began as that project and still carries its first nine
   commits, so its history is preserved here in full. The coffi FFI binding
-  layer under src/raylib/ is his design; several files in it are unchanged
+  layer under src/net/b12n/raylib_clj/ is his design; several files in it are unchanged
   from his originals (core.clj, enums.clj, internals.clj, core/keyboard.clj,
   core/timing.clj, textures/drawing.clj, textures/texture_loading.clj), and
   most of the rest are extensions of them. Six of the examples started as his
@@ -70,7 +70,7 @@ coffi
   Licensed under the MIT license.
 
   A source dependency (see deps.edn), not redistributed here. Every `defcfn`
-  in src/raylib/ is coffi's.
+  in src/net/b12n/raylib_clj/ is coffi's.
 
 
 Asteroids collision and wrapping math

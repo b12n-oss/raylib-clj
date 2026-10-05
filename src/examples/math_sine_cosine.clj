@@ -8,11 +8,11 @@
    current angle.
 
    Two things it needs that the bundled raylib does not provide.
-   The dashed guides go through `raylib.shapes.basic/draw-dashed-line!`, a
+   The dashed guides go through `net.b12n.raylib-clj.shapes.basic/draw-dashed-line!`, a
    Clojure implementation of raylib's `DrawLineDashed`. It was written when
    this project bundled 5.5.0, which lacks that function; 6.0 has it, so the
    Clojure version is now a choice rather than a necessity. `GuiToggle` and `GuiGroupBox` come from
-   `raylib.raygui`.
+   `net.b12n.raylib-clj.raygui`.
 
    Note the arcs are drawn with negative angles - raylib measures the sector
    clockwise from the positive x-axis while the point is placed counter-
@@ -21,17 +21,17 @@
    Difficulty: 3/4
    Based on: shapes/shapes_math_sine_cosine.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.shapes.basic :as rsb]
-   [raylib.text.drawing :as rtd]
-   [raylib.raygui :as gui]
-   [raylib.raymath :as rm]
-   [raylib.utils :as ru]
-   [raylib.colors :as colors]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.raygui :as gui]
+   [net.b12n.raylib-clj.raymath :as rm]
+   [net.b12n.raylib-clj.utils :as ru]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

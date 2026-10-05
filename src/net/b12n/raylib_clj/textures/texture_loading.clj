@@ -1,0 +1,111 @@
+(ns net.b12n.raylib-clj.textures.texture-loading
+  (:require
+   [net.b12n.raylib-clj.core]
+   [net.b12n.raylib-clj.internals :as ri]
+   [net.b12n.raylib-clj.structs :as rs]
+   [coffi.mem :as mem]
+   [coffi.ffi :refer [defcfn]]))
+
+(defcfn load-texture!
+  "Load texture from file into GPU memory (VRAM)"
+  {:arglists '([filename])}
+  "LoadTexture"
+  [::mem/c-string] ::rs/texture)
+
+; ...
+
+;; Moved from raylib-ext (2026-08-22 consolidation)
+(defcfn load-image
+  "Load image from file into CPU memory (RAM)"
+  {:arglists '([filename])}
+  "LoadImage"
+  [::mem/c-string] ::rs/image)
+
+(defcfn is-image-valid?
+  "Check if an image is valid (data loaded, dimensions and format set)"
+  {:arglists '([image])}
+  "IsImageValid"
+  [::rs/image] ::ri/bool)
+
+(defcfn unload-image!
+  "Unload image from CPU memory (RAM)"
+  {:arglists '([image])}
+  "UnloadImage"
+  [::rs/image] ::mem/void)
+
+(defcfn load-texture-from-image
+  "Load texture from image data. The image stays on the CPU and is yours to
+   unload separately - this uploads a copy to the GPU."
+  {:arglists '([image])}
+  "LoadTextureFromImage"
+  [::rs/image] ::rs/texture)
+
+(defcfn load-render-texture!
+  "Load texture for rendering (framebuffer)"
+  {:arglists '([width height])}
+  "LoadRenderTexture"
+  [::mem/int ::mem/int] ::rs/render-texture)
+
+(defcfn unload-render-texture!
+  "Unload render texture from GPU memory (VRAM)"
+  {:arglists '([target])}
+  "UnloadRenderTexture"
+  [::rs/render-texture] ::mem/void)
+
+(defcfn begin-texture-mode!
+  "Begin drawing to render texture"
+  {:arglists '([target])}
+  "BeginTextureMode"
+  [::rs/render-texture] ::mem/void)
+
+(defcfn end-texture-mode!
+  "End drawing to render texture"
+  "EndTextureMode"
+  [] ::mem/void)
+
+;; Advanced texture drawing
+
+(defcfn draw-texture-pro!
+  "Draw a part of a texture defined by a rectangle with 'pro' parameters"
+  {:arglists '([texture source dest origin rotation tint])}
+  "DrawTexturePro"
+  [::rs/texture ::rs/rectangle ::rs/rectangle ::rs/vector-2 ::mem/float ::rs/color] ::mem/void)
+
+(defcfn draw-texture-v!
+  "Draw a Texture2D with position defined as Vector2"
+  {:arglists '([texture position tint])}
+  "DrawTextureV"
+  [::rs/texture ::rs/vector-2 ::rs/color] ::mem/void)
+
+(defcfn draw-texture-rec!
+  "Draw a part of a texture defined by a rectangle"
+  {:arglists '([texture source position tint])}
+  "DrawTextureRec"
+  [::rs/texture ::rs/rectangle ::rs/vector-2 ::rs/color] ::mem/void)
+
+(defcfn draw-texture-ex!
+  "Draw a texture with extended parameters"
+  {:arglists '([texture position rotation scale tint])}
+  "DrawTextureEx"
+  [::rs/texture ::rs/vector-2 ::mem/float ::mem/float ::rs/color] ::mem/void)
+
+(defcfn unload-texture!
+  "Unload texture from GPU memory (VRAM)"
+  {:arglists '([texture])}
+  "UnloadTexture"
+  [::rs/texture] ::mem/void)
+
+(def texture-filter
+  "Texture scaling filter modes, for `set-texture-filter!`."
+  {:point 0
+   :bilinear 1
+   :trilinear 2
+   :anisotropic-4x 3
+   :anisotropic-8x 4
+   :anisotropic-16x 5})
+
+(defcfn set-texture-filter!
+  "Set texture scaling filter mode"
+  {:arglists '([texture filter])}
+  "SetTextureFilter"
+  [::rs/texture ::mem/int] ::mem/void)

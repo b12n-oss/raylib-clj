@@ -43,7 +43,7 @@ sequenceDiagram
    is evaluated, coffi asks the JDK Panama API to create a **method
    handle** bound to the named C symbol (`"InitWindow"`). Panama
    resolves that symbol against the already-loaded `libraylib` shared
-    library. This only works because `raylib.core`, required first by
+    library. This only works because `net.b12n.raylib-clj.core`, required first by
     every binding namespace, has already loaded the native library by
    the time any `defcfn` in that namespace runs; without it, the
    symbol lookup has nothing to search.

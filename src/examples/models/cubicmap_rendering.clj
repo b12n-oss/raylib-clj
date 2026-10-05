@@ -17,19 +17,19 @@
    Difficulty: 3/4
    Based on: models/models_cubicmap_rendering.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.core.camera3d :as rc3d]
-   [raylib.models :as rm]
-   [raylib.shapes.basic :as rsb]
-   [raylib.text.drawing :as rtd]
-   [raylib.textures.texture-loading :as rtl]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.core.camera3d :as rc3d]
+   [net.b12n.raylib-clj.models :as rm]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.textures.texture-loading :as rtl]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

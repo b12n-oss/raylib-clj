@@ -59,7 +59,7 @@ body:
     attributes:
       label: Does it need new FFI bindings?
       description: |
-        i.e. a raylib C function that has no `defcfn` under `src/raylib/` yet.
+        i.e. a raylib C function that has no `defcfn` under `src/net/b12n/raylib_clj/` yet.
         Not a problem if so. It just makes the PR bigger.
       options:
         - "No: everything it needs is already bound"

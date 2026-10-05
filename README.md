@@ -358,13 +358,13 @@ four-touchpoint recipe.
 
 - **[Ertuğrul Çetin](https://github.com/ertugrulcetin)**: this project began as
   his [raylib-clojure-playground](https://github.com/ertugrulcetin/raylib-clojure-playground).
-  The coffi binding layer under `src/raylib/` is his design, several of its
+  The coffi binding layer under `src/net/b12n/raylib_clj/` is his design, several of its
   files are unchanged from his originals, and six examples (asteroids,
   asteroids2, hello-world, pong, tetris, vampire-survivors) started as his work.
 - **[raylib](https://www.raylib.com/)**: Ramon Santamaria ([@raysan5](https://github.com/raysan5)).
   Most examples here are ports of raylib's own C examples.
 - **[coffi](https://github.com/IGJoshua/coffi)**: Joshua Suskalo. Every
-  `defcfn` in `src/raylib/` is coffi's.
+  `defcfn` in `src/net/b12n/raylib_clj/` is coffi's.
 - **Asteroids math**: based on [janetroids](https://github.com/tantona/janetroids)
   by [@cellularmitosis](https://github.com/tantona).
 
@@ -373,7 +373,7 @@ four-touchpoint recipe.
 [EPL-2.0](LICENSE), inherited rather than chosen. This project began as
 [ertugrulcetin/raylib-clojure-playground](https://github.com/ertugrulcetin/raylib-clojure-playground),
 which declares EPL-2.0 in its README and `project.clj`. EPL-2.0 is copyleft at
-the file level, so the parts of `src/raylib/` derived from that work cannot be
+the file level, so the parts of `src/net/b12n/raylib_clj/` derived from that work cannot be
 relicensed, and the project follows suit.
 
 Three caveats, all detailed in [NOTICE](NOTICE):

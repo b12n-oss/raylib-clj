@@ -3,13 +3,13 @@
 ## The `defcfn` pattern
 
 Every raylib binding is a `defcfn` form. Here are three real ones from
-[`src/raylib/core/window.clj`](../../src/raylib/core/window.clj) lines 1-21:
+[`src/net/b12n/raylib_clj/core/window.clj`](../../src/net/b12n/raylib_clj/core/window.clj) lines 1-21:
 
 ```clojure
-(ns raylib.core.window
+(ns net.b12n.raylib-clj.core.window
   (:require
-   [raylib.core]
-   [raylib.internals :as ri]
+   [net.b12n.raylib-clj.core]
+   [net.b12n.raylib-clj.internals :as ri]
    [coffi.mem :as mem]
    [coffi.ffi :refer [defcfn]]))
 
@@ -46,7 +46,7 @@ Every raylib binding is a `defcfn` form. Here are three real ones from
    followed by the return type, both from the type-mapping table
    below.
 
-Every binding namespace requires `raylib.core` first (see the `:require`
+Every binding namespace requires `net.b12n.raylib-clj.core` first (see the `:require`
 above); that namespace is what loads the native `libraylib` shared
 library, and a `defcfn` can't resolve its C symbol until the library is
 loaded.
@@ -73,10 +73,10 @@ loaded.
 `::ri/bool` and `::ri/ubyte` are **not** built-in coffi types; coffi
 only ships primitive types like `::mem/int` and `::mem/byte` out of the
 box. They're custom types this project defines in
-[`src/raylib/internals.clj`](../../src/raylib/internals.clj):
+[`src/net/b12n/raylib_clj/internals.clj`](../../src/net/b12n/raylib_clj/internals.clj):
 
 ```clojure
-(ns raylib.internals
+(ns net.b12n.raylib-clj.internals
   (:require [coffi.mem :as mem]))
 
 ;; ubyte
@@ -121,8 +121,8 @@ wouldn't exist as usable coffi types at all.
 ## Struct definitions with `defalias`
 
 C structs are defined with `defalias` in
-[`src/raylib/structs.clj`](../../src/raylib/structs.clj). The full list
-at time of writing (`grep -n "defalias" src/raylib/structs.clj`):
+[`src/net/b12n/raylib_clj/structs.clj`](../../src/net/b12n/raylib_clj/structs.clj). The full list
+at time of writing (`grep -n "defalias" src/net/b12n/raylib_clj/structs.clj`):
 Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Rectangle.
 
 ```clojure
@@ -155,7 +155,7 @@ every read and write against that struct silently misaligns.
 Some raylib functions take a struct **pointer** and mutate it in place
 rather than returning a new struct: `UpdateCamera(Camera3D *camera, int mode)`
 is one. The worked example for this pattern is `update-camera` in
-[`src/raylib/core/camera3d.clj`](../../src/raylib/core/camera3d.clj):
+[`src/net/b12n/raylib_clj/core/camera3d.clj`](../../src/net/b12n/raylib_clj/core/camera3d.clj):
 
 ```clojure
 ;; Camera update function
@@ -203,7 +203,7 @@ for what a confined arena actually is and when you need one at all.
 anywhere in this repo yet, confirmed with:
 
 ```bash
-grep -rn "DrawRectangleGradientV" src/raylib/
+grep -rn "DrawRectangleGradientV" src/net/b12n/raylib_clj/
 ```
 
 which returns nothing. It's a good pick for a worked example: a plain
@@ -216,7 +216,7 @@ draw call with two `Color` arguments and no pointer trickery.
    ```
 
 2. **Pick the target namespace.** This is a shape-drawing call, so it
-   belongs in [`src/raylib/shapes/basic.clj`](../../src/raylib/shapes/basic.clj)
+   belongs in [`src/net/b12n/raylib_clj/shapes/basic.clj`](../../src/net/b12n/raylib_clj/shapes/basic.clj)
    (confirmed to exist) alongside its sibling `draw-rectangle!`, which
    already uses the same `int int int int Color` argument shape.
 
@@ -233,7 +233,7 @@ draw call with two `Color` arguments and no pointer trickery.
 4. **Verify it.** Start any example (`bb basic-shapes`, which already
    connects an embedded nREPL on port 7888), connect your editor, and
    `clj-nrepl-eval` a call like
-   `(raylib.shapes.basic/draw-rectangle-gradient-v! 100 100 200 100 colors/red colors/blue)`
+   `(net.b12n.raylib-clj.shapes.basic/draw-rectangle-gradient-v! 100 100 200 100 colors/red colors/blue)`
    inside the running game's draw loop to confirm it renders instead
    of throwing.
 

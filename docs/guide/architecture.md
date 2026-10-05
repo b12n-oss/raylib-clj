@@ -63,7 +63,7 @@ flowchart LR
 
 ## Module layout
 
-- `src/raylib/`: FFI bindings (this is the library)
+- `src/net/b12n/raylib_clj/`: FFI bindings (this is the library)
   - `core.clj`: loads the native library; every binding namespace requires this first
   - `structs.clj`: C struct definitions via `defalias` (Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Rectangle)
   - `colors.clj`: color constants (raywhite, red, etc.)
@@ -92,12 +92,12 @@ flowchart LR
   - `models.clj`: 3D model loading, mesh generation and drawing
   - `text/`, `shapes/`, `textures/`: text, shape and texture bindings
 - `src/examples/`: the 113 example namespaces (85 top-level + 3 in `games/` + 25 in `models/`)
-- `src/debug_stats.clj`: F1 overlay plugin (see [Example Architecture Patterns](example-architecture-patterns.md) for usage)
+- `src/net/b12n/raylib_clj/debug_stats.clj`: F1 overlay plugin (see [Example Architecture Patterns](example-architecture-patterns.md) for usage)
 - `libs/`: bundled native libraries per platform
 
 ## Bound, or ported?
 
-Most of `src/raylib/` is bindings: a `defcfn` names a C symbol and its
+Most of `src/net/b12n/raylib_clj/` is bindings: a `defcfn` names a C symbol and its
 types, and Panama builds the call. Four namespaces are not. `lights.clj`,
 `easings.clj`, `raymath.clj` and `raygui.clj` are Clojure ports of code
 raylib ships *beside* the library rather than inside it - `rlights.h`,

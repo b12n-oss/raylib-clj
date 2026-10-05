@@ -7,17 +7,17 @@
    Difficulty: 2/4
    Based on: shapes/shapes_easings_box.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.text.drawing :as rtd]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.utils :as ru]
-   [raylib.shapes.basic :as rsb]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.utils :as ru]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

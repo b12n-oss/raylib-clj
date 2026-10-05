@@ -8,7 +8,7 @@
    a 3-bit RGB palette, a GameBoy-like AMMO-8, and a two-strip film RKBV.
 
    This is the example that exercises
-   `raylib.core.shaders/set-shader-value-ints!`. Its `count` argument is the
+   `net.b12n.raylib-clj.core.shaders/set-shader-value-ints!`. Its `count` argument is the
    number of GROUPS rather than of ints - 24 ints as IVEC3 is 8 colours - and
    getting that wrong reads past the end of the buffer, so the helper derives
    it from the uniform type rather than taking it on trust.
@@ -16,17 +16,17 @@
    Difficulty: 3/4
    Based on: shaders/shaders_palette_switch.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.core.shaders :as rcs]
-   [raylib.shapes.basic :as rsb]
-   [raylib.text.drawing :as rtd]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.core.shaders :as rcs]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

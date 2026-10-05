@@ -20,7 +20,7 @@ bb --version      # babashka, optional, but every example has a `bb <name>` task
 
 You do **not** need to install raylib. Prebuilt 6.0 binaries for macOS,
 Linux, and Windows ship under `libs/` and are selected by OS/arch at load time
-(see `src/raylib/core.clj`). If you'd rather link a system raylib, put it
+(see `src/net/b12n/raylib_clj/core.clj`). If you'd rather link a system raylib, put it
 anywhere on the `-Djava.library.path` list in `deps.edn`.
 
 On macOS, Gatekeeper may quarantine the bundled dylib. If a run dies on a
@@ -73,7 +73,7 @@ Two conventions worth knowing before you write any code:
 
 - **Side-effecting functions end in `!`, predicates in `?`.** The binding layer
   is consistent about this and the examples read much better for it.
-- **Write against `src/raylib/`, not raw coffi.** Add a new `defcfn` there only
+- **Write against `src/net/b12n/raylib_clj/`, not raw coffi.** Add a new `defcfn` there only
   if your example genuinely needs a raylib call nothing else uses, and put it
   in the namespace matching raylib's own module split (`core/`, `shapes/`,
   `text/`, `textures/`).

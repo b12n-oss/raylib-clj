@@ -31,9 +31,9 @@ and pointers cross, and how to add a new binding.
 A `.clj` (JVM Clojure) project:
 
 ```clojure
-(require '[raylib.core.window :as rcw]
-         '[raylib.core.drawing :as rcd]
-         '[raylib.colors :as colors])
+(require '[net.b12n.raylib-clj.core.window :as rcw]
+         '[net.b12n.raylib-clj.core.drawing :as rcd]
+         '[net.b12n.raylib-clj.colors :as colors])
 
 (rcw/init-window! 800 450 "Hello")
 (loop []
@@ -46,7 +46,7 @@ A `.clj` (JVM Clojure) project:
 ```
 
 113 examples ship in `src/examples/` on top of the FFI bindings in
-`src/raylib/`: a mix of original games and ports of official raylib C
+`src/net/b12n/raylib_clj/`: a mix of original games and ports of official raylib C
 examples across core/shapes/text/textures/shaders/audio/models
 categories. See [`example-catalog.md`](example-catalog.md) for the
 per-example breakdown of what's an original creation and what's

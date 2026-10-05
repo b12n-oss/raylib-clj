@@ -5,7 +5,7 @@
    left-clicking. The pick is a ray cast from the screen centre, tested
    against every voxel's bounding box; the nearest hit is the one removed.
 
-   First example built on `raylib.models`. Worth knowing what it exercises:
+   First example built on `net.b12n.raylib-clj.models`. Worth knowing what it exercises:
    the `Model` struct is passed BY VALUE to every `draw-model!` call, so the
    whole 136-byte layout - including the nested skeleton that raylib 6.0
    added - has to be right or the draw reads garbage.
@@ -20,20 +20,20 @@
    Difficulty: 3/4
    Based on: models/models_basic_voxel.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.mouse :as rcm]
-   [raylib.core.cursor :as rcur]
-   [raylib.core.camera3d :as rc3d]
-   [raylib.core.collision :as rcol]
-   [raylib.models :as rm]
-   [raylib.shapes.basic :as rsb]
-   [raylib.text.drawing :as rtd]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.mouse :as rcm]
+   [net.b12n.raylib-clj.core.cursor :as rcur]
+   [net.b12n.raylib-clj.core.camera3d :as rc3d]
+   [net.b12n.raylib-clj.core.collision :as rcol]
+   [net.b12n.raylib-clj.models :as rm]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

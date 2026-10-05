@@ -1,17 +1,17 @@
 (ns examples.asteroids
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.nrepl :as nrepl]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.core.keyboard :as rck]
-   [raylib.text.drawing :as rtd]
-   [raylib.colors :as colors]
-   [raylib.enums :as enums]
-   [raylib.core.collision :as rcol]
-   [raylib.shapes.basic :as rsb]
-   [raylib.textures.texture-loading :as rtl]
-   [debug-stats])
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.core.keyboard :as rck]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.enums :as enums]
+   [net.b12n.raylib-clj.core.collision :as rcol]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.textures.texture-loading :as rtl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats])
   (:gen-class))
 
 ;; Virtual resolution - the game renders at this fixed size

@@ -7,7 +7,7 @@
    reporting: MANUAL once you ask for at least as many segments as the arc
    needs, AUTO while you ask for fewer.
 
-   First example here built on `raylib.raygui`, the Clojure port of the
+   First example here built on `net.b12n.raylib-clj.raygui`, the Clojure port of the
    raygui controls. raygui is header-only C compiled into whatever includes
    it, so the bundled libraylib exports no `Gui*` symbols and there was
    nothing to bind - see that namespace for why the controls return values
@@ -16,16 +16,16 @@
    Difficulty: 2/4
    Based on: shapes/shapes_circle_sector_drawing.c"
   (:require
-   [raylib.core.window :as rcw]
-   [raylib.core.timing :as rct]
-   [raylib.core.drawing :as rcd]
-   [raylib.shapes.basic :as rsb]
-   [raylib.text.drawing :as rtd]
-   [raylib.raygui :as gui]
-   [raylib.utils :as ru]
-   [raylib.colors :as colors]
-   [raylib.nrepl :as nrepl]
-   [debug-stats]))
+   [net.b12n.raylib-clj.core.window :as rcw]
+   [net.b12n.raylib-clj.core.timing :as rct]
+   [net.b12n.raylib-clj.core.drawing :as rcd]
+   [net.b12n.raylib-clj.shapes.basic :as rsb]
+   [net.b12n.raylib-clj.text.drawing :as rtd]
+   [net.b12n.raylib-clj.raygui :as gui]
+   [net.b12n.raylib-clj.utils :as ru]
+   [net.b12n.raylib-clj.colors :as colors]
+   [net.b12n.raylib-clj.nrepl :as nrepl]
+   [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (def screen-width 800)
 (def screen-height 450)

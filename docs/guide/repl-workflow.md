@@ -94,8 +94,8 @@ What works from standalone REPL:
 
 ```clojure
 ;; Load and explore FFI bindings
-(require '[raylib.colors :as colors])
-(require '[raylib.enums :as enums])
+(require '[net.b12n.raylib-clj.colors :as colors])
+(require '[net.b12n.raylib-clj.enums :as enums])
 
 ;; Colors are just Clojure maps!
 colors/red
