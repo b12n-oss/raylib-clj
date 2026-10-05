@@ -1,18 +1,17 @@
 (ns check-all
   "Headless compile-check of every namespace under src/.
 
-  `bb check` used to require exactly one namespace (examples.asteroids), which
-  proved the FFI layer loads but said nothing about the other 77 examples. A
-  broken require or a typo'd binding in any of them shipped green. This walks
-  every .clj file under src/, derives its namespace from the path, and requires
-  it, the same thing `clj -M:<alias>` does at startup, minus `-main`, so no
-  window opens and nothing needs a display.
+  `bb check` used to require exactly one namespace, which proved the FFI layer
+  loads but said nothing about the rest. A broken require or a typo'd binding
+  in any other namespace shipped green. This walks every .clj file under src/,
+  derives its namespace from the path, and requires it, so no window opens and
+  nothing needs a display.
 
   Exits 1 with a per-namespace report if any fail."
   (:require [clojure.string :as str]))
 
 (defn- path->ns
-  "src/examples/models/dna_helix.clj -> examples.models.dna-helix"
+  "src/net/b12n/raylib_clj/core.clj -> net.b12n.raylib-clj.core"
   [path]
   (-> path
       (subs (count "src/"))

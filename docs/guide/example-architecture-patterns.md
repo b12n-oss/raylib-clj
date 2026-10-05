@@ -1,14 +1,16 @@
 # Example architecture patterns
 
+This page describes how a raylib-clj game is structured. The examples it
+quotes live in [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo),
+not in this repo, so the links below point there.
+
 ## The shared skeleton
 
 Most examples follow the same shape: start the embedded nREPL, open a
-window, loop until the user closes it, clean up (102 of 113; 11
-examples, including `pong`, `camera-2d`, and `music-stream`, skip the
-embedded nREPL; `grep -rL "nrepl/start" src/examples/*.clj
-src/examples/*/*.clj` lists them). Here's
-[`src/examples/asteroids.clj`](../../src/examples/asteroids.clj)'s
-`-main` (around line 523), verbatim:
+window, loop until the user closes it, clean up. A few, including `pong`,
+`camera-2d` and `music-stream`, skip the embedded nREPL. Here's the `-main` of
+[`asteroids/src/net/b12n/raylib_clj/scenes/asteroids.clj`](https://github.com/b12n-oss/raylib-clj-demo/blob/main/asteroids/src/net/b12n/raylib_clj/scenes/asteroids.clj)
+(around line 525), verbatim:
 
 ```clojure
 (defn -main [& args]
@@ -22,7 +24,7 @@ src/examples/*/*.clj` lists them). Here's
         (recur))))
   ;; Cleanup
   (when @render-target
-    (ext/unload-render-texture! @render-target))
+    (rtl/unload-render-texture! @render-target))
   (rcw/close-window!))
 ```
 
@@ -40,13 +42,13 @@ Most examples are a variation on this shape: start nREPL once, init
 the window once, loop `update -> draw -> check-close` until the window
 closes, then clean up. Simpler examples skip the parts specific to
 asteroids (the render texture, the letterboxing) but follow the same
-overall skeleton, except for the 11 examples noted above, which skip
+overall skeleton, except for the examples noted above, which skip
 the nREPL step entirely.
 
 ## State as an atom
 
 Asteroids keeps its entire game state in one atom,
-[`game-atom`](../../src/examples/asteroids.clj), seeded from
+[`game-atom`](https://github.com/b12n-oss/raylib-clj-demo/blob/main/asteroids/src/net/b12n/raylib_clj/scenes/asteroids.clj), seeded from
 `initial-state`:
 
 ```clojure
@@ -71,8 +73,8 @@ truth for "what's happening right now."
 
 The functions that compute the *next* state are pure (deterministic,
 no game-state mutation) even where they lean on an FFI call
-underneath. `vector-add` and `check-point-circle` are two the README
-calls out as testable straight from a standalone REPL:
+underneath. `vector-add` and `check-point-circle` are two that are testable
+straight from a REPL:
 
 ```clojure
 (defn vector-add [v1 v2]
@@ -81,7 +83,7 @@ calls out as testable straight from a standalone REPL:
 ```
 
 `vector-add` is plain Clojure arithmetic; `check-point-circle`
-delegates its actual geometry to `ext/check-collision-point-circle?`
+delegates its actual geometry to `rcol/check-collision-point-circle?`
 (an FFI-backed call) but is still deterministic and doesn't touch
 `game-atom` or draw anything; you can call either at a REPL with
 made-up arguments and get the same answer every time. The *draw*
@@ -96,7 +98,7 @@ inherently a side effect.
 
 ## Plugging in `debug-stats`
 
-[`src/debug_stats.clj`](../../src/debug_stats.clj) is an optional F1
+[`src/net/b12n/raylib_clj/debug_stats.clj`](../../src/net/b12n/raylib_clj/debug_stats.clj) is an optional F1
 overlay plugin. Its own docstring is the usage guide, verbatim:
 
 ```
@@ -111,7 +113,7 @@ Usage:
 
 Example:
 (ns my-game
-  (:require [debug-stats]))
+  (:require [net.b12n.raylib-clj.debug-stats :as debug-stats]))
 
 (defn init []
   (debug-stats/enable!))
@@ -128,14 +130,14 @@ Example:
   (rcd/end-drawing!))
 ```
 
-`asteroids.clj` follows this exactly: `(debug-stats/enable!)` at the
+The asteroids scene follows this exactly: `(debug-stats/enable!)` at the
 end of `init`, `(debug-stats/update!)` in its tick function, and
 `(debug-stats/draw!)` as the last call inside each
 `begin-drawing!`/`end-drawing!` pair.
 
 ## Plugging in the embedded nREPL
 
-[`src/raylib/nrepl.clj`](../../src/raylib/nrepl.clj) wraps
+[`src/net/b12n/raylib_clj/nrepl.clj`](../../src/net/b12n/raylib_clj/nrepl.clj) wraps
 `nrepl.server/start-server`:
 
 ```clojure
@@ -169,7 +171,7 @@ end of `init`, `(debug-stats/update!)` in its tick function, and
 
 Called once in `-main` as `(nrepl/start {:port 7888})`. The
 `BindException` catch is what makes port 7888 safe to reuse: if
-another example (or another instance of the same one) is already
+another game (or another instance of the same one) is already
 listening there, `start` logs a warning and returns `nil` instead of
 crashing; the second game still runs, it just doesn't get its own
 nREPL server. Any other exception during startup is logged and
@@ -177,50 +179,22 @@ re-thrown.
 
 ## Porting a new raylib C example
 
-The recipe, as a numbered list:
+New examples go in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), where each one
+is its own project: a directory named after the example, holding a `deps.edn`
+and `src/net/b12n/raylib_clj/scenes/<name>.clj`. The header of that repo's
+`bb.edn` lists the tasks (`bb gen` rebuilds the generated files, `bb check`
+compile-checks every scene). The recipe, as a numbered list:
 
 1. Find the C source in raylib's
    [`examples/`](https://github.com/raysan5/raylib/tree/master/examples)
    tree.
-2. Create `src/examples/<name>.clj` following the shared skeleton
-   above.
-3. Add a `deps.edn` alias, mirroring any existing one:
-
-   ```clojure
-   :my-example
-   {:jvm-opts ["--enable-native-access=ALL-UNNAMED"
-               "-XstartOnFirstThread"
-               "-Djava.library.path=libs:libs/macos:..."]
-    :main-opts ["-m" "examples.my-example"]}
-   ```
-
-4. Add a `bb.edn` task. Every task calls the shared `h/run-example!`
-   helper, which looks up the example's title, description, and
-    controls from the registry (step 5) and prints them itself, so the
-   task body stays a single line. The real `asteroids` task:
-
-   ```clojure
-   asteroids {:doc "🎮 Asteroids - shoot asteroids and survive"
-              :task (h/run-example! "asteroids")}
-   ```
-
-   Because `run-example!` looks the example up by alias, this task
-   only prints the right header/controls text once the registry entry
-   in step 5 exists.
-5. Add the example's entry to
-    [`bb/helpers.bb`](../../bb/helpers.bb)'s `examples` registry; this
-   is what makes `bb examples`, `run-example!`'s header text, and this
-   guide's own `example-catalog.md` pick it up. One real entry, as the
-   shape to copy:
-
-   ```clojure
-   {:alias "asteroids"
-    :category :games
-    :title "Asteroids"
-    :desc "Shoot asteroids"
-    :controls "Arrows, Space"}
-   ```
+2. Create the project directory in raylib-clj-demo and write the scene
+   following the shared skeleton above. Name the C original in the namespace
+   docstring (`Based on: shapes/shapes_bouncing_ball.c`).
+3. Register it in that repo's `demos.edn`, then run `bb gen`.
+4. Run `bb <name>` to see it in a real window.
 
 ## See also
-- [`example-catalog.md`](example-catalog.md): every example this
-  pattern produced, in one table
+- [`repl-workflow.md`](repl-workflow.md): live development against a game's
+  embedded nREPL

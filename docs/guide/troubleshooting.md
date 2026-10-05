@@ -36,27 +36,26 @@ Unrecognized option: -XstartOnFirstThread
 Error: Could not create the Java Virtual Machine.
 ```
 
-You ran `clojure -M:<alias>` on Linux. Every example alias in `deps.edn`
-carries `-XstartOnFirstThread` because macOS requires it to run OpenGL on the
-main thread, but it is a macOS-only flag, and the JVM treats any
-unrecognized `-X` option as fatal rather than ignoring it.
+You ran a command that carries `-XstartOnFirstThread` on Linux, such as the
+`:check` or `:dev` alias in `deps.edn`, or a raylib-clj-demo alias.
+macOS requires the flag to run OpenGL on the main thread, but it is a
+macOS-only flag, and the JVM treats any unrecognized `-X` option as fatal
+rather than ignoring it.
 
-Use `bb <name>` instead. It detects the platform and builds a flag-free
-command line on Linux. The equivalent raw command, if you'd rather not
-install Babashka:
+Leave the flag out on Linux. A raw command for a game namespace:
 
 ```bash
 clojure -J--enable-native-access=ALL-UNNAMED \
         -J-Djava.library.path=libs:libs/linux_amd64:/usr/local/lib:/usr/lib \
-        -M -m examples.asteroids
+        -M -m your.game.ns
 ```
 
-## A GUI example misbehaves when launched with `clj`
+## A GUI app misbehaves when launched with `clj`
 
 Use `clojure`, not `clj`. `clj` wraps the same launcher in `rlwrap` for
 line editing, which does not play well with a GUI app holding the main
-thread. Every `bb` task here shells out to `clojure` for this reason, and
-`deps.edn` carries the same note above its example aliases.
+thread. Every `bb` task here that starts a JVM shells out to `clojure` for
+this reason.
 
 `clj` remains the better choice for a plain REPL, where the line editing is
 what you want.
@@ -64,7 +63,7 @@ what you want.
 ## `WARNING: A restricted method in java.lang.foreign.Linker has been called`
 
 Harmless in itself, but it tells you something: **you are running without the
-project's JVM flags.** Every alias in `deps.edn` passes
+project's JVM flags.** The `:check` and `:dev` aliases in `deps.edn` pass
 `--enable-native-access=ALL-UNNAMED`, which suppresses this warning entirely.
 Seeing it means you invoked a bare `clojure -e ...` or a plain REPL instead.
 
@@ -94,10 +93,9 @@ This project supports both the Clojure CLI and Leiningen:
 
 | Feature | Clojure CLI (`deps.edn`) | Leiningen (`project.clj`) |
 |---------|--------------------------|---------------------------|
-| Run game (macOS) | `clojure -M:asteroids` | `lein run -m examples.asteroids` |
-| Run game (any OS) | `bb asteroids` | N/A |
+| Compile-check every namespace | `clojure -M:check` (or `bb check`) | N/A |
 | Start REPL | `clj` | `lein repl` |
 | Start nREPL | `bb nrepl` (or `clojure -M:dev`) | `lein repl` |
 
 `clj` is fine for a plain REPL; the `rlwrap` line editing it adds is useful
-there. It is only GUI examples that need `clojure`.
+there. It is only GUI apps that need `clojure`.

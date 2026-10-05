@@ -64,9 +64,9 @@ jobs:
       - name: Ad-hoc sign the bundled raylib dylib
         run: codesign --force --sign - libs/macos/libraylib.*.dylib
 
-      # The gate that matters: requires every namespace under src/ (135 at the
-      # time of writing). It is the only check that catches an example with a
-      # broken require, since running any single example proves nothing about
-      # the other 105. Opens no window, since -main is never called.
+      # The gate that matters: requires every namespace under src/ (30 at the
+      # time of writing). It is the only check that catches a namespace with a
+      # broken require, since loading any single one proves nothing about the
+      # others. Opens no window, since -main is never called.
       - name: Compile every namespace (headless)
         run: bb check

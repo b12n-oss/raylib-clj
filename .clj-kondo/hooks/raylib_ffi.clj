@@ -10,7 +10,7 @@
         [::mem/c-string ::mem/int] ::mem/int)
 
   clj-kondo cannot see through the macro. Without a hook every bound name is
-  an `Unresolved symbol` in src/raylib/ and an `Unresolved var: rcw/…` at each
+  an `Unresolved symbol` in src/net/b12n/raylib_clj/ and an `Unresolved var: rcw/…` at each
   call site in the examples, 776 findings across the suite, enough to make
   the linter useless as a gate.
 
@@ -45,7 +45,7 @@
 ;; independent of what each namespace aliases coffi.mem to.
 
 ;; Every coffi scalar that deserializes to a Clojure number. "ubyte" is this
-;; project's own (raylib.internals) and deserializes via Byte/toUnsignedLong.
+;; project's own (net.b12n.raylib-clj.internals) and deserializes via Byte/toUnsignedLong.
 (def ^:private numeric-type-names
   #{"byte" "short" "int" "long" "char" "float" "double" "ubyte"})
 

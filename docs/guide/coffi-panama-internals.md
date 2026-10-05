@@ -43,7 +43,7 @@ sequenceDiagram
    is evaluated, coffi asks the JDK Panama API to create a **method
    handle** bound to the named C symbol (`"InitWindow"`). Panama
    resolves that symbol against the already-loaded `libraylib` shared
-    library. This only works because `raylib.core`, required first by
+    library. This only works because `net.b12n.raylib-clj.core`, required first by
     every binding namespace, has already loaded the native library by
    the time any `defcfn` in that namespace runs; without it, the
    symbol lookup has nothing to search.
@@ -62,7 +62,7 @@ sequenceDiagram
 
 ## Memory arenas
 
-The `update-camera` example in
+The `update-camera` binding in
 [Adding a new FFI binding](adding-ffi-bindings.md#pointer-inout-parameters)
 uses `mem/confined-arena` to allocate a native memory segment by hand.
 That page walks through each call; this section explains what the
@@ -88,8 +88,8 @@ about.
 
 OpenGL on macOS requires all GL calls to happen on the process's main
 thread. This project configures that in `deps.edn`'s `jvm-opts`
-(`grep -n "XstartOnFirstThread" deps.edn`), which every example alias
-carries:
+(`grep -n "XstartOnFirstThread" deps.edn`), which the `:check` and `:dev`
+aliases carry:
 
 ```clojure
 :jvm-opts ["--enable-native-access=ALL-UNNAMED"
@@ -121,10 +121,10 @@ Beyond that comment, this repo doesn't document the exact mechanism,
 so this guide won't invent one; the flag is present either way, and
 having it present is not sufficient to make GUI calls work from
 `:dev`. What's verified is the practical rule: a raylib window works
-from the game aliases (`bb asteroids`, `clj -M:hello-world`, etc.,
-which call `init-window!` directly from their own `-main` at process
-start) but not from a standalone `:dev` REPL session evaluating the
-same call interactively. If you need a raylib window, run an example
+from a game started fresh (`bb asteroids` in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), say, which
+calls `init-window!` directly from its own `-main` at process start) but not from a standalone `:dev` REPL session evaluating the
+same call interactively. If you need a raylib window, run a game
 directly and connect to its embedded nREPL (port 7888) instead of
 trying to open one from `:dev`'s REPL (port 7999).
 

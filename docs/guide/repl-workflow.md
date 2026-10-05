@@ -8,15 +8,16 @@ change code while a game is running and see the change immediately.
 | | Embedded (game) | Standalone |
 |---|---|---|
 | Port | 7888 | 7999 |
-| Start | `bb <example>` | `bb nrepl` |
+| Start | `bb <demo>` in raylib-clj-demo | `bb nrepl` |
 | Can open a window (macOS) | Yes | No |
 
 ## Live game development (recommended)
 
-Most games start an **embedded nREPL server on port 7888** (102 of the
-113 examples; 11, including `pong`, `camera-2d`, and `music-stream`,
-don't call `nrepl/start`). This is the proper way to do live
-development for the examples that do:
+Most games start an **embedded nREPL server on port 7888**. Most of the
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo) scenes do,
+and a few, such as `pong` and `camera-2d`, don't call `nrepl/start`. The
+commands below use its `asteroids` scene. This is the proper way to do live
+development for a game that starts the server:
 
 ```mermaid
 sequenceDiagram
@@ -25,7 +26,7 @@ sequenceDiagram
     participant nREPL as nREPL:7888
     participant Editor
 
-    Terminal->>Game: bb asteroids
+    Terminal->>Game: bb asteroids (in raylib-clj-demo)
     Game->>nREPL: Start embedded nREPL on 7888
     Game->>Game: Open window & run
     Editor->>nREPL: Connect to localhost:7888
@@ -40,7 +41,7 @@ sequenceDiagram
 **Step 1:** Start a game (it launches nREPL automatically):
 
 ```bash
-bb asteroids   # or: clojure -M:asteroids
+bb asteroids   # from the root of raylib-clj-demo
 ```
 
 You'll see in the logs:
@@ -56,24 +57,24 @@ INFO: starting nREPL server on port 7888
 
 ```clojure
 ;; Access the running game state
-@examples.asteroids/game-atom
+@net.b12n.raylib-clj.scenes.asteroids/game-atom
 
 ;; Reset the game
-(reset! examples.asteroids/game-atom (examples.asteroids/initial-state))
+(reset! net.b12n.raylib-clj.scenes.asteroids/game-atom (net.b12n.raylib-clj.scenes.asteroids/initial-state))
 
 ;; Make the ship bigger
-(swap! examples.asteroids/game-atom assoc-in [:ship :size] 50)
+(swap! net.b12n.raylib-clj.scenes.asteroids/game-atom assoc-in [:ship :size] 50)
 
 ;; Spawn more asteroids
-(swap! examples.asteroids/game-atom update :asteroids 
-       concat (repeatedly 5 examples.asteroids/make-asteroid))
+(swap! net.b12n.raylib-clj.scenes.asteroids/game-atom update :asteroids 
+       concat (repeatedly 5 net.b12n.raylib-clj.scenes.asteroids/make-asteroid))
 ```
 
 ## Why macOS can't open windows from a standalone REPL
 
 On macOS, you cannot open a raylib window from the standalone `:dev`
-REPL, only from a game alias (`bb asteroids`, `clj -M:hello-world`,
-etc.) started fresh, which is why live game development connects to
+REPL, only from a game started fresh (`bb asteroids` in raylib-clj-demo,
+say), which is why live game development connects to
 the game's own embedded nREPL instead of running the game from
 `:dev`. See
 [Coffi & Panama Internals](coffi-panama-internals.md#why-macos-needs--xstartonfirstthread)
@@ -94,8 +95,8 @@ What works from standalone REPL:
 
 ```clojure
 ;; Load and explore FFI bindings
-(require '[raylib.colors :as colors])
-(require '[raylib.enums :as enums])
+(require '[net.b12n.raylib-clj.colors :as colors])
+(require '[net.b12n.raylib-clj.enums :as enums])
 
 ;; Colors are just Clojure maps!
 colors/red
@@ -105,7 +106,7 @@ colors/red
 (def my-purple {:r 128 :g 0 :b 255 :a 255})
 
 ;; Test game logic (pure functions)
-(require '[examples.asteroids :as ast])
+(require '[net.b12n.raylib-clj.scenes.asteroids :as ast])  ; needs raylib-clj-demo's asteroids project on the classpath
 
 (ast/vector-add [1 2] [3 4])
 ;; => [4 6]

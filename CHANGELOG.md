@@ -5,10 +5,35 @@ Notable changes to raylib-clj, newest first. The format follows
 one bullet per user-visible change, written as what a reader would
 notice rather than what a commit did.
 
-Sections are dated, not numbered. This is an example suite rather than a
-released library, so "what changed, and when" is the useful question.
+Sections are dated, not numbered. There is no released version yet, so
+"what changed, and when" is the useful question.
 
-Examples read at <https://b12n-oss.github.io/raylib-clj/>.
+Docs read at <https://b12n-oss.github.io/raylib-clj/>.
+
+## 2026-10-05: Renamed, and the examples moved out
+
+- **The library is now `net.b12n.raylib-clj.*`.** Source moved from
+  `src/raylib/` to `src/net/b12n/raylib_clj/`, so `raylib.core` is
+  `net.b12n.raylib-clj.core`, and `debug-stats` is
+  `net.b12n.raylib-clj.debug-stats`. Update your `:require` forms. The C side
+  is untouched: `raylib.h` and the native libraries keep their names.
+- **The 113 example programs moved to
+  [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo).** Each is its
+  own project there, with namespaces renamed to
+  `net.b12n.raylib-clj.scenes.<name>` (`examples.asteroids` is now
+  `net.b12n.raylib-clj.scenes.asteroids`), plus its own GIF and the
+  `resources/` files it uses. This repo is the library only.
+- Removed from this repo with them: `src/examples/`, `resources/` (and its
+  `LICENSE.md`), `docs/demos/`, the demo gallery and example catalog pages,
+  `scripts/demo_manifest.edn`, `sh/package-macos.sh`, the `new_example`
+  issue template, the 113 example aliases in `deps.edn`, and the `bb` tasks
+  that ran or recorded them (`run`, `examples`, `record`, `record:status`,
+  `record:new`, `demos:examples` and one task per example).
+- `bb check` now compiles the 30 library namespaces and lint reports 1
+  warning, down from 143 namespaces and 69 warnings when the examples were
+  counted.
+- `NOTICE` keeps every third-party notice. The `resources/` section now
+  applies to raylib-clj-demo.
 
 ## Unreleased
 

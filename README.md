@@ -1,13 +1,12 @@
-# Raylib Clojure Playground
+# raylib-clj
 
-A collection of game development experiments using [raylib](https://www.raylib.com/)
-in Clojure. It calls raylib's C library directly through
+Clojure bindings for [raylib](https://www.raylib.com/). They call raylib's C library directly through
 [coffi](https://github.com/IGJoshua/coffi) over JDK 22+'s Foreign Function &
 Memory API (Project Panama): no wrapper library, no codegen.
 
-113 examples ship in `src/examples/`: original games plus ports of raylib's own
-C examples across the core, shapes, text, textures, shaders, audio, and models
-categories.
+The 113 example programs that used to live here, with their GIFs and assets,
+moved to [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), one
+project per example. This repo is the library only.
 
 This project began as
 [ertugrulcetin/raylib-clojure-playground](https://github.com/ertugrulcetin/raylib-clojure-playground)
@@ -19,9 +18,9 @@ and still carries its history; the FFI binding layer is largely his. See
 ```mermaid
 flowchart TB
     subgraph Clojure["Clojure Application"]
-        Game["Game Code<br/>(examples/*.clj)"]
-        Bindings["Raylib Bindings<br/>(raylib/*.clj)"]
-        Structs["Struct Definitions<br/>(raylib/structs.clj)"]
+        Game["Game Code<br/>(your project, or raylib-clj-demo)"]
+        Bindings["Raylib Bindings<br/>(net/b12n/raylib_clj/*.clj)"]
+        Structs["Struct Definitions<br/>(net/b12n/raylib_clj/structs.clj)"]
     end
     
     subgraph FFI["Foreign Function Interface"]
@@ -54,57 +53,27 @@ flowchart TB
 
 ## Getting Started
 
-### Quick Start with Babashka (Recommended)
-
-If you have Babashka installed, running games is simple:
-
-```bash
-bb help              # Show all available commands
-bb info              # Grouped task cheat-sheet (start here to review the project)
-bb asteroids         # Run Asteroids game
-bb tetris            # Run Tetris game
-```
-
-### Using Clojure CLI (macOS)
+The library has no window of its own, so there is nothing to run from this
+repo. To see it work, clone
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo) and run any of
+its scenes. To check your checkout instead:
 
 ```bash
-clojure -M:asteroids     # Run Asteroids
-clojure -M:tetris        # Run Tetris
-clojure -M:pong          # Run Pong
-clojure -M:hello-world   # Run Hello World
+bb check             # Compile every namespace under src/, then lint
+bb nrepl             # Standalone nREPL on port 7999, for non-GUI work
 ```
 
-Use `clojure`, not `clj`; `clj` adds `rlwrap`, which interferes with a GUI
-app's event loop.
-
-**On Linux, use `bb <name>` instead.** Every example alias carries
-`-XstartOnFirstThread`, a macOS-only flag that the JVM rejects fatally
-elsewhere; `bb` builds a flag-free command line per platform. See
-[getting-started.md](docs/guide/getting-started.md#running-by-alias-macos-only)
-for the raw command if you'd rather not install Babashka.
-
-### Using Leiningen
-
-```bash
-lein run                        # Run default (Asteroids)
-lein run -m examples.tetris     # Run Tetris
-```
+Use `clojure`, not `clj`, when you run a GUI app; `clj` adds `rlwrap`, which
+interferes with the event loop. See
+[getting-started.md](docs/guide/getting-started.md) for the full install
+walkthrough.
 
 ## Babashka Tasks
 
-This project includes comprehensive Babashka tasks for development workflow:
+This project includes Babashka tasks for the development workflow:
 
 ```mermaid
 flowchart TB
-    subgraph Games["🎮 Run Games"]
-        hw["bb hello-world"]
-        pong["bb pong"]
-        ast["bb asteroids"]
-        ast2["bb asteroids2"]
-        tet["bb tetris"]
-        vamp["bb vampire-survivors"]
-    end
-    
     subgraph Dev["🔧 Development"]
         repl["bb repl"]
         nrepl["bb nrepl"]
@@ -125,65 +94,6 @@ flowchart TB
     end
 ```
 
-### 🎮 Running Games
-
-| Command | Description |
-|---------|-------------|
-| `bb hello-world` | Basic window test - verify your setup works |
-| `bb bouncing-ball` | Simple physics with gravity toggle |
-| `bb screen-manager` | State machine for game screens |
-| `bb pong` | Classic two-player paddle game |
-| `bb following-eyes` | Eyes that follow mouse cursor |
-| `bb asteroids` | Shoot asteroids and survive |
-| `bb asteroids2` | Alternate asteroids version |
-| `bb tetris` | Block-stacking puzzle game |
-| `bb vampire-survivors` | Survival action game |
-| `bb input-keys` | Keyboard input demo |
-| `bb input-mouse` | Mouse input demo |
-| `bb mouse-wheel` | Mouse wheel scrolling |
-| `bb input-gamepad` | Gamepad visualization |
-| `bb gestures-testbed` | Touch gesture detection |
-| `bb collision-area` | Collision detection demo |
-| `bb colors-palette` | Raylib color showcase |
-| `bb logo-anim` | Logo animation demo |
-| `bb scissor-test` | Scissor mode clipping |
-| `bb random-values` | Random number generation |
-| `bb camera-2d` | 2D camera with zoom/rotation |
-| `bb camera-3d-free` | Free-form 3D camera |
-| `bb split-screen-3d` | Two-player 3D split screen |
-| `bb first-person-3d` | First person camera |
-| `bb camera-fps` | Advanced FPS camera |
-| `bb world-screen` | 3D to 2D coordinates |
-| `bb picking-3d` | Ray casting object selection |
-| `bb background-scrolling` | Parallax scrolling |
-| `bb sprite-animation` | Spritesheet animation |
-| `bb basic-lighting` | Shader-based lighting |
-| `bb audio-module` | Music visualization |
-| `bb sound-loading` | Basic WAV/OGG playback |
-| `bb music-stream` | MP3 streaming with controls |
-| `bb sound-multi` | Multiple sound instances |
-| `bb logo-raylib` | Raylib logo drawn with shapes |
-| `bb logo-raylib-anim` | Animated logo construction |
-| `bb basic-shapes` | Shape drawing showcase |
-| `bb rectangle-scaling` | Drag to resize rectangle |
-| `bb mouse-trail` | Mouse trail effect |
-| `bb lines-bezier` | Interactive bezier curve |
-| `bb easings-ball` | Easing function animation |
-| `bb writing-anim` | Typewriter text effect |
-| `bb format-text` | Formatted text display |
-| `bb input-box` | Text input field |
-| `bb window-should-close` | Custom close confirmation |
-| `bb camera-2d-platformer` | Platformer camera modes |
-| `bb ball-physics` | Grab and throw balls |
-| `bb simple-particles` | Water/smoke/fire particles |
-| `bb dashed-line` | Interactive dashed line |
-| `bb starfield-effect` | 3D starfield simulation |
-| `bb easings-box` | Box animation with easing functions |
-| `bb double-pendulum` | Chaotic pendulum simulation |
-| `bb lines-drawing` | Draw rainbow lines on canvas |
-| `bb easings-rectangles` | Grid animation with easing |
-| `bb window-letterbox` | Resolution-independent rendering |
-
 ### 🔧 Development
 
 | Command | Description |
@@ -191,7 +101,7 @@ flowchart TB
 | `bb repl` | Start Clojure REPL for interactive development |
 | `bb nrepl` | Start nREPL server on port 7999 (for non-GUI work) |
 
-> **For live game development:** Run a game (`bb asteroids`) then connect your editor to port **7888**.
+> **For live game development:** run a game from [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo), then connect your editor to port **7888**.
 
 ### 🔍 Code Quality
 
@@ -267,125 +177,56 @@ Full guide: [`docs/guide/`](docs/guide/index.md)
 - [`coffi-panama-internals.md`](docs/guide/coffi-panama-internals.md):
   what happens under the hood on the JDK Panama FFI
 - [`example-architecture-patterns.md`](docs/guide/example-architecture-patterns.md):
-  the shared example skeleton and the recipe for porting a new one
+  how a raylib-clj game is structured, with the examples in raylib-clj-demo
 - [`repl-workflow.md`](docs/guide/repl-workflow.md): live game
   development over the embedded nREPL
-- [`example-catalog.md`](docs/guide/example-catalog.md): all 113
-  examples, grouped and tabulated, with a preview-thumbnail column
-- [`demos.md`](docs/guide/demos.md): the full-size demo gallery (every
-  example's animated GIF, one-line description)
 - [`troubleshooting.md`](docs/guide/troubleshooting.md): common errors
   and fixes
-- [`docs/demos/`](docs/demos/README.md): animated GIF previews, one per
-  example
-
-Every GIF under `docs/demos/` is committed, so you never need to record
-anything. `bb record:status` shows which are missing or stale and needs no
-extra tooling. Regenerating them (`bb record`, or `bb record:new` for just the
-ones never recorded) drives a screen-capture tool that
-is not publicly released, so it is maintainer-only; the task says so and
-exits cleanly rather than failing obscurely. Its input timelines live in
-[`scripts/demo_manifest.edn`](scripts/demo_manifest.edn) if you want to
-propose one for a new example.
-
-## Controls
-
-Most examples share these common controls:
-
-| Key | Action |
-|-----|--------|
-| F1 | Toggle debug overlay (FPS, memory) |
-| F11 | Toggle fullscreen |
-| Q / Window Close | Exit game |
-
-### Pong
-
-| Key | Action |
-|-----|--------|
-| W / S | Move left paddle up/down |
-| K / J | Move right paddle up/down |
-| Enter | Start game |
-
-### Bouncing Ball
-
-| Key | Action |
-|-----|--------|
-| Space | Pause/resume ball movement |
-| G | Toggle gravity on/off |
-| Q | Exit |
-
-### Following Eyes
-
-| Key | Action |
-|-----|--------|
-| Mouse | Move to make eyes follow |
-| Q | Exit |
-
-### Screen Manager
-
-| Key | Action |
-|-----|--------|
-| Enter | Navigate between screens |
-| Q | Exit |
-
-### Asteroids
-
-| Key | Action |
-|-----|--------|
-| ← → | Rotate ship |
-| ↑ | Thrust forward |
-| ↓ | Thrust backward |
-| Space | Shoot / Restart after death |
-
-### Tetris
-
-| Key | Action |
-|-----|--------|
-| ← → | Move piece |
-| ↑ | Rotate piece |
-| ↓ | Soft drop |
-| Space | Hard drop |
+The demo gallery, with an animated GIF for every example, is in
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo).
 
 ## Contributing
 
-New examples are very welcome; the suite is deliberately mechanical to grow,
-and one new example touches exactly four places.
+Fixes and new bindings are welcome. New example programs go to
+[raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo).
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, the pre-PR gates, and the
-four-touchpoint recipe.
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup and the pre-PR gates.
 
 ## Credits
 
 - **[Ertuğrul Çetin](https://github.com/ertugrulcetin)**: this project began as
   his [raylib-clojure-playground](https://github.com/ertugrulcetin/raylib-clojure-playground).
-  The coffi binding layer under `src/raylib/` is his design, several of its
-  files are unchanged from his originals, and six examples (asteroids,
-  asteroids2, hello-world, pong, tetris, vampire-survivors) started as his work.
+  The coffi binding layer under `src/net/b12n/raylib_clj/` is his design, several of its
+  files are unchanged from his originals, and six of the examples now in
+  raylib-clj-demo (asteroids, asteroids2, hello-world, pong, tetris,
+  vampire-survivors) started as his work.
 - **[raylib](https://www.raylib.com/)**: Ramon Santamaria ([@raysan5](https://github.com/raysan5)).
-  Most examples here are ports of raylib's own C examples.
+  Most examples in raylib-clj-demo are ports of raylib's own C examples.
 - **[coffi](https://github.com/IGJoshua/coffi)**: Joshua Suskalo. Every
-  `defcfn` in `src/raylib/` is coffi's.
-- **Asteroids math**: based on [janetroids](https://github.com/tantona/janetroids)
-  by [@cellularmitosis](https://github.com/tantona).
+  `defcfn` in `src/net/b12n/raylib_clj/` is coffi's.
+- **Asteroids math** (in raylib-clj-demo): based on
+  [janetroids](https://github.com/tantona/janetroids) by
+  [@cellularmitosis](https://github.com/tantona).
 
 ## License
 
 [EPL-2.0](LICENSE), inherited rather than chosen. This project began as
 [ertugrulcetin/raylib-clojure-playground](https://github.com/ertugrulcetin/raylib-clojure-playground),
 which declares EPL-2.0 in its README and `project.clj`. EPL-2.0 is copyleft at
-the file level, so the parts of `src/raylib/` derived from that work cannot be
+the file level, so the parts of `src/net/b12n/raylib_clj/` derived from that work cannot be
 relicensed, and the project follows suit.
 
 Three caveats, all detailed in [NOTICE](NOTICE):
 
-- **Many examples are ports of raylib's own zlib/libpng-licensed examples.**
-  Their upstream terms are noted per example; the project as a whole is
-  EPL-2.0.
+- **Many of the examples, now in raylib-clj-demo, are ports of raylib's own
+  zlib/libpng-licensed examples.** Their upstream terms are noted per example;
+  the project as a whole is EPL-2.0.
 
 - **`libs/` redistributes prebuilt raylib 6.0 binaries** (macOS, Linux,
-  Windows) so the examples run without a system raylib install. They are
+  Windows) so games run without a system raylib install. They are
   raylib's own release artifacts, unmodified, under raylib's zlib license.
-- **`resources/` media is not covered by this license.** Those are raylib's
-  example assets under their own terms: mostly CC0, and one
-  (`resources/scarfy.png`) under **CC-BY-NC**, which is non-commercial. Per-file
-  authorship and terms: [resources/LICENSE.md](resources/LICENSE.md).
+- **The `resources/` media moved to raylib-clj-demo** along with the examples
+  that use it. It is not covered by this license: those are raylib's example
+  assets under their own terms, mostly CC0, and one (`scarfy.png`) under
+  **CC-BY-NC**, which is non-commercial. Per-file authorship and terms are in
+  that repo's `resources/LICENSE.md`.

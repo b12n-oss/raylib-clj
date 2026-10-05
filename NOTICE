@@ -8,9 +8,11 @@ That is not a free choice: it is inherited. See the first section below.
 LICENSE holds the canonical EPL-2.0 text and nothing else, deliberately: an
 appended note stops GitHub detecting the license, and an undetectable license
 is exactly what caused the mistake this file records. Scope notes live here
-instead - the native libraries under libs/ and the media under resources/ are
-third-party works under their own terms, and many examples under src/examples/
-are ports of raylib's zlib/libpng-licensed programs.
+instead - the native libraries under libs/ are third-party works under their
+own terms. The examples and the media under resources/ moved to
+https://github.com/b12n-oss/raylib-clj-demo on 2026-10-05, and many of those
+examples are ports of raylib's zlib/libpng-licensed programs. This file keeps
+their notices because the history here still holds those files.
 
 
 raylib-clojure-playground (the origin of this project)
@@ -20,11 +22,12 @@ raylib-clojure-playground (the origin of this project)
 
   This repository began as that project and still carries its first nine
   commits, so its history is preserved here in full. The coffi FFI binding
-  layer under src/raylib/ is his design; several files in it are unchanged
+  layer under src/net/b12n/raylib_clj/ is his design; several files in it are unchanged
   from his originals (core.clj, enums.clj, internals.clj, core/keyboard.clj,
   core/timing.clj, textures/drawing.clj, textures/texture_loading.clj), and
-  most of the rest are extensions of them. Six of the examples started as his
-  work: asteroids, asteroids2, hello_world, pong, tetris, vampire_survivors.
+  most of the rest are extensions of them. Six of the examples, now in raylib-clj-demo,
+  started as his work: asteroids, asteroids2, hello_world, pong, tetris,
+  vampire_survivors.
 
   That project declares **EPL-2.0** - in its README's License section and in
   the `:license` key of its `project.clj` - even though it carries no separate
@@ -49,15 +52,15 @@ raylib
 
   Unlike a source dependency, this project REDISTRIBUTES prebuilt raylib
   6.0 binaries under libs/ (macOS, Linux x86-64/i386, Windows 32/64-bit for
-  MSVC and MinGW-w64), so an example runs without a system raylib install.
+  MSVC and MinGW-w64), so a game runs without a system raylib install.
   Those binaries are raylib's own release artifacts, unmodified. The zlib
   license permits this provided the notice is retained, which is what this
   section is.
 
-  Many examples under src/examples/ are Clojure ports of raylib's own example
-  programs. docs/guide/example-catalog.md names the upstream C source for each
-  (e.g. core/core_basic_window, shapes/shapes_bouncing_ball). Those examples
-  are zlib/libpng licensed at their origin. zlib is permissive and imposes no
+  Many examples, formerly under src/examples/ and now in raylib-clj-demo, are
+  Clojure ports of raylib's own example programs. Each names its upstream C
+  source (e.g. core/core_basic_window, shapes/shapes_bouncing_ball). Those
+  examples are zlib/libpng licensed at their origin. zlib is permissive and imposes no
   reciprocal obligation, so distributing those ports within an EPL-2.0 project
   is fine; their upstream origin is recorded per example so the attribution
   stays traceable.
@@ -70,17 +73,20 @@ coffi
   Licensed under the MIT license.
 
   A source dependency (see deps.edn), not redistributed here. Every `defcfn`
-  in src/raylib/ is coffi's.
+  in src/net/b12n/raylib_clj/ is coffi's.
 
 
-Asteroids collision and wrapping math
--------------------------------------
+Asteroids collision and wrapping math (in raylib-clj-demo)
+----------------------------------------------------------
   Derived from janetroids by @cellularmitosis
   https://github.com/tantona/janetroids
 
 
-Media assets under resources/
------------------------------
+Media assets under resources/ (moved to raylib-clj-demo)
+--------------------------------------------------------
+  The examples and resources/ moved to raylib-clj-demo on 2026-10-05, so this
+  section now applies to that repo. The files are still in this repo's history.
+
   NOT covered by this project's license. They are raylib's own example assets
   and carry their own terms, including one asset under a NON-COMMERCIAL
   license (resources/scarfy.png, CC-BY-NC). Per-file authorship and terms are

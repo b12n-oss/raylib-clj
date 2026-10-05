@@ -1,5 +1,5 @@
 name: Bug report
-description: An example crashes, renders wrong, or won't compile
+description: A binding crashes, behaves wrong, or won't compile
 labels: [bug]
 body:
   - type: markdown
@@ -16,15 +16,14 @@ body:
           Function & Memory API. There is no workaround on an older JDK.
         - **`WARNING: A restricted method in java.lang.foreign.Linker has been
           called`.** Harmless, but it means you ran without the project's JVM
-          flags, every `deps.edn` alias passes
-          `--enable-native-access=ALL-UNNAMED`, which suppresses it entirely.
-          Use `bb <name>`, or `clojure -M:<alias>` on macOS.
+          flags. Pass `--enable-native-access=ALL-UNNAMED`, which suppresses it
+          entirely (the `:check` and `:dev` aliases in `deps.edn` already do).
 
   - type: input
     id: example
     attributes:
-      label: Which example?
-      description: The `bb` name or `clojure` alias, e.g. `bb tetris` or `clojure -M:camera-2d`.
+      label: What were you running?
+      description: The namespace and function, or the raylib-clj-demo scene (e.g. `net.b12n.raylib-clj.scenes.tetris`).
     validations:
       required: true
 
@@ -57,7 +56,7 @@ body:
     attributes:
       label: Which libraylib is being used?
       description: |
-        Every example prints this on startup, e.g.
+        raylib-clj prints this on startup, e.g.
         `[raylib] Loading bundled library: libs/macos/libraylib.6.0.0.dylib`
       options:
         - The bundled one under libs/ (the default)
@@ -71,9 +70,8 @@ body:
     attributes:
       label: Does the headless compile-check pass?
       description: |
-        `bb check` requires all 104 namespaces under `src/` without opening a
-        window. If it fails, the problem is in the shared binding layer rather
-        than in one example. Paste its output here.
+        `bb check` requires every namespace under `src/` without opening a
+        window. Paste its output here.
       value: |
         ```
         $ bb check
