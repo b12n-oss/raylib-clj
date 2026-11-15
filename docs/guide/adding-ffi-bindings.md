@@ -123,7 +123,8 @@ wouldn't exist as usable coffi types at all.
 C structs are defined with `defalias` in
 [`src/net/b12n/raylib_clj/structs.clj`](../../src/net/b12n/raylib_clj/structs.clj). The full list
 at time of writing (`grep -n "defalias" src/net/b12n/raylib_clj/structs.clj`):
-Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Rectangle.
+Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Matrix,
+BoundingBox, Camera3D, Image, Rectangle.
 
 ```clojure
 (defalias ::color

@@ -65,7 +65,7 @@ flowchart LR
 
 - `src/net/b12n/raylib_clj/`: FFI bindings (this is the library)
   - `core.clj`: loads the native library; every binding namespace requires this first
-  - `structs.clj`: C struct definitions via `defalias` (Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Rectangle)
+  - `structs.clj`: C struct definitions via `defalias` (Color, Vector2, Vector3, Vector4, Texture, RenderTexture, Matrix, BoundingBox, Camera3D, Image, Rectangle)
   - `colors.clj`: color constants (raywhite, red, etc.)
   - `enums.clj`: keyboard/mouse enums
   - `internals.clj`: internal helpers (ubyte, bool types)
