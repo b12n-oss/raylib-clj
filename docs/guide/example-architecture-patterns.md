@@ -13,7 +13,7 @@ window, loop until the user closes it, clean up. A few, including `pong`,
 (around line 525), verbatim:
 
 ```clojure
-(defn -main [& args]
+(defn -main [& _args]
   (nrepl/start {:port 7888})
   (init)
   (loop []

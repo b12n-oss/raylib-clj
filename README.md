@@ -107,7 +107,7 @@ flowchart TB
 
 | Command | Description |
 |---------|-------------|
-| `bb check` | ⭐ Fast checks: compiles every namespace under `src/`, then runs clj-kondo. The pre-commit check. |
+| `bb check` | ⭐ Fast checks: compiles every namespace under `src/`, then runs clj-kondo. Run it before committing. |
 | `bb check:full` | Comprehensive checks (compile + lint + LSP) |
 | `bb lint` | Run clj-kondo linter |
 | `bb lsp:format` | Format all Clojure files |

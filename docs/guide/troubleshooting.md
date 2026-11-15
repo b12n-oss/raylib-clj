@@ -54,8 +54,8 @@ clojure -J--enable-native-access=ALL-UNNAMED \
 
 Use `clojure`, not `clj`. `clj` wraps the same launcher in `rlwrap` for
 line editing, which does not play well with a GUI app holding the main
-thread. Every `bb` task here that starts a JVM shells out to `clojure` for
-this reason.
+thread. The `bb` tasks here that start the standalone nREPL or compile-check
+the code shell out to `clojure` for this reason.
 
 `clj` remains the better choice for a plain REPL, where the line editing is
 what you want.
