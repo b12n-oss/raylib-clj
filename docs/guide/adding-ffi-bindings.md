@@ -2,7 +2,7 @@
 
 ## The `defcfn` pattern
 
-Every raylib binding is a `defcfn` form. Here are three real ones from
+Every raylib binding is a `defcfn` form. Here are three from
 [`src/net/b12n/raylib_clj/core/window.clj`](../../src/net/b12n/raylib_clj/core/window.clj) lines 1-21:
 
 ```clojure
@@ -145,7 +145,7 @@ for a `::color`.
 
 **Field order must match the C struct layout exactly.** coffi lays out
 the native memory segment for a `::mem/struct` field-by-field, in the
-order you list them; it has no way to know raylib's real field order
+order you list them; it has no way to know raylib's field order
 except from what you tell it. If `raylib.h` declares `Color` as
 `r, g, b, a` and you write the `defalias` fields in a different order,
 every read and write against that struct silently misaligns.
@@ -195,11 +195,11 @@ wrapper function (`update-camera`) does the pointer dance by hand:
    value.
 
 See [Coffi & Panama Internals](coffi-panama-internals.md#memory-arenas)
-for what a confined arena actually is and when you need one at all.
+for what a confined arena is and when you need one at all.
 
 ## Worked example: adding a new raylib function end-to-end
 
-`DrawRectangleGradientV` is a real raylib C function that isn't bound
+`DrawRectangleGradientV` is a raylib C function that isn't bound
 anywhere in this repo yet, confirmed with:
 
 ```bash

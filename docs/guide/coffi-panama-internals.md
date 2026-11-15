@@ -89,7 +89,7 @@ about.
 OpenGL on macOS requires all GL calls to happen on the process's main
 thread. This project configures that in `deps.edn`'s `jvm-opts`
 (`grep -n "XstartOnFirstThread" deps.edn`), which the `:check` and `:dev`
-aliases carry:
+aliases include:
 
 ```clojure
 :jvm-opts ["--enable-native-access=ALL-UNNAMED"
@@ -98,9 +98,9 @@ aliases carry:
 ```
 
 The practical consequence: **you cannot open a raylib window from a
-plain `clj -M:dev` REPL on macOS.** This is *not* because the
-standalone `:dev` alias omits the flag; it doesn't. `grep -n "XstartOnFirstThread" deps.edn` shows the flag
-present in every single alias in the file, `:dev` included:
+plain `clj -M:dev` REPL on macOS.** The standalone `:dev` alias has the
+flag, though: `grep -n "XstartOnFirstThread" deps.edn` shows it
+present in every alias in the file, `:dev` included:
 
 ```clojure
 :dev

@@ -107,7 +107,7 @@ flowchart TB
 
 | Command | Description |
 |---------|-------------|
-| `bb check` | ⭐ Fast checks: compiles every namespace under `src/`, then runs clj-kondo. The pre-commit gate. |
+| `bb check` | ⭐ Fast checks: compiles every namespace under `src/`, then runs clj-kondo. The pre-commit check. |
 | `bb check:full` | Comprehensive checks (compile + lint + LSP) |
 | `bb lint` | Run clj-kondo linter |
 | `bb lsp:format` | Format all Clojure files |
@@ -190,7 +190,7 @@ The demo gallery, with an animated GIF for every example, is in
 Fixes and new bindings are welcome. New example programs go to
 [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo).
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup and the pre-PR gates.
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup and the pre-PR checks.
 
 ## Credits
 

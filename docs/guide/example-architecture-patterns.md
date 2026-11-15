@@ -83,7 +83,7 @@ straight from a REPL:
 ```
 
 `vector-add` is plain Clojure arithmetic; `check-point-circle`
-delegates its actual geometry to `rcol/check-collision-point-circle?`
+delegates its geometry to `rcol/check-collision-point-circle?`
 (an FFI-backed call) but is still deterministic and doesn't touch
 `game-atom` or draw anything; you can call either at a REPL with
 made-up arguments and get the same answer every time. The *draw*
@@ -92,9 +92,8 @@ phase is the opposite: `draw` calls
 `rcd/end-drawing!`; every one of those is a side effect (it writes
 pixels to the screen), and calling `draw` twice with the same game
 state does not give you back a value to compare, it paints a frame.
-Keeping the state-update functions pure is what makes them REPL- and
-test-friendly; the draw phase can't be, because rendering is
-inherently a side effect.
+Keeping the state-update functions pure makes them REPL- and
+test-friendly. The draw phase can't be.
 
 ## Plugging in `debug-stats`
 
@@ -193,7 +192,7 @@ compile-checks every scene). The recipe, as a numbered list:
    following the shared skeleton above. Name the C original in the namespace
    docstring (`Based on: shapes/shapes_bouncing_ball.c`).
 3. Register it in that repo's `demos.edn`, then run `bb gen`.
-4. Run `bb <name>` to see it in a real window.
+4. Run `bb <name>` to see it in a window.
 
 ## See also
 - [`repl-workflow.md`](repl-workflow.md): live development against a game's

@@ -112,7 +112,7 @@ line editing, which interferes with a GUI app's event loop.
 
 **`-XstartOnFirstThread` is macOS-only.** macOS requires it to run OpenGL on
 the main thread. The JVM treats an unrecognized `-X` option as fatal, so on
-Linux a command that carries it dies before it starts:
+Linux a command that includes it dies before it starts:
 
 ```
 Unrecognized option: -XstartOnFirstThread
@@ -143,7 +143,7 @@ export JAVA_HOME=/opt/homebrew/opt/openjdk@22
 
 ## IDE Setup
 
-Clojure development is best experienced with a good editor that supports REPL integration.
+A good editor with REPL integration makes Clojure development much easier.
 
 ### VS Code with Calva
 

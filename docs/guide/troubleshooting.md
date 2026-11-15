@@ -36,7 +36,7 @@ Unrecognized option: -XstartOnFirstThread
 Error: Could not create the Java Virtual Machine.
 ```
 
-You ran a command that carries `-XstartOnFirstThread` on Linux, such as the
+You ran a command that includes `-XstartOnFirstThread` on Linux, such as the
 `:check` or `:dev` alias in `deps.edn`, or a raylib-clj-demo alias.
 macOS requires the flag to run OpenGL on the main thread, but it is a
 macOS-only flag, and the JVM treats any unrecognized `-X` option as fatal
@@ -62,8 +62,8 @@ what you want.
 
 ## `WARNING: A restricted method in java.lang.foreign.Linker has been called`
 
-Harmless in itself, but it tells you something: **you are running without the
-project's JVM flags.** The `:check` and `:dev` aliases in `deps.edn` pass
+Harmless in itself, but it means you are running without the
+project's JVM flags. The `:check` and `:dev` aliases in `deps.edn` pass
 `--enable-native-access=ALL-UNNAMED`, which suppresses this warning entirely.
 Seeing it means you invoked a bare `clojure -e ...` or a plain REPL instead.
 
