@@ -1,7 +1,7 @@
 # Contributing
 
 Thanks for taking an interest. This is a set of Clojure bindings for
-[raylib](https://github.com/raysan5/raylib), calling the real `libraylib` over
+[raylib](https://github.com/raysan5/raylib), calling `libraylib` over
 its C ABI through [coffi](https://github.com/IGJoshua/coffi) and JDK 22+'s
 Foreign Function & Memory API.
 
@@ -33,7 +33,7 @@ codesign --force --sign - libs/macos/libraylib.6.0.0.dylib
 
 ## Before you open a PR
 
-Run the gate. It is fast and opens no window:
+Run the check. It is fast and opens no window:
 
 ```sh
 bb check          # compile every namespace under src/, then clj-kondo
@@ -44,7 +44,7 @@ namespace whose requires are broken, which is the easiest mistake to make and
 the one a REPL session that loaded only one namespace will not reveal.
 
 Step 2 is clj-kondo. **It must report 0 errors.** Warnings do not fail the
-gate (there is 1 today), but don't add to them.
+check (there is 1 today), but don't add to them.
 
 If clj-kondo reports an `Unresolved var` for something you know exists, that
 is a bug in `.clj-kondo/hooks/raylib_ffi.clj`, not in your code; please say so
@@ -76,7 +76,7 @@ in/out parameters; raylib passes several structs that way and the arena
 handling is not obvious.
 
 [`docs/guide/coffi-panama-internals.md`](docs/guide/coffi-panama-internals.md)
-covers what actually happens under `defcfn`, if you want the layer below that.
+covers what happens under `defcfn`, if you want the layer below that.
 
 ## Licensing
 

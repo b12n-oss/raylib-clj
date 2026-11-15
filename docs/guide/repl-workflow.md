@@ -1,7 +1,7 @@
 # REPL workflow
 
-One of the best things about Clojure is the REPL workflow: you can
-change code while a game is running and see the change immediately.
+The REPL lets you change code while a game is running and see the change
+immediately.
 
 ## Two REPL modes
 
@@ -16,8 +16,8 @@ change code while a game is running and see the change immediately.
 Most games start an **embedded nREPL server on port 7888**. Most of the
 [raylib-clj-demo](https://github.com/b12n-oss/raylib-clj-demo) scenes do,
 and a few, such as `pong` and `camera-2d`, don't call `nrepl/start`. The
-commands below use its `asteroids` scene. This is the proper way to do live
-development for a game that starts the server:
+commands below use its `asteroids` scene. Use it for live
+development of any game that starts the server:
 
 ```mermaid
 sequenceDiagram
@@ -78,7 +78,7 @@ say), which is why live game development connects to
 the game's own embedded nREPL instead of running the game from
 `:dev`. See
 [Coffi & Panama Internals](coffi-panama-internals.md#why-macos-needs--xstartonfirstthread)
-for the `-XstartOnFirstThread` flag and exactly what is (and isn't)
+for the `-XstartOnFirstThread` flag and what is and isn't
 verified about why this is the rule.
 
 ## Standalone REPL for non-GUI work

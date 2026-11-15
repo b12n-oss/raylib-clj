@@ -21,9 +21,9 @@ does it on Chez Scheme through jolt's `jolt.ffi`, with no JVM at all.
 jank, which compiles through C++/LLVM to a native binary and so has no FFI
 layer to speak of; it includes `raylib.h` and calls the C++ directly.
 
-Reading them side by side is the interesting part: the same example, drawn
-three ways, shows exactly where each runtime puts the boundary. The pages
-below cover the JVM/Panama side: what `defcfn` actually does, how structs
+Reading them side by side, the same example drawn three ways shows where
+each runtime puts the boundary. The pages
+below cover the JVM/Panama side: what `defcfn` does, how structs
 and pointers cross, and how to add a new binding.
 
 ## What raylib-clj is

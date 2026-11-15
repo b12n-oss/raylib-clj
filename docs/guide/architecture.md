@@ -99,15 +99,14 @@ flowchart LR
 Most of `src/net/b12n/raylib_clj/` is bindings: a `defcfn` names a C symbol and its
 types, and Panama builds the call. Four namespaces are not. `lights.clj`,
 `easings.clj`, `raymath.clj` and `raygui.clj` are Clojure ports of code
-raylib ships *beside* the library rather than inside it - `rlights.h`,
+raylib ships *beside* the library rather than inside it: `rlights.h`,
 `reasings.h`, `raymath.h` and `raygui.h`.
 
-That distinction matters because it decides whether a binding is even
-possible:
+Whether a binding is possible at all depends on how raylib ships the code:
 
 - **`rlights.h`, `reasings.h` and `raygui.h` compile into whatever
   includes them.** The bundled `libraylib` exports no symbols for them at
-  all - zero `Gui*` entries in `nm` output - so there is nothing a
+  all (zero `Gui*` entries in `nm` output), so there is nothing a
   `defcfn` could point at. Porting is the only option.
 - **`raymath.h` is the exception: its symbols *are* exported**, because on
   Unix shared builds `RMAPI` expands to
@@ -115,7 +114,7 @@ possible:
   rather than necessity: a foreign call to add two floats is far more
   expensive than the addition.
 
-A useful corollary when adding bindings. The header in a raylib checkout
+One consequence when adding bindings: the header in a raylib checkout
 is not the list of what you can call - the bundled library is. Binding a
 function the shipped library does not export compiles cleanly and then
 fails at runtime with a null function-pointer call, which surfaces as a
